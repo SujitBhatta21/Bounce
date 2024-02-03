@@ -1,0 +1,19 @@
+Game: Doodle Jump (Best supported by the library)
+
+Assets origin: https://github.com/justinsoon/buskeyjump
+
+What to do?
+- Scrape necessary graphics surely I can find some free as the game is popular.
+- Read the documentation and pinpoint the necessary methods needed for the game.
+- Make sure to break down the classes that I want to create on paper before making the project.
+
+Success Criteria:
+1. Make it so that the character can jump.
+2. If it jumps once the ground doesnot hold the character.
+3. Random formation of green tiles.
+4. Make it so that doodle can jump in the tiles.
+5. Make special tile that can move sideways, that produces spikes or any special(Use inheritance to make it special)
+6. Make scoreboard. I mean counter of how high the character is in.
+7. Optional: Make a score of highest points gotten by someone.
+             Do this by making a text file that can store the highest score and update HS if someone breaks the record.
+8. Optional: Make sure to add sound effects...
