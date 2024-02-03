@@ -38,6 +38,9 @@ public class Game {
         //make a character (with an overlaid image)
         Shape studentShape = new BoxShape(1,2);
         DynamicBody student = new DynamicBody(world, studentShape);
+        // optional: Below line causes the dynamic body type student to not have gravity attribute.
+        // Remember that there is gravity as default=1 and student stops at ground because ground is static.
+        //student.setGravityScale(0);
         student.setPosition(new Vec2(4,-5));
         student.addImage(new BodyImage("data/student.png", 4));
 
@@ -47,7 +50,7 @@ public class Game {
 
 
         //optional: draw a 1-metre grid over the view
-        // view.setGridResolution(1);
+        view.setGridResolution(1);
 
 
         //4. create a Java window (frame) and add the game
@@ -67,7 +70,7 @@ public class Game {
         frame.setVisible(true);
 
         //optional: uncomment this to make a debugging view
-         JFrame debugView = new DebugViewer(world, 500, 500);
+         // JFrame debugView = new DebugViewer(world, 500, 500);
 
         // start our game world simulation!
         world.start();
@@ -79,3 +82,5 @@ public class Game {
         new Game();
     }
 }
+
+
