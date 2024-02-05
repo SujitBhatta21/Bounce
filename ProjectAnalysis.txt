@@ -1,7 +1,8 @@
+Documentation: city.cs.engine
+    https://www.staff.city.ac.uk/~sbkg566/IN1007/javadoc/index.html?city%2Fcs%2Fengine%2F
+
 Game: Doodle Jump (Best supported by the library)
 Game Idea 2: Bounce Tales. (It is really difficult platformer game but includes really cool physics...)
-
-Assets origin: https://github.com/justinsoon/buskeyjump
 
 What to do?
 
@@ -16,7 +17,7 @@ MILESTONE-2:
 
 Success Criteria:
 1. Make it so that the character can jump.
-2. If it jumps once the ground doesnot hold the character.
+2. If it jumps once the ground doesn't hold the character.
 3. Random formation of green tiles.
 4. Make it so that doodle can jump in the tiles.
 5. Make special tile that can move sideways, that produces spikes or any special(Use inheritance to make it special)

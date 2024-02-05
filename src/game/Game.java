@@ -34,6 +34,7 @@ public class Game {
         Shape platformShape = new BoxShape(3, 0.5f);
         StaticBody platform1 = new StaticBody(world, platformShape);
         platform1.setPosition(new Vec2(-8, -4f));
+        platform1.addImage(new BodyImage("assets/images/Platform.png"));
 
         //make a character (with an overlaid image)
         Shape studentShape = new BoxShape(1,2);
@@ -42,11 +43,12 @@ public class Game {
         // Remember that there is gravity as default=1 and student stops at ground because ground is static.
         //student.setGravityScale(0);
         student.setPosition(new Vec2(4,-5));
-        student.addImage(new BodyImage("data/student.png", 4));
+        student.addImage(new BodyImage("assets/images/character/doodle_left.png", 4));
 
 
         //3. make a view to look into the game world
-        UserView view = new UserView(world, 500, 500);
+        int WIDTH = 500, HEIGHT = 700;
+        UserView view = new UserView(world, WIDTH, HEIGHT);
 
 
         //optional: draw a 1-metre grid over the view
