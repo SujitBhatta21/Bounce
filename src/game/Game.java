@@ -14,6 +14,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 /**
  * Your main game entry point
  */
+
+
 public class Game {
 
 
@@ -23,35 +25,22 @@ public class Game {
         //1. make an empty game world
         World world = new World();
 
-        //2. populate it with bodies (ex: platforms, collectibles, characters)
+        // Setting key variables...
+        boolean start_pressed;
 
-        //make a ground platform
-        Shape shape = new BoxShape(30, 0.5f);
-        StaticBody ground = new StaticBody(world, shape);
-        ground.setPosition(new Vec2(0f, -11.5f));
+        // Make a functionality that checks whether the start button is clicked or not...
 
-        // make a suspended platform
-        Shape platformShape = new BoxShape(3, 0.5f);
-        StaticBody platform1 = new StaticBody(world, platformShape);
-        platform1.setPosition(new Vec2(-8, -4f));
-        platform1.addImage(new BodyImage("assets/images/Platform.png"));
 
-        //make a character (with an overlaid image)
-        Shape studentShape = new BoxShape(1,2);
-        DynamicBody student = new DynamicBody(world, studentShape);
-        // optional: Below line causes the dynamic body type student to not have gravity attribute.
-        // Remember that there is gravity as default=1 and student stops at ground because ground is static.
-        //student.setGravityScale(0);
-        student.setPosition(new Vec2(4,-5));
-        student.addImage(new BodyImage("assets/images/character/doodle_left.png", 4));
-
+        // populate it with bodies (ex: platforms, collectibles, characters)
+        if (start_pressed) {
+            level_1(world);
+        }
 
         //3. make a view to look into the game world
-        int WIDTH = 500, HEIGHT = 700;
-        UserView view = new UserView(world, WIDTH, HEIGHT);
+        int WIDTH = 600, HEIGHT = 750;
+        MyUserView view = new MyUserView(world, WIDTH, HEIGHT);
 
-
-        //optional: draw a 1-metre grid over the view
+        //optional: draw a 1- metre grid over the view
         view.setGridResolution(1);
 
 
@@ -82,6 +71,30 @@ public class Game {
     public static void main(String[] args) {
 
         new Game();
+    }
+
+
+    public static void level_1(World world) {
+
+        //make a ground platform
+        Shape shape = new BoxShape(30, 0.5f);
+        StaticBody ground = new StaticBody(world, shape);
+        ground.setPosition(new Vec2(0f, -11.5f));
+
+        // make a suspended platform
+        Shape platformShape = new BoxShape(3, 0.5f);
+        StaticBody platform1 = new StaticBody(world, platformShape);
+        platform1.setPosition(new Vec2(-8, -4f));
+        platform1.addImage(new BodyImage("assets/images/Platform.png"));
+
+        //make a character (with an overlaid image)
+        Shape studentShape = new BoxShape(1,2);
+        DynamicBody student = new DynamicBody(world, studentShape);
+        // optional: Below line causes the dynamic body type student to not have gravity attribute.
+        // Remember that there is gravity as default=1 and student stops at ground because ground is static.
+        //student.setGravityScale(0);
+        student.setPosition(new Vec2(4,-5));
+        student.addImage(new BodyImage("assets/images/character/doodle_left.png", 4));
     }
 }
 
