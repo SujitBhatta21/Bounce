@@ -11,6 +11,9 @@ import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 /**
  * Your main game entry point
  */
@@ -27,14 +30,16 @@ public class Game {
 
         // Setting key variables...
         boolean start_pressed;
+        float x_pos = 4;
+        float y_pos = -5;
 
         // Make a functionality that checks whether the start button is clicked or not...
 
 
         // populate it with bodies (ex: platforms, collectibles, characters)
-        if (start_pressed) {
-            level_1(world);
-        }
+//        if (start_pressed) {
+//            level_1(world);
+//        }
 
         //3. make a view to look into the game world
         int WIDTH = 600, HEIGHT = 750;
@@ -61,7 +66,10 @@ public class Game {
         frame.setVisible(true);
 
         //optional: uncomment this to make a debugging view
-         // JFrame debugView = new DebugViewer(world, 500, 500);
+        JFrame debugView = new DebugViewer(world, 500, 500);
+
+        KeyboardListener(frame);
+        level_1(world);
 
         // start our game world simulation!
         world.start();
@@ -88,13 +96,29 @@ public class Game {
         platform1.addImage(new BodyImage("assets/images/Platform.png"));
 
         //make a character (with an overlaid image)
-        Shape studentShape = new BoxShape(1,2);
-        DynamicBody student = new DynamicBody(world, studentShape);
-        // optional: Below line causes the dynamic body type student to not have gravity attribute.
-        // Remember that there is gravity as default=1 and student stops at ground because ground is static.
-        //student.setGravityScale(0);
-        student.setPosition(new Vec2(4,-5));
-        student.addImage(new BodyImage("assets/images/character/doodle_left.png", 4));
+
+        Ball ball = new Ball(world);
+        ball.setPosition(new Vec2(GlobalVariables.getXPos(), GlobalVariables.getYPos()));
+    }
+
+    public static void KeyboardListener(JFrame myFrame) {
+        myFrame.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if (keyCode == KeyEvent.VK_UP) {
+                    System.out.println("Up Arrow-Key is pressed!");
+                    GlobalVariables.setYPos(GlobalVariables.getYPos() + 1);
+                } else if (keyCode == KeyEvent.VK_DOWN) {
+                    System.out.println("Down Arrow-Key is pressed!");
+                } else if (keyCode == KeyEvent.VK_LEFT) {
+                    System.out.println("Left Arrow-Key is pressed!");
+                    GlobalVariables.setXPos(GlobalVariables.getXPos() - 1);
+                } else if (keyCode == KeyEvent.VK_RIGHT) {
+                    System.out.println("Right Arrow-Key is pressed!");
+                    GlobalVariables.setXPos(GlobalVariables.getXPos() + 1);
+                }
+            }
+        });
     }
 }
 
