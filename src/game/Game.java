@@ -7,6 +7,8 @@ import org.jbox2d.common.Vec2;
 import javax.swing.JFrame;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -24,35 +26,33 @@ public class Game {
 
     /** Initialise a new Game. */
     public Game() {
-
         //1. make an empty game world
         World world = new World();
 
-        // Setting key variables...
-        boolean start_pressed;
-        float x_pos = 4;
-        float y_pos = -5;
-
-        // Make a functionality that checks whether the start button is clicked or not...
-
-
-        // populate it with bodies (ex: platforms, collectibles, characters)
-//        if (start_pressed) {
-//            level_1(world);
-//        }
-
         //3. make a view to look into the game world
-        int WIDTH = 600, HEIGHT = 750;
+        int WIDTH = 900, HEIGHT = 750;
         MyUserView view = new MyUserView(world, WIDTH, HEIGHT);
-
-        //optional: draw a 1- metre grid over the view
-        view.setGridResolution(1);
-
 
         //4. create a Java window (frame) and add the game
         //   view to it
         final JFrame frame = new JFrame("City Game");
-        frame.add(view);
+        frame.setSize(WIDTH, HEIGHT); // Set the size of the JFrame
+
+        // Set the layout manager to null::: Personally I did not like default layer manager.
+        frame.setLayout(null);
+
+        view.setBounds(0, 0, WIDTH, HEIGHT);
+        frame.add(view); // Add the game view to the frame
+
+        // Testing button
+        Color BLACK = new Color(255, 100, 255);
+        Button start_button = new Button(10, 10, 100, 30, BLACK, "Start Button", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("BUTTON IS CLICKED!!");
+            }
+        });
+        frame.add(start_button.getButton()); // Add the button to the frame
 
         // enable the frame to quit the application
         // when the x button is pressed
@@ -60,20 +60,22 @@ public class Game {
         frame.setLocationByPlatform(true);
         // don't let the frame be resized
         frame.setResizable(false);
-        // size the frame to fit the world view
-        frame.pack();
+
         // finally, make the frame visible
         frame.setVisible(true);
 
         //optional: uncomment this to make a debugging view
-        JFrame debugView = new DebugViewer(world, 500, 500);
+        // JFrame debugView = new DebugViewer(world, 500, 500);
 
+        // Checks if a key is pressed.
         KeyboardListener(frame);
-        level_1(world);
+
+        level_1(world, frame);
 
         // start our game world simulation!
         world.start();
     }
+
 
     /** Run the game. */
     public static void main(String[] args) {
@@ -82,7 +84,7 @@ public class Game {
     }
 
 
-    public static void level_1(World world) {
+    public static void level_1(World world, JFrame frame) {
 
         //make a ground platform
         Shape shape = new BoxShape(30, 0.5f);
@@ -99,6 +101,7 @@ public class Game {
 
         Ball ball = new Ball(world);
         ball.setPosition(new Vec2(GlobalVariables.getXPos(), GlobalVariables.getYPos()));
+
     }
 
     public static void KeyboardListener(JFrame myFrame) {
