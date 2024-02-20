@@ -88,8 +88,6 @@ public class Game {
         platform1.setPosition(new Vec2(-8, -4f));
         // platform1.addImage(new BodyImage("assets/images/Platform.png")); (Find a good background after milestone completed.....)
 
-        //make a character (with an overlaid image)
-
         ball = new Ball(world, -4, 5);
         ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
         System.out.println(ball.getGravityScale());
@@ -98,20 +96,12 @@ public class Game {
         KeyboardListener k = new KeyboardListener(ball);
         frame.addKeyListener(k);
 
-        JButton test = new JButton("Test Button");
-        test.setBounds(50,100,95,30);
-        frame.add(test);
 
 
-//        // Testing button
-//        Color BLACK = new Color(255, 100, 255);
-//        Button start_button = new Button(10, 10, 100, 30, BLACK, "Start Button", new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("BUTTON IS CLICKED!!");
-//            }
-//        });
-//        frame.add(start_button.getButton()); // Add the button to the frame
+        // Testing button
+        // Color BLACK = new Color(255, 100, 255);
+        Button start_button = new Button("Start Button", "start");
+        frame.add(start_button); // Add the button to the frame
 
     }
 }
