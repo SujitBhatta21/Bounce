@@ -2,14 +2,33 @@ package game;
 
 import city.cs.engine.*;
 
-public class Ball extends DynamicBody {
-    static float radius = 2;
+public class Ball extends Walker {
+    private static float radius = 1;
+    private static float x_pos, y_pos;
     private static final Shape ballShape = new CircleShape(radius);
 
-    private static final BodyImage image = new BodyImage("assets/images/character/red_ball.png", 2*radius);
+    private BodyImage image = new BodyImage("assets/images/character/red_ball.png", 2*radius);
 
-    public Ball(World world) {
+    public Ball(World world, float x_pos, float y_pos) {
         super(world, ballShape);
+        this.x_pos = x_pos;
+        this.y_pos = y_pos;
         addImage(image);
+    }
+
+    public static float getXPos() {
+        return x_pos;
+    }
+
+    public static float getYPos() {
+        return y_pos;
+    }
+
+    public static void setXPos(float newXPos) {
+        x_pos = newXPos;
+    }
+
+    public static void setYPos(float newYPos) {
+        y_pos = newYPos;
     }
 }

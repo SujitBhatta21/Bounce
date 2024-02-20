@@ -2,9 +2,50 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Button {
+public class Button extends JButton {
+    private JButton b;
+    private String action_command;
+
+    public Button(String text, String action_command) {
+        super(text);
+        b = new JButton(text);
+        b.setVerticalTextPosition(AbstractButton.CENTER);
+        b.setHorizontalTextPosition(AbstractButton.CENTER);
+        b.setActionCommand(action_command);
+        this.action_command = action_command;
+    }
+
+    public Button(String text, Icon icon) {
+        super(text, icon);
+        b = new JButton(text, icon);
+        b.setVerticalTextPosition(AbstractButton.CENTER);
+    }
+}
+/*
+Use this in the game class. This can be used to detect which button is pressed and enable and disable that button...
+        addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                // Code to execute when the button is clicked
+                 if ("disable".equals(e.getActionCommand())) {
+                    b2.setEnabled(false);
+                    b1.setEnabled(false);
+                    b3.setEnabled(true);
+                } else {
+                    b2.setEnabled(true);
+                    b1.setEnabled(true);
+                    b3.setEnabled(false);
+                }
+            }
+        });
+ */
+
+/*
     // Fields
     int x, y, width, height;
     Color colour;
@@ -46,3 +87,4 @@ public class Button {
         return this.button;
     }
 }
+*/
