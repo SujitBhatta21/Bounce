@@ -22,60 +22,66 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Game {
 
     private static Ball ball;  // Making ball a static field.
+    private static int score = 0;  // Initialize score.
+    private static int WIDTH = 500, HEIGHT = 500;
+    private static JLabel scoreLabel;  // Score display.
 
     /** Initialise a new Game. */
     public Game() {
-        //1. make an empty game world
+        // make an empty game world
         World world = new World();
 
-        //3. make a view to look into the game world
-        int WIDTH = 900, HEIGHT = 750;
+        // make a view to look into the game world
         MyUserView view = new MyUserView(world, WIDTH, HEIGHT);
 
-        //4. create a Java window (frame) and add the game
-        //   view to it
-        final JFrame frame = new JFrame("City Game");
-        frame.setSize(WIDTH, HEIGHT); // Set the size of the JFrame
-
-        // Testing if the order of code matters.
-        level_1(world, frame);
-
-        // Set the layout manager to null::: Personally I did not like default layer manager.
-        frame.setLayout(null);
+        // create a Java window (frame) and add the game view to it
+        JFrame frame = new JFrame("City Game");
+        frame.setSize(WIDTH, HEIGHT);
+        // frame.setLayout(null);  // Set the layout manager to null.
 
         view.setBounds(0, 0, WIDTH, HEIGHT);
-        frame.add(view); // Add the game view to the frame
+        frame.add(view);  // Add the view to the frame.
 
-        // enable the frame to quit the application
-        // when the x button is pressed
+        // Testing if the order of code matters.
+        initializeGame(world, frame);
+
+        scoreLabel = new JLabel("Score: " + score);
+        scoreLabel.setBounds(10, 10, 100, 20);  // Set position and size.
+        frame.add(scoreLabel);  // Add the score display to the frame.
+
+        // enable the frame to quit the application when the x button is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
-        // don't let the frame be resized
         frame.setResizable(false);
-
-        // finally, make the frame visible
         frame.setVisible(true);
-
-        // request focus in window. Allows keyListener to work.
         frame.requestFocusInWindow();
 
-        // Making a debugging view. Used for debugging.
-        JFrame debugView = new DebugViewer(world, 500, 500);
+        //optional: draw a 1-metre grid over the view
+        view.setGridResolution(1);
 
         // start our game world simulation!
         world.start();
+
+        updateScore(0); // You can pass 0 or any initial score value
     }
 
 
+    // Method to initialize game components
+    private void initializeGame(World world, JFrame frame) {
+        level_1(world, frame);
+        scoreLabel = new JLabel("Score: " + score);
+        scoreLabel.setBounds(10, 10, 100, 20);
+        frame.add(scoreLabel);
 
-    /** Run the game. */
-    public static void main(String[] args) {
-
-        new Game();
+        // Making a debugging view. Used for debugging.
+        new DebugViewer(world, 500, 500);
     }
+
 
 
     public static void level_1(World world, JFrame frame) {
+
+        System.out.println("level_1 method called"); // debugging
 
         //make a ground platform
         Shape shape = new BoxShape(30, 0.5f);
@@ -88,20 +94,45 @@ public class Game {
         platform1.setPosition(new Vec2(-8, -4f));
         // platform1.addImage(new BodyImage("assets/images/Platform.png")); (Find a good background after milestone completed.....)
 
-        ball = new Ball(world, -4, 5);
+        // making a border.
+        Shape left = new BoxShape(0.5f, HEIGHT / 30);
+        StaticBody left_border = new StaticBody(world, left);
+        left_border.setPosition(new Vec2(-WIDTH / 37, 0));
+
+        Shape right = new BoxShape(0.5f, HEIGHT / 30);
+        StaticBody right_border = new StaticBody(world, right);
+        right_border.setPosition(new Vec2(WIDTH / 37, 0));
+
+        Shape top = new BoxShape(WIDTH / 30, 0.5f);
+        StaticBody top_border = new StaticBody(world, top);
+        top_border.setPosition(new Vec2(0 , HEIGHT/37));
+
+        // Making a Walker ball.
+        ball = new Ball(world, 0, 0);
+        ball.setGravityScale(0);
         ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
-        System.out.println(ball.getGravityScale());
+
 
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball);
         frame.addKeyListener(k);
+    }
+
+    // Method to update the score.
+    public static void updateScore(int increment) {
+        if (scoreLabel != null) {
+            score += increment;
+            scoreLabel.setText("Score: " + score);  // Update the score display.
+            System.out.println("not null");
+        } else {
+            System.out.println("scoreLabel is null!");
+        }
+    }
 
 
+    /** Run the game. */
+    public static void main(String[] args) {
 
-        // Testing button
-        // Color BLACK = new Color(255, 100, 255);
-        Button start_button = new Button("Start Button", "start");
-        frame.add(start_button); // Add the button to the frame
-
+        new Game();
     }
 }
