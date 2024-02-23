@@ -25,6 +25,7 @@ public class Game {
     private static int score = 0;  // Initialize score.
     private static int WIDTH = 500, HEIGHT = 500;
     private static JLabel scoreLabel;  // Score display.
+    private static Color transparent_colour = new Color(0, 0, 0, 0);
 
     /** Initialise a new Game. */
     public Game() {
@@ -46,7 +47,7 @@ public class Game {
         initializeGame(world, frame);
 
         scoreLabel = new JLabel("Score: " + score);
-        scoreLabel.setBounds(10, 10, 100, 20);  // Set position and size.
+        scoreLabel.setBounds(0, 0, 100, 20);  // Set position and size.
         frame.add(scoreLabel);  // Add the score display to the frame.
 
         // enable the frame to quit the application when the x button is pressed
@@ -83,33 +84,39 @@ public class Game {
 
         System.out.println("level_1 method called"); // debugging
 
-        //make a ground platform
-        Shape shape = new BoxShape(30, 0.5f);
-        StaticBody ground = new StaticBody(world, shape);
-        ground.setPosition(new Vec2(0f, -11.5f));
 
         // make a suspended platform
         Shape platformShape = new BoxShape(3, 0.5f);
         StaticBody platform1 = new StaticBody(world, platformShape);
-        platform1.setPosition(new Vec2(-8, -4f));
+        platform1.setPosition(new Vec2(-8, -2f));
         // platform1.addImage(new BodyImage("assets/images/Platform.png")); (Find a good background after milestone completed.....)
 
-        // making a border.
+        /* making a border. */
+        // making left border
         Shape left = new BoxShape(0.5f, HEIGHT / 30);
         StaticBody left_border = new StaticBody(world, left);
         left_border.setPosition(new Vec2(-WIDTH / 37, 0));
 
+        // making a ground platform
+        Shape down = new BoxShape(WIDTH / 30, 0.5f);
+        StaticBody ground = new StaticBody(world, down);
+        ground.setFillColor(transparent_colour);
+        ground.setLineColor(transparent_colour);
+        ground.setPosition(new Vec2(0f, - HEIGHT / 56 - 0.5f));
+
+        // making right border
         Shape right = new BoxShape(0.5f, HEIGHT / 30);
         StaticBody right_border = new StaticBody(world, right);
         right_border.setPosition(new Vec2(WIDTH / 37, 0));
 
+        // making top border
         Shape top = new BoxShape(WIDTH / 30, 0.5f);
         StaticBody top_border = new StaticBody(world, top);
         top_border.setPosition(new Vec2(0 , HEIGHT/37));
 
         // Making a Walker ball.
         ball = new Ball(world, 0, 0);
-        ball.setGravityScale(0);
+        // ball.setGravityScale(0); Uncomment this for testing character coordinates.
         ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
 
 
