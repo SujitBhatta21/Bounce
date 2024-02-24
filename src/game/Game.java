@@ -84,14 +84,48 @@ public class Game {
 
         System.out.println("level_1 method called"); // debugging
 
-
         // make a suspended platform
         Shape platformShape = new BoxShape(3, 0.5f);
         StaticBody platform1 = new StaticBody(world, platformShape);
         platform1.setPosition(new Vec2(-8, -2f));
         // platform1.addImage(new BodyImage("assets/images/Platform.png")); (Find a good background after milestone completed.....)
 
+        // making lever.
+        Lever lever = new Lever(world);
+        lever.setPosition(new Vec2(10, -7));
+
         /* making a border. */
+        making_world_border(world);
+
+        // Making a Walker ball.
+        ball = new Ball(world, 0, 0);
+        // ball.setGravityScale(0); Uncomment this for testing character coordinates.
+        ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
+
+        BallCollisions ballCollisions = new BallCollisions(ball, lever);
+
+        ball.addCollisionListener(ballCollisions);
+
+
+
+        // Checks if a key is pressed.
+        KeyboardListener k = new KeyboardListener(ball);
+        frame.addKeyListener(k);
+    }
+
+    // Method to update the score.
+    public static void updateScore(int increment) {
+        if (scoreLabel != null) {
+            score += increment;
+            scoreLabel.setText("Score: " + score);  // Update the score display.
+            System.out.println("not null");
+        } else {
+            System.out.println("scoreLabel is null!");
+        }
+    }
+
+
+    public static void making_world_border(World world) {
         // making left border
         Shape left = new BoxShape(0.5f, HEIGHT / 30);
         StaticBody left_border = new StaticBody(world, left);
@@ -113,29 +147,7 @@ public class Game {
         Shape top = new BoxShape(WIDTH / 30, 0.5f);
         StaticBody top_border = new StaticBody(world, top);
         top_border.setPosition(new Vec2(0 , HEIGHT/37));
-
-        // Making a Walker ball.
-        ball = new Ball(world, 0, 0);
-        // ball.setGravityScale(0); Uncomment this for testing character coordinates.
-        ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
-
-
-        // Checks if a key is pressed.
-        KeyboardListener k = new KeyboardListener(ball);
-        frame.addKeyListener(k);
     }
-
-    // Method to update the score.
-    public static void updateScore(int increment) {
-        if (scoreLabel != null) {
-            score += increment;
-            scoreLabel.setText("Score: " + score);  // Update the score display.
-            System.out.println("not null");
-        } else {
-            System.out.println("scoreLabel is null!");
-        }
-    }
-
 
     /** Run the game. */
     public static void main(String[] args) {
