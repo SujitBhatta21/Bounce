@@ -22,9 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Game {
 
     private static Ball ball;  // Making ball a static field.
-    private static int score = 0;  // Initialize score.
     private static int WIDTH = 500, HEIGHT = 500;
-    private static JLabel scoreLabel;  // Score display.
     private static Color transparent_colour = new Color(0, 0, 0, 0);
 
     /** Initialise a new Game. */
@@ -46,10 +44,6 @@ public class Game {
         // Testing if the order of code matters.
         initializeGame(world, frame);
 
-        scoreLabel = new JLabel("Score: " + score);
-        scoreLabel.setBounds(0, 0, 100, 20);  // Set position and size.
-        frame.add(scoreLabel);  // Add the score display to the frame.
-
         // enable the frame to quit the application when the x button is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
@@ -62,17 +56,12 @@ public class Game {
 
         // start our game world simulation!
         world.start();
-
-        updateScore(0); // You can pass 0 or any initial score value
     }
 
 
     // Method to initialize game components
     private void initializeGame(World world, JFrame frame) {
         level_1(world, frame);
-        scoreLabel = new JLabel("Score: " + score);
-        scoreLabel.setBounds(10, 10, 100, 20);
-        frame.add(scoreLabel);
 
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 500, 500);
@@ -113,17 +102,6 @@ public class Game {
         frame.addKeyListener(k);
     }
 
-    // Method to update the score.
-    public static void updateScore(int increment) {
-        if (scoreLabel != null) {
-            score += increment;
-            scoreLabel.setText("Score: " + score);  // Update the score display.
-            System.out.println("not null");
-        } else {
-            System.out.println("scoreLabel is null!");
-        }
-    }
-
 
     public static void making_world_border(World world) {
         // making left border
@@ -144,9 +122,11 @@ public class Game {
         right_border.setPosition(new Vec2(WIDTH / 37, 0));
 
         // making top border
-//        Shape top = new BoxShape(WIDTH / 30, 0.5f);
-//        StaticBody top_border = new StaticBody(world, top);
-//        top_border.setPosition(new Vec2(0 , HEIGHT/37));
+        /*
+        Shape top = new BoxShape(WIDTH / 30, 0.5f);
+        StaticBody top_border = new StaticBody(world, top);
+        top_border.setPosition(new Vec2(0 , HEIGHT/37));
+         */
     }
 
     /** Run the game. */
