@@ -38,7 +38,7 @@ public class Lever extends StaticBody {
     }
 
     public void draw_falling_rod(World world) {
-        Shape rodShape = new BoxShape(0.5f, 5);
+        Shape rodShape = new BoxShape(1f, 5);
         DynamicBody rod = new DynamicBody(world, rodShape);
         rod.setPosition(new Vec2(0, 12.5f + (5)));
         lever_count++;
