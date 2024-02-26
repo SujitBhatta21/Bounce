@@ -144,9 +144,9 @@ public class Game {
         right_border.setPosition(new Vec2(WIDTH / 37, 0));
 
         // making top border
-        Shape top = new BoxShape(WIDTH / 30, 0.5f);
-        StaticBody top_border = new StaticBody(world, top);
-        top_border.setPosition(new Vec2(0 , HEIGHT/37));
+//        Shape top = new BoxShape(WIDTH / 30, 0.5f);
+//        StaticBody top_border = new StaticBody(world, top);
+//        top_border.setPosition(new Vec2(0 , HEIGHT/37));
     }
 
     /** Run the game. */
