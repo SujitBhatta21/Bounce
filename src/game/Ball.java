@@ -31,4 +31,8 @@ public class Ball extends Walker {
     public static void setYPos(float newYPos) {
         y_pos = newYPos;
     }
+
+    public void setImage(BodyImage image) {
+        this.image = image;
+    }
 }

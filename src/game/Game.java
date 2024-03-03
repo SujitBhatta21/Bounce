@@ -28,6 +28,8 @@ public class Game {
     private static Color transparent_colour = new Color(0, 0, 0, 0);
     private static List<Collectable> collectableList = new ArrayList<Collectable>();
 
+    private static String platformImagePath = "assets/images/platform1.gif";
+
     /** Initialise a new Game. */
     public Game() {
         // make an empty game world
@@ -82,9 +84,22 @@ public class Game {
         ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
 
         // Making suspended platform
-        draw_platform(world, 3, 0.5f, -8, -2, "visible");
+        drawBoxShape(world, 3, 0.5f, -8, -2, "visible", platformImagePath, 6*0.5f);
         // Making invisible platform
-        draw_platform(world, 3, 0.5f, 8, 3, "invisible");
+        drawBoxShape(world, 3, 0.5f, 8, 3, "invisible", platformImagePath, 6*0.5f);
+
+        // Drawing cage on cage hodling platform.
+        drawBoxShape(world, 1, 1, -8, 7, "visible", "assets/images/cage.gif", 2);
+//        Shape cage_shape = new BoxShape(1, 1);
+//        StaticBody cage = new StaticBody(world, cage_shape);
+//        cage.setPosition(new Vec2(-8 , 7));
+//        cage.addImage(new BodyImage("assets/images/cage.gif", 2));
+
+        // Drawing rock ball inside a cage.
+
+
+        // Making cage holding platform.
+        drawBoxShape(world, 2, 0.5f, -8, 6, "visible", platformImagePath,2);
 
         // making lever.
         Lever lever = new Lever(world);
@@ -144,7 +159,7 @@ public class Game {
          */
     }
 
-    public static void draw_platform(World world, float halfWidth, float halfHeight, float x, float y, String state) {
+    public static void drawBoxShape(World world, float halfWidth, float halfHeight, float x, float y, String state) {
         if (state == "invisible")  {
             Shape platformShape = new BoxShape(halfWidth, halfHeight);
             StaticBody platform = new StaticBody(world, platformShape);
@@ -156,7 +171,21 @@ public class Game {
             Shape platformShape = new BoxShape(halfWidth, halfHeight);
             StaticBody platform = new StaticBody(world, platformShape);
             platform.setPosition(new Vec2(x, y));
-            platform.addImage(new BodyImage("assets/images/platform1.gif", 6 * halfHeight));
+            // platform.addImage(new BodyImage("assets/images/platform1.gif", imageHeight));
+        }
+    }
+    public static void drawBoxShape(World world, float halfWidth, float halfHeight, float x, float y, String state, String imagePath,  float imageHeight) {
+        if (state.equals("invisible")) {
+            Shape platformShape = new BoxShape(halfWidth, halfHeight);
+            StaticBody platform = new StaticBody(world, platformShape);
+            platform.setFillColor(transparent_colour);
+            platform.setLineColor(transparent_colour);
+            platform.setPosition(new Vec2(x, y));
+        } else {
+            Shape platformShape = new BoxShape(halfWidth, halfHeight);
+            StaticBody platform = new StaticBody(world, platformShape);
+            platform.setPosition(new Vec2(x, y));
+            platform.addImage(new BodyImage(imagePath, imageHeight));
         }
     }
 
