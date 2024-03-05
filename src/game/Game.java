@@ -38,17 +38,17 @@ public class Game {
 
         // make a view to look into the game world
         view = new MyUserView(world, WIDTH, HEIGHT);
+        view.setBounds(0, 0, WIDTH, HEIGHT);
 
         // create a Java window (frame) and add the game view to it
         JFrame frame = new JFrame("City Game");
         frame.setSize(WIDTH, HEIGHT);
         // frame.setLayout(null);  // Set the layout manager to null.
 
-        view.setBounds(0, 0, WIDTH, HEIGHT);
-        frame.add(view);  // Add the view to the frame.
-
         // Testing if the order of code matters.
         initializeGame(world, frame);
+
+        frame.add(view);  // Add the view to the frame.
 
         // enable the frame to quit the application when the x button is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,13 +99,11 @@ public class Game {
         // Top right platform.
         drawBoxShape(world, 3, 0.5f, 8, 3, "visible", platformImagePath, 6*0.5f);
 
-        view.repaint();
-
-        // Drawing cage on cage hodling platform.
-        drawBoxShape(world, 1, 1, -8, 7, "visible", "assets/images/cage.gif", 2);
-
-        // Drawing rock ball inside a cage.
-        //view.repaint();
+        // Drawing rock ball on the platform.
+        Shape rockballShape = new CircleShape(1);
+        DynamicBody rockball = new DynamicBody(world, rockballShape);
+        rockball.setPosition(new Vec2(-7.8f,7));
+        rockball.addImage(new BodyImage("assets/images/character/rockball.png", 2));
 
         // Cage holding platform.
         drawBoxShape(world, 2, 0.5f, -8, 6, "visible", platformImagePath,2);
@@ -117,6 +115,7 @@ public class Game {
         /* making a border. */
         making_world_border(world);
 
+        /* Making keys that appears in the game */
         Collectable key1 = new Collectable(world);  // Max coin 4 for level 1.
         key1.setPosition(new Vec2(-10, -8));
         collectableList.add(key1);
@@ -129,9 +128,8 @@ public class Game {
         key3.setPosition(new Vec2(-8, 10));
         collectableList.add(key3);
 
-
+        /* Handling ball collisions with different objects */
         BallCollisions ballCollisions = new BallCollisions(ball, lever, collectableList, portal_pair);
-
         ball.addCollisionListener(ballCollisions);
 
 

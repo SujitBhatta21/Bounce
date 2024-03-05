@@ -48,12 +48,12 @@ public class MyUserView extends UserView {
         // Now do your custom painting
         Image image = null;
         try {
-            image = ImageIO.read(new File("assets/images/character/rockball.png"));
+            image = ImageIO.read(new File("assets/images/cage.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (image != null) {
-            g.drawImage(image, 70, 80, this); // Draws image at (100,100)
+            g.drawImage(image, 60, 60, 65, 55, this); // Draws image at (100,100)
         }
     }
 }
