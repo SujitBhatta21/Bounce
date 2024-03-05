@@ -3,6 +3,7 @@ package game;
 import city.cs.engine.*;
 
 public class Ball extends Walker {
+    private Portal lastPortal;
     private static float radius = 1;
     private static float x_pos, y_pos;
     private static final Shape ballShape = new CircleShape(radius);
@@ -39,5 +40,13 @@ public class Ball extends Walker {
     public void setBallFriction(float setFriction) {
         SolidFixture ballFixture = new SolidFixture(this, ballShape);
         ballFixture.setFriction(setFriction);
+    }
+
+    public Portal getLastPortal() {
+        return lastPortal;
+    }
+
+    public void setLastPortal(Portal lastPortal) {
+        this.lastPortal = lastPortal;
     }
 }
