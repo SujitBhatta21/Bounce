@@ -12,12 +12,14 @@ public class BallCollisions implements CollisionListener {
     private Ball ball;
     private Lever lever;
     private List<Collectable> collectables;
+    private Portal[] portals;
     // private List<Spikes> spike;   // This will store array of body as per the requirements.
 
-    public BallCollisions(Ball ball, Lever lever, List<Collectable> collectables) {
+    public BallCollisions(Ball ball, Lever lever, List<Collectable> collectables, Portal[] portals) {
         this.ball = ball;
         this.lever = lever;
         this.collectables = collectables;
+        this.portals = portals;
     }
 
 
@@ -35,6 +37,9 @@ public class BallCollisions implements CollisionListener {
                     collectable.setCoin_count(collectable.getCoin_count() + 1);
                 }
             }
+        }
+        else if (e.getOtherBody() instanceof Portal && e.getReportingBody() instanceof Ball) {
+            System.out.println("Touched Portal");
         }
     }
 }

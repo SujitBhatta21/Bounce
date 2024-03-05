@@ -23,6 +23,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Game {
 
+    private static MyUserView view;
     private static Ball ball;  // Making ball a static field.
     private static int WIDTH = 500, HEIGHT = 500;
     private static Color transparent_colour = new Color(0, 0, 0, 0);
@@ -36,7 +37,7 @@ public class Game {
         World world = new World();
 
         // make a view to look into the game world
-        MyUserView view = new MyUserView(world, WIDTH, HEIGHT);
+        view = new MyUserView(world, WIDTH, HEIGHT);
 
         // create a Java window (frame) and add the game view to it
         JFrame frame = new JFrame("City Game");
@@ -80,25 +81,33 @@ public class Game {
 
         // Making a Walker ball.
         ball = new Ball(world, 0, 0);
-        // ball.setGravityScale(0); Uncomment this for testing character coordinates.
         ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
+        ball.setBallFriction(10);
 
-        // Making suspended platform
-        drawBoxShape(world, 3, 0.5f, -8, -2, "visible", platformImagePath, 6*0.5f);
-        // Making invisible platform
-        drawBoxShape(world, 3, 0.5f, 8, 3, "invisible", platformImagePath, 6*0.5f);
+        /* Making portal  */
+        Portal portal_1 = new Portal(world, -10, 2);
+        portal_1.setPosition(new Vec2(portal_1.getXPos(), portal_1.getYPos()));
+
+        Portal portal_2 = new Portal(world, 8, 9);
+        portal_2.setPosition(new Vec2(portal_2.getXPos(), portal_2.getYPos()));
+
+        Portal[] portal_pair = new Portal[]{portal_1, portal_2};
+
+        /* Making platform where character can walk in */
+        // Left bottom platform
+        drawBoxShape(world, 3, 0.5f, -8, -3, "visible", platformImagePath, 6*0.5f);
+        // Top right platform.
+        drawBoxShape(world, 3, 0.5f, 8, 3, "visible", platformImagePath, 6*0.5f);
+
+        view.repaint();
 
         // Drawing cage on cage hodling platform.
         drawBoxShape(world, 1, 1, -8, 7, "visible", "assets/images/cage.gif", 2);
-//        Shape cage_shape = new BoxShape(1, 1);
-//        StaticBody cage = new StaticBody(world, cage_shape);
-//        cage.setPosition(new Vec2(-8 , 7));
-//        cage.addImage(new BodyImage("assets/images/cage.gif", 2));
 
         // Drawing rock ball inside a cage.
+        //view.repaint();
 
-
-        // Making cage holding platform.
+        // Cage holding platform.
         drawBoxShape(world, 2, 0.5f, -8, 6, "visible", platformImagePath,2);
 
         // making lever.
@@ -108,21 +117,20 @@ public class Game {
         /* making a border. */
         making_world_border(world);
 
-        Collectable coin1 = new Collectable(world);  // Max coin 4 for level 1.
-        coin1.setPosition(new Vec2(-10, -8));
-        collectableList.add(coin1);
+        Collectable key1 = new Collectable(world);  // Max coin 4 for level 1.
+        key1.setPosition(new Vec2(-10, -8));
+        collectableList.add(key1);
 
-        Collectable coin2 = new Collectable(world);
-        coin2.setPosition(new Vec2(10, 0));
-        collectableList.add(coin2);
+        Collectable key2 = new Collectable(world);
+        key2.setPosition(new Vec2(10, -2));
+        collectableList.add(key2);
 
-        Collectable coin3 = new Collectable(world);
-        coin3.setPosition(new Vec2(-8, 10));
-        collectableList.add(coin3);
+        Collectable key3 = new Collectable(world);
+        key3.setPosition(new Vec2(-8, 10));
+        collectableList.add(key3);
 
 
-        BallCollisions ballCollisions = new BallCollisions(ball, lever, collectableList);
-    //    BallCollisions ballWithCoin = new BallCollisions(ball, collectableList);
+        BallCollisions ballCollisions = new BallCollisions(ball, lever, collectableList, portal_pair);
 
         ball.addCollisionListener(ballCollisions);
 

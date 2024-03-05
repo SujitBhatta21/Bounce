@@ -40,4 +40,20 @@ public class MyUserView extends UserView {
     protected void paintBackground(Graphics2D g) {
         g.drawImage(background, 0, 0, this);
     }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g); // Call the original paintComponent method to do the default painting
+
+        // Now do your custom painting
+        Image image = null;
+        try {
+            image = ImageIO.read(new File("assets/images/character/rockball.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (image != null) {
+            g.drawImage(image, 70, 80, this); // Draws image at (100,100)
+        }
+    }
 }

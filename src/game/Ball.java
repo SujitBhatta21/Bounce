@@ -35,4 +35,9 @@ public class Ball extends Walker {
     public void setImage(BodyImage image) {
         this.image = image;
     }
+
+    public void setBallFriction(float setFriction) {
+        SolidFixture ballFixture = new SolidFixture(this, ballShape);
+        ballFixture.setFriction(setFriction);
+    }
 }

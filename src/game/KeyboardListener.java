@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 
 public class KeyboardListener implements KeyListener{
     private Ball ball;
-    private static float ball_speed = 10;
+    private static float ball_speed = 8;
 
     KeyboardListener(Ball ball) {
         this.ball = ball;
@@ -43,7 +43,7 @@ public class KeyboardListener implements KeyListener{
         if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
             // Stop the ball's movement when left or right key is released
             ball.stopWalking();
-            ball.setLinearVelocity(new Vec2(0, 0));
+           // ball.setLinearVelocity(new Vec2(0, 0));
         }
         // You can add more conditions based on your requirements
     }
