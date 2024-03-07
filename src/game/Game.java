@@ -26,10 +26,10 @@ public class Game {
     private static MyUserView view;
     private static Ball ball;  // Making ball a static field.
     private static int WIDTH = 500, HEIGHT = 500;
-    private static Color transparent_colour = new Color(0, 0, 0, 0);
-    private static List<Collectable> collectableList = new ArrayList<Collectable>();
+    private final static Color transparent_colour = new Color(0, 0, 0, 0);
+    private final static List<Collectable> collectableList = new ArrayList<Collectable>();
 
-    private static String platformImagePath = "assets/images/platform1.gif";
+    private final static String platformImagePath = "assets/images/platform1.gif";
 
     /** Initialise a new Game. */
     public Game() {
@@ -43,9 +43,8 @@ public class Game {
         // create a Java window (frame) and add the game view to it
         JFrame frame = new JFrame("City Game");
         frame.setSize(WIDTH, HEIGHT);
-        // frame.setLayout(null);  // Set the layout manager to null.
+        // frame.setLayout(null);
 
-        // Testing if the order of code matters.
         initializeGame(world, frame);
 
         frame.add(view);  // Add the view to the frame.
@@ -66,11 +65,11 @@ public class Game {
 
 
     // Method to initialize game components
-    private void initializeGame(World world, JFrame frame) {
-        level_1(world, frame);
-
+    private static void initializeGame(World world, JFrame frame) {
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 500, 500);
+
+        level_1(world, frame);
     }
 
 
@@ -79,9 +78,20 @@ public class Game {
 
         System.out.println("level_1 method called");
 
+        JTextField lastText = createTextField("Congratulations", 20, Color.RED);
+        lastText.setBounds(5, 5, 200, 30);
+        frame.add(lastText);
+
+        // Making the moving spikes
+        Spike spike1 = new Spike(world, -5, -7);
+        spike1.setPosition(new Vec2(spike1.getXPos(), spike1.getYPos()));
+
+        Spike spike2 = new Spike(world, -5, -7);
+        spike1.setPosition(new Vec2(spike2.getXPos(), spike2.getYPos()));
+
         // Making a Walker ball.
         ball = new Ball(world, 0, 0);
-        ball.setPosition(new Vec2(Ball.getXPos(), Ball.getYPos()));
+        ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
         ball.setBallFriction(10);
 
         /* Making portal  */
@@ -101,7 +111,7 @@ public class Game {
 
         // Drawing rock ball on the platform.
         Shape rockballShape = new CircleShape(1);
-        DynamicBody rockball = new DynamicBody(world, rockballShape);
+        StaticBody rockball = new StaticBody(world, rockballShape);
         rockball.setPosition(new Vec2(-7.8f,7));
         rockball.addImage(new BodyImage("assets/images/character/rockball.png", 2));
 
@@ -117,21 +127,23 @@ public class Game {
 
         /* Making keys that appears in the game */
         Collectable key1 = new Collectable(world);  // Max coin 4 for level 1.
-        key1.setPosition(new Vec2(-10, -8));
+        key1.setPosition(new Vec2(-10, -5));
         collectableList.add(key1);
 
         Collectable key2 = new Collectable(world);
-        key2.setPosition(new Vec2(10, -2));
+        key2.setPosition(new Vec2(4, -1));
         collectableList.add(key2);
 
         Collectable key3 = new Collectable(world);
-        key3.setPosition(new Vec2(-8, 10));
+        key3.setPosition(new Vec2(-7, 0));
         collectableList.add(key3);
 
-        /* Handling ball collisions with different objects */
-        BallCollisions ballCollisions = new BallCollisions(ball, lever, collectableList, portal_pair);
+        /* Initialising CollisionListener with ball */
+        BallCollisions ballCollisions = new BallCollisions(ball, lever, collectableList, portal_pair, rockball);
         ball.addCollisionListener(ballCollisions);
 
+        /* Initialising StepListener */
+        world.addStepListener(new PatrollerController(spike1, -11.5f, -7));
 
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball);
@@ -141,21 +153,22 @@ public class Game {
 
     public static void making_world_border(World world) {
         // making left border
-        Shape left = new BoxShape(0.5f, HEIGHT / 30);
+        Shape left = new BoxShape(0.5f, 12.5f);
         StaticBody left_border = new StaticBody(world, left);
-        left_border.setPosition(new Vec2(-WIDTH / 37, 0));
+        left_border.setFillColor(new Color(0, 10,10));
+        left_border.setPosition(new Vec2(-13, 0));
 
         // making a ground platform
-        Shape down = new BoxShape(WIDTH / 30, 0.5f);
+        Shape down = new BoxShape(13f, 0.5f);
         StaticBody ground = new StaticBody(world, down);
         ground.setFillColor(transparent_colour);
         ground.setLineColor(transparent_colour);
-        ground.setPosition(new Vec2(0f, - HEIGHT / 56 - 1.5f));
+        ground.setPosition(new Vec2(0f, -9.5f));
 
         // making right border
-        Shape right = new BoxShape(0.5f, HEIGHT / 30);
+        Shape right = new BoxShape(0.5f, 12.5f);
         StaticBody right_border = new StaticBody(world, right);
-        right_border.setPosition(new Vec2(WIDTH / 37, 0));
+        right_border.setPosition(new Vec2(13f, 0));
 
         // making top border
         /*
@@ -194,6 +207,15 @@ public class Game {
             platform.addImage(new BodyImage(imagePath, imageHeight));
         }
     }
+
+
+    public static JTextField createTextField(String text, int textSize, Color colour) {
+        JTextField textField = new JTextField(text);
+        textField.setFont(new Font("Arial", Font.PLAIN, textSize));
+        textField.setForeground(colour);
+        return textField;
+    }
+
 
     public static List<Collectable> getCollectableList() {
         return collectableList;

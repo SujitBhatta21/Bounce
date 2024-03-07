@@ -31,10 +31,15 @@ public class KeyboardListener implements KeyListener{
         else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             System.out.println("LEFT Arrow-Key is pressed!");
             ball.startWalking(-ball_speed);
+            ball.rotate(0.2f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             System.out.println("Right Arrow-Key is pressed!");
             ball.startWalking(ball_speed);
+            ball.rotate(-0.2f);
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_R) {
+            Game.i;
         }
     }
 

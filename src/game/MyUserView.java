@@ -45,7 +45,6 @@ public class MyUserView extends UserView {
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // Call the original paintComponent method to do the default painting
 
-        // Now do your custom painting
         Image image = null;
         try {
             image = ImageIO.read(new File("assets/images/cage.gif"));
@@ -53,7 +52,7 @@ public class MyUserView extends UserView {
             e.printStackTrace();
         }
         if (image != null) {
-            g.drawImage(image, 60, 60, 65, 55, this); // Draws image at (100,100)
+            g.drawImage(image, 60, 60, 65, 55, this);
         }
     }
 }
