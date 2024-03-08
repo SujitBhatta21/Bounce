@@ -1,5 +1,8 @@
 package game;
 
+import city.cs.engine.DynamicBody;
+import city.cs.engine.StaticBody;
+import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
@@ -8,11 +11,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyboardListener implements KeyListener{
+    private World world;
+    private JFrame frame;
+    private MyUserView view;
     private Ball ball;
     private static float ball_speed = 8;
 
-    KeyboardListener(Ball ball) {
+    KeyboardListener(Ball ball, World world, JFrame frame, MyUserView view) {
         this.ball = ball;
+        this.world = world;
+        this.frame = frame;
+        this.view = view;
     }
     @Override
     public void keyTyped(KeyEvent e){
@@ -39,7 +48,11 @@ public class KeyboardListener implements KeyListener{
             ball.rotate(-0.2f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_R) {
-            Game.i;
+            Game.resetGame(world, frame);
+
+            // Resetting timer and key/coin count to 0.
+            view.setTimer(300);
+            view.getKeys().get(0).setCoin_count(0);
         }
     }
 

@@ -11,6 +11,8 @@ import java.util.List;
 
 public class MyUserView extends UserView {
     private Image background;
+    private static int timer = 300;
+    private static List<Collectable> keys = Game.getCollectableList();
     public static final Font STATUS_FONT = new Font("Monospaced", Font.PLAIN, 20);
     public World world;
 
@@ -27,13 +29,10 @@ public class MyUserView extends UserView {
 
     @Override
     protected void paintForeground(Graphics2D g) {
-        int timer = 0;
         g.setColor(Color.RED);
         g.setFont(STATUS_FONT);
-        List<Collectable> temp = Game.getCollectableList();
-        //Collectable temp = new Collectable(world);  // creating temporary object to access Collectable non-static methods.
-        g.drawString("Coin count: " + temp.get(0).getCoin_count() + "/" + temp.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
-        g.drawString("Timer:" + timer, 400, 25);
+        g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
+        g.drawString("Timer:" + this.timer, 375, 25);
     }
 
     @Override
@@ -54,5 +53,13 @@ public class MyUserView extends UserView {
         if (image != null) {
             g.drawImage(image, 60, 60, 65, 55, this);
         }
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
+    }
+
+    public static List<Collectable> getKeys() {
+        return keys;
     }
 }

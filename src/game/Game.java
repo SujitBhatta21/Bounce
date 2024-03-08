@@ -45,7 +45,7 @@ public class Game {
         frame.setSize(WIDTH, HEIGHT);
         // frame.setLayout(null);
 
-        initializeGame(world, frame);
+        initialiseGame(world, frame);
 
         frame.add(view);  // Add the view to the frame.
 
@@ -65,7 +65,7 @@ public class Game {
 
 
     // Method to initialize game components
-    private static void initializeGame(World world, JFrame frame) {
+    public static void initialiseGame(World world, JFrame frame) {
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 500, 500);
 
@@ -78,16 +78,16 @@ public class Game {
 
         System.out.println("level_1 method called");
 
-        JTextField lastText = createTextField("Congratulations", 20, Color.RED);
-        lastText.setBounds(5, 5, 200, 30);
-        frame.add(lastText);
+//        JTextField lastText = createTextField("Congratulations", 20, Color.RED);
+//        lastText.setBounds(5, 5, 200, 30);
+//        frame.add(lastText);
 
         // Making the moving spikes
-        Spike spike1 = new Spike(world, -5, -7);
+        Spike spike1 = new Spike(world, -11.5f, -7);
         spike1.setPosition(new Vec2(spike1.getXPos(), spike1.getYPos()));
 
-        Spike spike2 = new Spike(world, -5, -7);
-        spike1.setPosition(new Vec2(spike2.getXPos(), spike2.getYPos()));
+        Spike spike2 = new Spike(world, -2.5f, -7);
+        spike2.setPosition(new Vec2(spike2.getXPos(), spike2.getYPos()));
 
         // Making a Walker ball.
         ball = new Ball(world, 0, 0);
@@ -143,10 +143,11 @@ public class Game {
         ball.addCollisionListener(ballCollisions);
 
         /* Initialising StepListener */
-        world.addStepListener(new PatrollerController(spike1, -11.5f, -7));
+        world.addStepListener(new PatrollerController(spike1, -11.5f, -8f));
+        world.addStepListener(new PatrollerController(spike2, -7f, -3.5f));
 
         // Checks if a key is pressed.
-        KeyboardListener k = new KeyboardListener(ball);
+        KeyboardListener k = new KeyboardListener(ball, world, frame, view);
         frame.addKeyListener(k);
     }
 
@@ -219,6 +220,18 @@ public class Game {
 
     public static List<Collectable> getCollectableList() {
         return collectableList;
+    }
+
+    public static void resetGame(World world, JFrame frame) {
+        // Clear the current world bodies.
+        for (DynamicBody dynamicBody: world.getDynamicBodies()) {
+            dynamicBody.destroy();
+        }
+        for (StaticBody staticBody: world.getStaticBodies()) {
+            staticBody.destroy();
+        }
+
+        initialiseGame(world, frame);
     }
 
     /** Run the game. */
