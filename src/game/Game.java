@@ -28,6 +28,7 @@ public class Game {
     private static int WIDTH = 500, HEIGHT = 500;
     private final static Color transparent_colour = new Color(0, 0, 0, 0);
     private final static List<Collectable> collectableList = new ArrayList<Collectable>();
+    private final static List<MyGameButton> allButtons = new ArrayList<>();
 
     private final static String platformImagePath = "assets/images/platform1.gif";
 
@@ -43,7 +44,6 @@ public class Game {
         // create a Java window (frame) and add the game view to it
         JFrame frame = new JFrame("City Game");
         frame.setSize(WIDTH, HEIGHT);
-        // frame.setLayout(null);
 
         initialiseGame(world, frame);
 
@@ -68,6 +68,11 @@ public class Game {
     public static void initialiseGame(World world, JFrame frame) {
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 500, 500);
+
+        MyGameButton helpButton = new MyGameButton(world, 0, 10.5f, 2, 1f, "HELP","assets/images/texts/help_button.png");
+        allButtons.add(helpButton);
+
+        view.addMouseListener(new MouseOnButtonListener(world, view));
 
         level_1(world, frame);
     }
@@ -135,11 +140,11 @@ public class Game {
         collectableList.add(key2);
 
         Collectable key3 = new Collectable(world);
-        key3.setPosition(new Vec2(-7, 0));
+        key3.setPosition(new Vec2(10, 7));
         collectableList.add(key3);
 
         /* Initialising CollisionListener with ball */
-        BallCollisions ballCollisions = new BallCollisions(ball, lever, collectableList, portal_pair, rockball);
+        BallCollisions ballCollisions = new BallCollisions(world, view, ball, lever, collectableList, portal_pair, rockball);
         ball.addCollisionListener(ballCollisions);
 
         /* Initialising StepListener */
@@ -220,6 +225,10 @@ public class Game {
 
     public static List<Collectable> getCollectableList() {
         return collectableList;
+    }
+
+    public static List<MyGameButton> getAllButtons() {
+        return allButtons;
     }
 
     public static void resetGame(World world, JFrame frame) {

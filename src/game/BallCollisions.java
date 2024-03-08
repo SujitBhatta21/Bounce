@@ -6,6 +6,8 @@ import java.util.List;
 import org.jbox2d.common.Vec2;
 
 public class BallCollisions implements CollisionListener {
+    private World world;
+    private MyUserView view;
     private Ball ball;
     private Lever lever;
     private List<Collectable> collectables;
@@ -13,7 +15,9 @@ public class BallCollisions implements CollisionListener {
     private StaticBody levelEndFinalTouch;
     // private List<Spikes> spike;   // This will store array of body as per the requirements.
 
-    public BallCollisions(Ball ball, Lever lever, List<Collectable> collectables, Portal[] portal_pair, StaticBody levelEndFinalTouch) {
+    public BallCollisions(World world, MyUserView view, Ball ball, Lever lever, List<Collectable> collectables, Portal[] portal_pair, StaticBody levelEndFinalTouch) {
+        this.world = world;
+        this.view = view;
         this.ball = ball;
         this.lever = lever;
         this.collectables = collectables;
@@ -26,6 +30,8 @@ public class BallCollisions implements CollisionListener {
     public void collide(CollisionEvent e) {
         if (e.getOtherBody() instanceof Lever && e.getReportingBody() instanceof Ball) {
             System.out.println("Ball collided with lever");
+          //  MyGameButton youLost = new MyGameButton(world, 2, 2, 2, 2, "YOU LOST");
+
             lever.setLeverState("on");
         }
         else if (e.getOtherBody() instanceof Collectable && e.getReportingBody() instanceof Ball) {
@@ -65,7 +71,9 @@ public class BallCollisions implements CollisionListener {
         else if (e.getOtherBody() instanceof Spike && e.getReportingBody() instanceof Ball) {
             System.out.println("You lost the game...");
             e.getReportingBody().destroy();
-            ((Spike) e.getOtherBody()).stopWalking();
+            // Here first make a MyGameButton to add text here...
+
+            world.stop();
         }
     }
 }
