@@ -34,7 +34,6 @@ public class MyGameButton {
         // Load the image
         this.image = new BodyImage(imagePath, 3*height);
         buttonBody.addImage(image);
-
     }
 
 

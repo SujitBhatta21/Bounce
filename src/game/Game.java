@@ -24,6 +24,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Game {
 
     private static MyUserView view;
+    private static JFrame frame, introFrame;
     private static Ball ball;  // Making ball a static field.
     private static int WIDTH = 500, HEIGHT = 500;
     private final static Color transparent_colour = new Color(0, 0, 0, 0);
@@ -37,27 +38,31 @@ public class Game {
         // make an empty game world
         World world = new World();
 
-        // make a view to look into the game world
-        view = new MyUserView(world, WIDTH, HEIGHT);
-        view.setBounds(0, 0, WIDTH, HEIGHT);
-
         // create a Java window (frame) and add the game view to it
-        JFrame frame = new JFrame("City Game");
+        frame = new JFrame("Bounce Game");
         frame.setSize(WIDTH, HEIGHT);
 
-        initialiseGame(world, frame);
+        introFrame = new JFrame("Intro Game");
+        introFrame.setSize(WIDTH, HEIGHT);
 
-        frame.add(view);  // Add the view to the frame.
+        // Making a debugging view. Used for debugging.
+        new DebugViewer(world, 500, 500);
 
-        // enable the frame to quit the application when the x button is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
         frame.setResizable(false);
-        frame.setVisible(true);
         frame.requestFocusInWindow();
 
-        //optional: draw a 1-metre grid over the view
-        view.setGridResolution(1);
+        introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        introFrame.setLocationByPlatform(true);  // Set location by platform before making it visible
+        introFrame.setResizable(false);
+        introFrame.requestFocusInWindow();
+
+        if (view.getGameState().equals("intro")) {
+            frame.setVisible(false);
+            introScene(world, introFrame);
+            introFrame.setVisible(true);  // Make it visible after setting the location
+        }
 
         // start our game world simulation!
         world.start();
@@ -66,8 +71,25 @@ public class Game {
 
     // Method to initialize game components
     public static void initialiseGame(World world, JFrame frame) {
+
+        // make a view to look into the game world
+        view = new MyUserView(world, WIDTH, HEIGHT);
+        view.setBounds(0, 0, WIDTH, HEIGHT);
+
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 500, 500);
+
+        frame.add(view);  // Add the view to the frame.
+        //optional: draw a 1-metre grid over the view
+        // view.setGridResolution(1);
+
+        for (MyGameButton button: allButtons) {
+            button.getButtonBody().destroy();
+        }
+
+        // If reset R is clicked clear existing items.
+        allButtons.clear();
+        collectableList.clear();
 
         MyGameButton helpButton = new MyGameButton(world, 0, 10.5f, 2, 1f, "HELP","assets/images/texts/help_button.png");
         allButtons.add(helpButton);
@@ -78,14 +100,29 @@ public class Game {
     }
 
 
+    public static void introScene(World world, JFrame introFrame) {
+        // make a view to look into the game world
+        view = new MyUserView(world, WIDTH, HEIGHT);
+        view.setBounds(0, 0, WIDTH, HEIGHT);
+
+        introFrame.add(view);  // Add the view to the frame.
+        // optional: draw a 1-metre grid over the view
+        // view.setGridResolution(1);
+
+        MyGameButton playButton = new MyGameButton(world, -1, 2, 3, 1, "PLAY", "assets/images/texts/play.png");
+        MyGameButton optionButton = new MyGameButton(world, -1, -1, 3, 1, "OPTION", "assets/images/texts/option.png");
+        MyGameButton exitButton = new MyGameButton(world, -1, -4, 1.5f, 1, "EXIT", "assets/images/texts/Exit_icon.png");
+        allButtons.add(playButton);
+        allButtons.add(optionButton);
+        allButtons.add(exitButton);
+
+        view.addMouseListener(new MouseOnButtonListener(world, view));
+    }
+
 
     public static void level_1(World world, JFrame frame) {
 
         System.out.println("level_1 method called");
-
-//        JTextField lastText = createTextField("Congratulations", 20, Color.RED);
-//        lastText.setBounds(5, 5, 200, 30);
-//        frame.add(lastText);
 
         // Making the moving spikes
         Spike spike1 = new Spike(world, -11.5f, -7);
@@ -232,6 +269,8 @@ public class Game {
     }
 
     public static void resetGame(World world, JFrame frame) {
+        world.start();
+
         // Clear the current world bodies.
         for (DynamicBody dynamicBody: world.getDynamicBodies()) {
             dynamicBody.destroy();
@@ -240,7 +279,18 @@ public class Game {
             staticBody.destroy();
         }
 
+        // Clear the previous frame
+        frame.getContentPane().removeAll();
+        frame.repaint();
+
         initialiseGame(world, frame);
+    }
+
+    public static JFrame getFrame() {
+        return frame;
+    }
+    public static JFrame getIntroFrame() {
+        return introFrame;
     }
 
     /** Run the game. */

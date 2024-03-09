@@ -47,6 +47,9 @@ public class BallCollisions implements CollisionListener {
         else if (e.getOtherBody() == levelEndFinalTouch && e.getReportingBody() instanceof Ball) {
             if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
                 System.out.println("You have fred rock ball. Congratulations!!!");
+                view.setWonTheGame(true);
+
+                world.stop();
             }
         }
 
@@ -71,7 +74,9 @@ public class BallCollisions implements CollisionListener {
         else if (e.getOtherBody() instanceof Spike && e.getReportingBody() instanceof Ball) {
             System.out.println("You lost the game...");
             e.getReportingBody().destroy();
-            // Here first make a MyGameButton to add text here...
+
+            // Displaying you lost text.
+            view.setLostTheGame(true);
 
             world.stop();
         }
