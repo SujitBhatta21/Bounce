@@ -51,7 +51,7 @@ public class KeyboardListener implements KeyListener{
             Game.resetGame(world, frame);
 
             // Resetting timer and key/coin count to 0.
-            view.setTimer(300);
+            view.setTimeLeft(100);
             view.getKeys().get(0).setCoin_count(0);
         }
     }

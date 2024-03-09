@@ -149,7 +149,7 @@ public class Game {
         // Left bottom platform
         drawBoxShape(world, 3, 0.5f, -8, -3, "visible", platformImagePath, 6*0.5f);
         // Top right platform.
-        drawBoxShape(world, 3, 0.5f, 8, 3, "visible", platformImagePath, 6*0.5f);
+        drawBoxShape(world, 3, 0.5f, 7, 3, "visible", platformImagePath, 6*0.5f);
 
         // Drawing rock ball on the platform.
         Shape rockballShape = new CircleShape(1);
@@ -291,6 +291,10 @@ public class Game {
     }
     public static JFrame getIntroFrame() {
         return introFrame;
+    }
+
+    public static Ball getBall() {
+        return ball;
     }
 
     /** Run the game. */

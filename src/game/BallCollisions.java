@@ -71,14 +71,20 @@ public class BallCollisions implements CollisionListener {
             ball.setLastPortal(touchedPortal);
         }
 
-        else if (e.getOtherBody() instanceof Spike && e.getReportingBody() instanceof Ball) {
-            System.out.println("You lost the game...");
-            e.getReportingBody().destroy();
+        else if (e.getOtherBody() instanceof Spike && e.getReportingBody() instanceof Ball)  {
+            if (ball.getBallHealth() == 0) {
+                System.out.println("You lost the game...");
+                e.getReportingBody().destroy();
 
-            // Displaying you lost text.
-            view.setLostTheGame(true);
+                // Displaying you lost text.
+                view.setLostTheGame(true);
 
-            world.stop();
+                world.stop();
+            }
+            else {
+                System.out.println("Ball Health: " + ball.getBallHealth());
+                ball.setBallHealth(ball.getBallHealth() - 1);
+            }
         }
     }
 }

@@ -42,6 +42,7 @@ public class Lever extends StaticBody {
         Shape rodShape = new BoxShape(1.5f, 1.5f);
         DynamicBody rod = new DynamicBody(world, rodShape);
         rod.setPosition(new Vec2(0, 12.5f + (5)));
+        rod.addImage(new BodyImage("assets/images/physics/fallingBox.png", 2*1.5f));
 
         // Add a collision listener to the rod
         rod.addCollisionListener(new CollisionListener() {

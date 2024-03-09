@@ -7,15 +7,19 @@ import java.io.IOException;
 import java.io.File;
 
 import java.util.List;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class MyUserView extends UserView {
     public World world;
     private Image background;
-    private int width, height;
-    private static int timer = 300;
+    private final int width, height;
+    private final Timer timer;
+    private static int timeLeft = 100;
     private static String gameState = "intro";
-    private static List<Collectable> keys = Game.getCollectableList();
+    private final static List<Collectable> keys = Game.getCollectableList();
     public static final Font STATUS_FONT = new Font("Monospaced", Font.PLAIN, 20);
     public static final Font helpFont = new Font("Monospaced", Font.PLAIN, 10);
     private boolean helpClicked = false, wonTheGame = false, lostTheGame = false;
@@ -31,24 +35,74 @@ public class MyUserView extends UserView {
         } catch (IOException e) {
             System.out.println("Error: failed to load the background image.");
         }
+
+        // Create a Timer that fires an event every second
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                } else {
+                    // Time's up, set lostTheGame to true
+                    lostTheGame = true;
+                    ((Timer)e.getSource()).stop();
+                }
+            }
+        });
     }
 
     @Override
     protected void paintForeground(Graphics2D g) {
          if (gameState == "play") {
-            g.setColor(Color.RED);
-            g.setFont(STATUS_FONT);
-            g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
-            g.drawString("Timer:" + this.timer, 375, 25);
+             timer.start();
 
-            // If help button is clicked.
-            if (helpClicked && !wonTheGame) {
+             g.setColor(Color.RED);
+             g.setFont(STATUS_FONT);
+             g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
+             g.drawString("Timer:" + this.timeLeft, 375, 25);
+
+             int currentBallHealth = Game.getBall().getBallHealth();
+             int maxBallHealth = Game.getBall().getBallMaxHealth();
+
+             if (currentBallHealth != 0) {
+                 double healthPercentage = (double) currentBallHealth / maxBallHealth;
+
+                 if (healthPercentage > 0.7) {
+                     g.setColor(Color.GREEN);
+                 } else if (healthPercentage > 0.3) {
+                     g.setColor(Color.ORANGE);
+                 } else {
+                     g.setColor(Color.RED);
+                 }
+
+                 int healthBarWidth = 150;
+                 int healthBarHeight = 20;
+                 int healthBarX = 10;
+                 int healthBarY = 30;
+
+                 int healthWidth = (int) ((currentBallHealth / (double) maxBallHealth) * healthBarWidth);
+
+                 g.fillRect(healthBarX, healthBarY, healthWidth, healthBarHeight);
+
+                 // Draw border
+                 g.setColor(Color.BLACK);
+                 g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+
+                 // Draw the text Health on top of bar.
+                 g.setColor(Color.BLACK);
+                 g.setFont(helpFont);
+                 g.drawString("Health", 15, 45);
+             }
+
+            // Displaying rectangle shape.
+             int rectWidth = getWidth() / 2;
+             int rectHeight = getHeight() / 2;
+             int rectX = (getWidth() - rectWidth) / 2;
+             int rectY = (getHeight() - rectHeight) / 2;
+
+             if (helpClicked && !wonTheGame && !lostTheGame) {
 
                 // Draw a red rectangle in the middle of the screen
-                int rectWidth = getWidth() / 2;
-                int rectHeight = getHeight() / 2;
-                int rectX = (getWidth() - rectWidth) / 2;
-                int rectY = (getHeight() - rectHeight) / 2;
                 g.setColor(Color.YELLOW);
                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
@@ -68,11 +122,8 @@ public class MyUserView extends UserView {
             }
 
             else if (wonTheGame) {
+                timer.stop();
                 // Draw a red rectangle in the middle of the screen
-                int rectWidth = getWidth() / 2;
-                int rectHeight = getHeight() / 2;
-                int rectX = (getWidth() - rectWidth) / 2;
-                int rectY = (getHeight() - rectHeight) / 2;
                 g.setColor(Color.GREEN);
                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
@@ -86,10 +137,6 @@ public class MyUserView extends UserView {
 
             else if (lostTheGame) {
                 // Draw a red rectangle in the middle of the screen
-                int rectWidth = getWidth() / 2;
-                int rectHeight = getHeight() / 2;
-                int rectX = (getWidth() - rectWidth) / 2;
-                int rectY = (getHeight() - rectHeight) / 2;
                 g.setColor(Color.RED);
                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
@@ -98,6 +145,7 @@ public class MyUserView extends UserView {
                 g.setColor(Color.WHITE);
                 g.drawString("Mehhh", rectX + 20, rectY + 80);
                 g.drawString("Try Again!!!", rectX + 20, rectY + 120);
+                world.stop();
             }
         }
     }
@@ -136,8 +184,8 @@ public class MyUserView extends UserView {
 
     }
 
-    public void setTimer(int timer) {
-        this.timer = timer;
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
     }
 
     public static List<Collectable> getKeys() {

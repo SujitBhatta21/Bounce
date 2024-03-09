@@ -7,8 +7,9 @@ public class Ball extends Walker {
     private static float radius = 1;
     private static float x_pos, y_pos;
     private static final Shape ballShape = new CircleShape(radius);
-
     private BodyImage image = new BodyImage("assets/images/character/red_ball.png", 2*radius);
+    private int ballMaxHealth = 5;
+    private int ballHealth = ballMaxHealth;
 
     public Ball(World world, float x_pos, float y_pos) {
         super(world, ballShape);
@@ -48,5 +49,21 @@ public class Ball extends Walker {
 
     public void setLastPortal(Portal lastPortal) {
         this.lastPortal = lastPortal;
+    }
+
+    public int getBallHealth() {
+        return ballHealth;
+    }
+
+    public void setBallHealth(int ballHealth) {
+        this.ballHealth = ballHealth;
+    }
+
+    public int getBallMaxHealth() {
+        return ballMaxHealth;
+    }
+
+    public void setBallMaxHealth(int ballMaxHealth) {
+        this.ballMaxHealth = ballMaxHealth;
     }
 }
