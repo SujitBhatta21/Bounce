@@ -19,7 +19,7 @@ public class MyUserView extends UserView {
     private final Timer timer;
     private static int timeLeft = 100;
     private static String gameState = "intro";
-    private final static List<Collectable> keys = Game.getCollectableList();
+    private final static List<Collectable> keys = GameLevel.getCollectableList();
     public static final Font STATUS_FONT = new Font("Monospaced", Font.PLAIN, 20);
     public static final Font helpFont = new Font("Monospaced", Font.PLAIN, 10);
     private boolean helpClicked = false, wonTheGame = false, lostTheGame = false;
