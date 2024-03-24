@@ -53,16 +53,18 @@ public class MyUserView extends UserView {
 
     @Override
     protected void paintForeground(Graphics2D g) {
-         if (gameState == "play") {
+         if (gameState.equals("play")) {
              timer.start();
 
              g.setColor(Color.RED);
              g.setFont(STATUS_FONT);
-             g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
+             if (!keys.isEmpty()) {
+                 g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
+             }
              g.drawString("Timer:" + this.timeLeft, 375, 25);
 
-             int currentBallHealth = Game.getBall().getBallHealth();
-             int maxBallHealth = Game.getBall().getBallMaxHealth();
+             int currentBallHealth = GameLevel.getBall().getBallHealth();
+             int maxBallHealth = GameLevel.getBall().getBallMaxHealth();
 
              if (currentBallHealth != 0) {
                  double healthPercentage = (double) currentBallHealth / maxBallHealth;

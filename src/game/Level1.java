@@ -6,14 +6,17 @@ import org.jbox2d.common.Vec2;
 import javax.swing.*;
 
 public class Level1  extends GameLevel{
-    private static MyUserView view = getView();
-    private static World world = getWorld();
+    private static MyUserView view;
+    private static World world;
     private static Ball ball;
     private final static String platformImagePath = "assets/images/platform1.gif";
 
     public Level1(World world, MyUserView view){
         //base class will create the student, professor
         super(world, view);
+
+        this.world = world;
+        this.view = view;
 
         // Making walker ball
         ball = getBall();
@@ -35,7 +38,7 @@ public class Level1  extends GameLevel{
         return false;
     }
 
-    public static void start_level_1(JFrame frame) {
+    public void start_level_1(JFrame frame) {
 
         System.out.println("level_1 method called");
 
@@ -101,5 +104,10 @@ public class Level1  extends GameLevel{
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball, world, frame, view);
         frame.addKeyListener(k);
+    }
+
+    @Override
+    public void start_level(JFrame frame) {
+        start_level_1(frame);
     }
 }

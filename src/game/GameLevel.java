@@ -80,5 +80,7 @@ public abstract class GameLevel extends World {
         return collectableList;
     }
 
+    public abstract void start_level(JFrame frame);
+
     public abstract boolean isComplete();
 }

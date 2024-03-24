@@ -89,6 +89,8 @@ public class Game {
             button.getButtonBody().destroy();
         }
 
+        level.start_level(frame);
+
         // clear existing items.
         allButtons.clear();
         GameLevel.getCollectableList().clear();
@@ -160,10 +162,6 @@ public class Game {
     }
     public static JFrame getIntroFrame() {
         return introFrame;
-    }
-
-    public static Ball getBall() {
-        return ball;
     }
 
     /** Run the game. */
