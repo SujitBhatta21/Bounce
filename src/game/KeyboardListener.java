@@ -48,7 +48,7 @@ public class KeyboardListener implements KeyListener{
             ball.rotate(-0.2f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_R) {
-            Game.resetGame(world, frame);
+            Game.resetLevel(world, frame);
 
             // Resetting timer and key/coin count to 0.
             view.setTimeLeft(100);

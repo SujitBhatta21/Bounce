@@ -4,11 +4,14 @@ import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Level1  extends GameLevel{
     private static MyUserView view;
     private static World world;
     private static Ball ball;
+    private List<Collectable> collectableList = new ArrayList<Collectable>();
     private final static String platformImagePath = "assets/images/platform1.gif";
 
     public Level1(World world, MyUserView view){
@@ -81,20 +84,17 @@ public class Level1  extends GameLevel{
         making_world_border(world);
 
         /* Making keys that appears in the game */
-        Collectable key1 = new Collectable(world);  // Max coin 4 for level 1.
-        key1.setPosition(new Vec2(-10, -5));
-        getCollectableList().add(key1);
+        Collectable key1 = new Collectable(world, -10, -5);  // Max coin 4 for level 1.
+        collectableList.add(key1);
 
-        Collectable key2 = new Collectable(world);
-        key2.setPosition(new Vec2(4, -1));
-        getCollectableList().add(key2);
+        Collectable key2 = new Collectable(world, 4, -1);
+        collectableList.add(key2);
 
-        Collectable key3 = new Collectable(world);
-        key3.setPosition(new Vec2(10, 7));
-        getCollectableList().add(key3);
+        Collectable key3 = new Collectable(world, 10, 7);
+        collectableList.add(key3);
 
         /* Initialising CollisionListener with ball */
-        BallCollisions ballCollisions = new BallCollisions(world, view, ball, lever, getCollectableList(), portal_pair, rockball);
+        BallCollisions ballCollisions = new BallCollisions(world, view, ball, lever, collectableList, portal_pair, rockball);
         ball.addCollisionListener(ballCollisions);
 
         /* Initialising StepListener */
@@ -104,6 +104,10 @@ public class Level1  extends GameLevel{
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball, world, frame, view);
         frame.addKeyListener(k);
+    }
+
+    public List<Collectable> getCollectableList() {
+        return collectableList;
     }
 
     @Override

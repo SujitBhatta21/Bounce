@@ -15,7 +15,6 @@ public abstract class GameLevel extends World {
     private static World world;
     private JFrame frame;
     private final static Color transparent_colour = new Color(0, 0, 0, 0);
-    private final static List<Collectable> collectableList = new ArrayList<Collectable>();
 
     public GameLevel(World world, MyUserView view){
         ball = new Ball(world, 0, 0);
@@ -76,11 +75,9 @@ public abstract class GameLevel extends World {
          */
     }
 
-    public static List<Collectable> getCollectableList() {
-        return collectableList;
-    }
-
     public abstract void start_level(JFrame frame);
+
+    public abstract List<Collectable> getCollectableList();
 
     public abstract boolean isComplete();
 }

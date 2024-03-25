@@ -77,6 +77,7 @@ public class Game {
 
         // Initialising 1st game level.
         level = new Level1(world, view);
+        view.setCollectableList(level.getCollectableList());
 
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 500, 500);
@@ -93,7 +94,6 @@ public class Game {
 
         // clear existing items.
         allButtons.clear();
-        GameLevel.getCollectableList().clear();
 
         MyGameButton helpButton = new MyGameButton(world, 0, 10.5f, 2, 1f, "HELP","assets/images/texts/help_button.png");
         allButtons.add(helpButton);
@@ -123,23 +123,11 @@ public class Game {
 
 
 
-
-
-
-    public static JTextField createTextField(String text, int textSize, Color colour) {
-        JTextField textField = new JTextField(text);
-        textField.setFont(new Font("Arial", Font.PLAIN, textSize));
-        textField.setForeground(colour);
-        return textField;
-    }
-
-
-
     public static List<MyGameButton> getAllButtons() {
         return allButtons;
     }
 
-    public static void resetGame(World world, JFrame frame) {
+    public static void resetLevel(World world, JFrame frame) {
         world.start();
 
         // Clear the current world bodies.
@@ -154,7 +142,13 @@ public class Game {
         frame.getContentPane().removeAll();
         frame.repaint();
 
-        initialiseGame(world, frame);
+        // GameLevel temp = getLevel();
+        level = new Level1(world, view);
+        view.setCollectableList(level.getCollectableList());
+    }
+
+    public static GameLevel getLevel() {
+        return level;
     }
 
     public static JFrame getFrame() {
