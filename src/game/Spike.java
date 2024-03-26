@@ -4,7 +4,7 @@ import city.cs.engine.*;
 
 
 public class Spike extends Walker {
-    private static float width = 0.5f ,height = 1f;
+    private static float width = 0.60f ,height = 1.2f;
     private static float x_pos, y_pos;
     private static final Shape ballShape = new BoxShape(width, height);
 

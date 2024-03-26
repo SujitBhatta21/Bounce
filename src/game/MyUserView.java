@@ -40,12 +40,14 @@ public class MyUserView extends UserView {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (timeLeft > 0) {
+                if (timeLeft > 0 && !getHelpClicked()) {
                     timeLeft--;
-                } else {
+                } else if (timeLeft <= 0){
                     // Time's up, set lostTheGame to true
                     lostTheGame = true;
                     ((Timer)e.getSource()).stop();
+                } else {
+
                 }
             }
         });
@@ -61,7 +63,7 @@ public class MyUserView extends UserView {
              if (!keys.isEmpty()) {
                  g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
              }
-             g.drawString("Timer:" + this.timeLeft, 375, 25);
+             g.drawString("Timer:" + this.timeLeft, width - 125, 25);
 
              int currentBallHealth = GameLevel.getBall().getBallHealth();
              int maxBallHealth = GameLevel.getBall().getBallMaxHealth();
@@ -170,7 +172,7 @@ public class MyUserView extends UserView {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            g.drawImage(image, 80, 60, 300, 100, this);
+            g.drawImage(image, 200, 100,  width / 2, height / 4, this);
         }
         else if (gameState == "play") {
             Image image = null;
@@ -180,12 +182,17 @@ public class MyUserView extends UserView {
                 e.printStackTrace();
             }
             if (image != null) {
-                g.drawImage(image, 60, 60, 65, 55, this);
+                // Drawing cage on top of the rockball.
+                g.drawImage(image, 588, 82, 65, 55, this);
             }
         }
 
     }
 
+
+
+
+    // Below are getter and setters for this class.
     public void setTimeLeft(int timeLeft) {
         this.timeLeft = timeLeft;
     }

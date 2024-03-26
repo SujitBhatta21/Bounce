@@ -27,7 +27,7 @@ public class Game {
     private static GameLevel level;
     private static JFrame frame, introFrame;
     private static Ball ball;  // Making ball a static field.
-    private static int WIDTH = 500, HEIGHT = 500;
+    private static int WIDTH = 800, HEIGHT = 600;
 
     private final static List<MyGameButton> allButtons = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class Game {
         introFrame.setSize(WIDTH, HEIGHT);
 
         // Making a debugging view. Used for debugging.
-        new DebugViewer(world, 500, 500);
+        new DebugViewer(world, 800, 600);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
@@ -80,11 +80,11 @@ public class Game {
         view.setCollectableList(level.getCollectableList());
 
         // Making a debugging view. Used for debugging.
-        new DebugViewer(world, 500, 500);
+        new DebugViewer(world, 800, 600);
 
         frame.add(view);  // Add the view to the frame.
         //optional: draw a 1-metre grid over the view
-        // view.setGridResolution(1);
+        view.setGridResolution(1);
 
         for (MyGameButton button: allButtons) {
             button.getButtonBody().destroy();
@@ -95,7 +95,7 @@ public class Game {
         // clear existing items.
         allButtons.clear();
 
-        MyGameButton helpButton = new MyGameButton(world, 0, 10.5f, 2, 1f, "HELP","assets/images/texts/help_button.png");
+        MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/help_button.png");
         allButtons.add(helpButton);
 
         view.addMouseListener(new MouseOnButtonListener(world, view));
@@ -109,11 +109,11 @@ public class Game {
 
         introFrame.add(view);  // Add the view to the frame.
         // optional: draw a 1-metre grid over the view
-        // view.setGridResolution(1);
+        view.setGridResolution(1);
 
-        MyGameButton playButton = new MyGameButton(world, -1, 2, 2, 1.5f, "PLAY", "assets/images/texts/PlayButton.png");
-        MyGameButton optionButton = new MyGameButton(world, -1, -1, 2, 1.5f, "OPTION", "assets/images/texts/HelpButton.png");
-        MyGameButton exitButton = new MyGameButton(world, -1, -4, 2, 1.5f, "EXIT", "assets/images/texts/QuitButton.png");
+        MyGameButton playButton = new MyGameButton(world, 0, 0, 3, 2f, "PLAY", "assets/images/texts/PlayButton.png");
+        MyGameButton optionButton = new MyGameButton(world, 0, -4, 3, 2f, "OPTION", "assets/images/texts/HelpButton.png");
+        MyGameButton exitButton = new MyGameButton(world, 0, -8, 3, 2f, "EXIT", "assets/images/texts/QuitButton.png");
         allButtons.add(playButton);
         allButtons.add(optionButton);
         allButtons.add(exitButton);

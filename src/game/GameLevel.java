@@ -53,19 +53,20 @@ public abstract class GameLevel extends World {
         Shape left = new BoxShape(0.5f, 12.5f);
         StaticBody left_border = new StaticBody(world, left);
         left_border.setFillColor(new Color(0, 10,10));
-        left_border.setPosition(new Vec2(-13, 0));
+        left_border.setPosition(new Vec2(-20.5f, 0));
+        // drawBoxShape(world, 0.5f, 12.5f, -13, 0, "invisible", "", 0);
 
         // making a ground platform
-        Shape down = new BoxShape(13f, 0.5f);
+        Shape down = new BoxShape(30f, 0.5f);
         StaticBody ground = new StaticBody(world, down);
         ground.setFillColor(transparent_colour);
         ground.setLineColor(transparent_colour);
-        ground.setPosition(new Vec2(0f, -9.5f));
+        ground.setPosition(new Vec2(0f, -11f));
 
         // making right border
         Shape right = new BoxShape(0.5f, 12.5f);
         StaticBody right_border = new StaticBody(world, right);
-        right_border.setPosition(new Vec2(13f, 0));
+        right_border.setPosition(new Vec2(20.5f, 0));
 
         // making top border
         /*

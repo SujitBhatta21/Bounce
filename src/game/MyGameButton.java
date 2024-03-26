@@ -32,7 +32,7 @@ public class MyGameButton {
         GhostlyFixture myButton = new GhostlyFixture(buttonBody, buttonShape);
 
         // Load the image
-        this.image = new BodyImage(imagePath, 3*height);
+        this.image = new BodyImage(imagePath, 3.5f*height);
         buttonBody.addImage(image);
     }
 
