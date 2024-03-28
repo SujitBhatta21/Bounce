@@ -131,6 +131,9 @@ public class MyUserView extends UserView {
                 g.setColor(Color.GREEN);
                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
+                // Updating sounds.
+                Game.updateSound();
+
                 // Display congratulation screen.
                 g.setFont(STATUS_FONT);
                 g.setColor(Color.BLACK);

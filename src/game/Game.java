@@ -30,6 +30,8 @@ public class Game {
     private static int WIDTH = 800, HEIGHT = 600;
 
     private final static List<MyGameButton> allButtons = new ArrayList<>();
+    private final static Sound bg_intro_sound = new Sound("assets/sounds/bt_bg_MainMenu.wav");
+    private final static Sound bg_play_sound = new Sound("assets/sounds/bt_bg_play.wav");
 
 
     /** Initialise a new Game. */
@@ -60,8 +62,11 @@ public class Game {
         if (view.getGameState().equals("intro")) {
             frame.setVisible(false);
             introScene(world, introFrame);
-            introFrame.setVisible(true);  // Make it visible after setting the location
+            introFrame.setVisible(true);
         }
+
+        // Play intro sound
+        updateSound();
 
         // start our game world simulation!
         world.start();
@@ -145,6 +150,24 @@ public class Game {
         // GameLevel temp = getLevel();
         level = new Level1(world, view);
         view.setCollectableList(level.getCollectableList());
+    }
+
+    public static void updateSound() {
+        if (view.getGameState().equals("intro")) {
+            bg_intro_sound.loopForever();
+            System.out.println("Start sound");
+        } else if (view.getGameState().equals("play")){
+            bg_intro_sound.stop();
+
+            if (view.getWonTheGame()) {
+                winningSound.play();
+            } else if (view.isLostTheGame()) {
+                losingSound.play();
+            }
+            else{
+                bg_play_sound.loopForever();
+            }
+        }
     }
 
     public static GameLevel getLevel() {

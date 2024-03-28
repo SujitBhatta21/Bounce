@@ -15,6 +15,11 @@ public class BallCollisions implements CollisionListener {
     private StaticBody levelEndFinalTouch;
     // private List<Spikes> spike;   // This will store array of body as per the requirements.
 
+    // Sound clips for the game.
+    private Sound leverSound = new Sound("assets/sounds/lever_on.wav");
+    private Sound levelComplete = new Sound("assets/sounds/bt_Level_Complete.wav");
+    private Sound keyCollect = new Sound("assets/sounds/key_collect.wav");
+
     public BallCollisions(World world, MyUserView view, Ball ball, Lever lever, List<Collectable> collectables, Portal[] portal_pair, StaticBody levelEndFinalTouch) {
         this.world = world;
         this.view = view;
@@ -30,14 +35,18 @@ public class BallCollisions implements CollisionListener {
     public void collide(CollisionEvent e) {
         if (e.getOtherBody() instanceof Lever && e.getReportingBody() instanceof Ball) {
             System.out.println("Ball collided with lever");
-          //  MyGameButton youLost = new MyGameButton(world, 2, 2, 2, 2, "YOU LOST");
 
+            // Adding lever on clip.
+            leverSound.play();
             lever.setLeverState("on");
         }
         else if (e.getOtherBody() instanceof Collectable && e.getReportingBody() instanceof Ball) {
             System.out.println("Ball collided with coin.");
             for (Collectable collectable: collectables) {
                 if (collectable == e.getOtherBody()){
+                    // Adding collectable sound when touched.
+                    keyCollect.play();
+
                     collectable.destroy();
                     collectable.setCoin_count(collectable.getCoin_count() + 1);
                 }
