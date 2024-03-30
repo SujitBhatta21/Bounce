@@ -23,6 +23,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Game {
 
+    private static World world;
     private static MyUserView view;
     private static GameLevel level;
     private static JFrame frame, introFrame;
@@ -32,12 +33,14 @@ public class Game {
     private final static List<MyGameButton> allButtons = new ArrayList<>();
     private final static Sound bg_intro_sound = new Sound("assets/sounds/bt_bg_MainMenu.wav");
     private final static Sound bg_play_sound = new Sound("assets/sounds/bt_bg_play.wav");
+    private final static Sound losingSound = new Sound("assets/sounds/bt_death.wav");
+    private final static Sound winningSound = new Sound("assets/sounds/bt_Level_Complete.wav");
 
 
     /** Initialise a new Game. */
     public Game() {
         // make an empty game world
-        World world = new World();
+        world = new World();
 
         // create a Java window (frame) and add the game view to it
         frame = new JFrame("Bounce Game");
@@ -81,7 +84,7 @@ public class Game {
         view.setBounds(0, 0, WIDTH, HEIGHT);
 
         // Initialising 1st game level.
-        level = new Level1(world, view);
+        level = new Level1();
         view.setCollectableList(level.getCollectableList());
 
         // Making a debugging view. Used for debugging.
@@ -95,12 +98,12 @@ public class Game {
             button.getButtonBody().destroy();
         }
 
-        level.start_level(frame);
+        level.startLevel(frame);
 
         // clear existing items.
         allButtons.clear();
 
-        MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/help_button.png");
+        MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
         allButtons.add(helpButton);
 
         view.addMouseListener(new MouseOnButtonListener(world, view));
@@ -147,8 +150,7 @@ public class Game {
         frame.getContentPane().removeAll();
         frame.repaint();
 
-        // GameLevel temp = getLevel();
-        level = new Level1(world, view);
+        level = new Level1();
         view.setCollectableList(level.getCollectableList());
     }
 
@@ -158,6 +160,7 @@ public class Game {
             System.out.println("Start sound");
         } else if (view.getGameState().equals("play")){
             bg_intro_sound.stop();
+            bg_play_sound.stop();
 
             if (view.getWonTheGame()) {
                 winningSound.play();
@@ -170,8 +173,20 @@ public class Game {
         }
     }
 
-    public static GameLevel getLevel() {
-        return level;
+
+    public static void goToNextLevel(){
+        if (level instanceof Level1){
+            level.stopLevel();
+            level = new Level2();
+            //level now refer to the new level
+            view.setWorld(level);
+            // controller.updateStudent(level.getStudent());
+            level.start();
+        }
+        else if (level instanceof Level2){
+            System.out.println("Well done! Game complete.");
+            // System.exit(0);
+        }
     }
 
     public static JFrame getFrame() {
@@ -179,6 +194,18 @@ public class Game {
     }
     public static JFrame getIntroFrame() {
         return introFrame;
+    }
+
+    public static MyUserView getView() {
+        return view;
+    }
+
+    public static World getWorld() {
+        return world;
+    }
+
+    public static GameLevel getLevel() {
+        return level;
     }
 
     /** Run the game. */

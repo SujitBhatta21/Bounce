@@ -45,12 +45,19 @@ public class MouseOnButtonListener extends MouseAdapter {
                     // Update sound after play clicked.
                     Game.updateSound();
                 }
-                else if (button.getKeyCode().equals("EXIT")) {
-                    // Exiting the program
+                else if (button.getKeyCode() == "NEXT LEVEL") {
+                    Game.goToNextLevel();
+                }
+                else if (button.getKeyCode() == "RESTART") {
+                    // Reset the game...
                     System.exit(0);
                 }
+
+            } else if (button.getKeyCode().equals("EXIT")) {
+                    // Exiting the program
+                    System.exit(0);
             }
         }
     }
-
 }
+

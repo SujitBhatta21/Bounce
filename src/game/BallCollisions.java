@@ -58,7 +58,8 @@ public class BallCollisions implements CollisionListener {
                 System.out.println("You have fred rock ball. Congratulations!!!");
                 view.setWonTheGame(true);
 
-                world.stop();
+                // Update the sound in the game.
+                Game.updateSound();
             }
         }
 
@@ -88,6 +89,10 @@ public class BallCollisions implements CollisionListener {
                 // Displaying you lost text.
                 view.setLostTheGame(true);
 
+                // Updating the sounds.
+                Game.updateSound();
+
+                // Stopping the world. Change this for level mech later.
                 world.stop();
             }
             else {

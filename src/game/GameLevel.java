@@ -16,22 +16,19 @@ public abstract class GameLevel extends World {
     private JFrame frame;
     private final static Color transparent_colour = new Color(0, 0, 0, 0);
 
-    public GameLevel(World world, MyUserView view){
-        ball = new Ball(world, 0, 0);
-        this.world = world;
-        this.view = view;
+    public GameLevel(){
+        this.world = Game.getWorld();
+        this.view = Game.getView();
     }
 
-    public static World getWorld() {
-        return world;
-    }
     public static MyUserView getView() {
         return view;
     }
 
-    public static Ball getBall() {
-        return ball;
-    }
+
+    public void setWorldGameLevel(World world) {
+        this.world = world;
+    };
 
     public static void drawBoxShape(World world, float halfWidth, float halfHeight, float x, float y, String state, String imagePath,  float imageHeight) {
         if (state.equals("invisible")) {
@@ -76,9 +73,13 @@ public abstract class GameLevel extends World {
          */
     }
 
-    public abstract void start_level(JFrame frame);
+    public abstract void startLevel(JFrame frame);
+
+    public abstract void stopLevel();
 
     public abstract List<Collectable> getCollectableList();
 
-    public abstract boolean isComplete();
+    public abstract World getLevelWorld() ;
+
+    public abstract Ball getBall();
 }

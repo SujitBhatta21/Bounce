@@ -15,34 +15,23 @@ public class Level1  extends GameLevel{
     private final static String platformImagePath = "assets/images/platform1.gif";
     private final String suppportBoxImagePath = "assets/images/physics/fallingBox.png";
 
-    public Level1(World world, MyUserView view){
+    public Level1(){
         //base class will create the student, professor
-        super(world, view);
+        super();
 
-        this.world = world;
-        this.view = view;
+        this.world = Game.getWorld();
+        this.view = getView();
 
-        // Making walker ball
-        ball = getBall();
+        // Setting up walker ball from GameLevel.
+        ball = new Ball(world, 0, 0);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
         ball.setBallFriction(10);
-
-        /* create level specific platforms, enemies,
-           pickups, collision listeners, etc.*/
-
-    }
-    @Override
-    public boolean isComplete() {
-//        if (something)
-//            // Clear the collectable list...
-//            return true;
-//        else {
-//            return false;
-//        }
-        return false;
     }
 
-    public void start_level_1(JFrame frame) {
+
+    private void start_level_1(JFrame frame) {
+
+        this.setWorldGameLevel(world);
 
         System.out.println("level_1 method called");
 
@@ -111,12 +100,30 @@ public class Level1  extends GameLevel{
         frame.addKeyListener(k);
     }
 
+
+    @Override
     public List<Collectable> getCollectableList() {
         return collectableList;
     }
 
     @Override
-    public void start_level(JFrame frame) {
+    public void startLevel(JFrame frame) {
         start_level_1(frame);
+    }
+
+    @Override
+    public void stopLevel() {
+        this.world.stop();
+        ball.destroy();
+    }
+
+    @Override
+    public World getLevelWorld() {
+        return world;
+    }
+
+    @Override
+    public Ball getBall() {
+        return ball;
     }
 }

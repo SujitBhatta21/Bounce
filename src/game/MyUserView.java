@@ -45,6 +45,7 @@ public class MyUserView extends UserView {
                 } else if (timeLeft <= 0){
                     // Time's up, set lostTheGame to true
                     lostTheGame = true;
+                    Game.updateSound();
                     ((Timer)e.getSource()).stop();
                 } else {
 
@@ -65,8 +66,8 @@ public class MyUserView extends UserView {
              }
              g.drawString("Timer:" + this.timeLeft, width - 125, 25);
 
-             int currentBallHealth = GameLevel.getBall().getBallHealth();
-             int maxBallHealth = GameLevel.getBall().getBallMaxHealth();
+             int currentBallHealth = Game.getLevel().getBall().getBallHealth();
+             int maxBallHealth = Game.getLevel().getBall().getBallMaxHealth();
 
              if (currentBallHealth != 0) {
                  double healthPercentage = (double) currentBallHealth / maxBallHealth;
@@ -131,15 +132,19 @@ public class MyUserView extends UserView {
                 g.setColor(Color.GREEN);
                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                // Updating sounds.
-                Game.updateSound();
-
                 // Display congratulation screen.
                 g.setFont(STATUS_FONT);
                 g.setColor(Color.BLACK);
                 g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
                 g.drawString("You saved your pal", rectX + 20, rectY + 120);
                 g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
+
+                 // Display two buttons. Restart or go to next level.
+                 MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART","assets/images/texts/restart.png");
+                 Game.getAllButtons().add(restartButton);
+
+                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL","assets/images/texts/goToNextLevel.png");
+                 Game.getAllButtons().add(nextLevelButton);
             }
 
             else if (lostTheGame) {
@@ -152,6 +157,7 @@ public class MyUserView extends UserView {
                 g.setColor(Color.WHITE);
                 g.drawString("Mehhh", rectX + 20, rectY + 80);
                 g.drawString("Try Again!!!", rectX + 20, rectY + 120);
+
                 world.stop();
             }
         }
@@ -189,7 +195,6 @@ public class MyUserView extends UserView {
                 g.drawImage(image, 588, 82, 65, 55, this);
             }
         }
-
     }
 
 
@@ -235,5 +240,9 @@ public class MyUserView extends UserView {
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
+    }
+
+    public void setWorld(GameLevel level) {
+        this.world = level.getLevelWorld();
     }
 }
