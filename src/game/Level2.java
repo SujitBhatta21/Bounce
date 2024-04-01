@@ -17,6 +17,7 @@ public class Level2 extends GameLevel {
         super();
 
         world = new World();
+        System.out.println(world);
         this.view = getView();
 
         // Setting up Walker ball start position in this level.
@@ -29,6 +30,8 @@ public class Level2 extends GameLevel {
 
     private void start_level_2(JFrame frame) {
         System.out.println("Level 2 is initialised...");
+
+        world.start();
 
         making_world_border(world);
     }

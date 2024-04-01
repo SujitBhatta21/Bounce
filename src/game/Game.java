@@ -176,10 +176,17 @@ public class Game {
 
     public static void goToNextLevel(){
         if (level instanceof Level1){
+            System.out.println(world);
             level.stopLevel();
             level = new Level2();
             //level now refer to the new level
-            view.setWorld(level);
+
+            // Testing
+            System.out.println(world);
+            view.setWorld(level.getLevelWorld());
+            // Testing
+            System.out.println(view.getWorld());
+
             // controller.updateStudent(level.getStudent());
             level.start();
         }

@@ -13,20 +13,21 @@ import java.awt.event.ActionListener;
 
 
 public class MyUserView extends UserView {
-    public World world;
+    private MyUserView view;
     private Image background;
     private final int width, height;
     private final Timer timer;
     private static int timeLeft = 100;
     private static String gameState = "intro";
     private static List<Collectable> keys;
+    private GameLevel currentLevel;
     public static final Font STATUS_FONT = new Font("Monospaced", Font.PLAIN, 20);
     public static final Font helpFont = new Font("Monospaced", Font.PLAIN, 10);
     private boolean helpClicked = false, wonTheGame = false, lostTheGame = false;
 
     public MyUserView(World world, int width, int height) {
         super(world, width, height);
-        this.world = world;
+        this.view = this;
         this.width = width;
         this.height = height;
         try {
@@ -105,6 +106,9 @@ public class MyUserView extends UserView {
              int rectX = (getWidth() - rectWidth) / 2;
              int rectY = (getHeight() - rectHeight) / 2;
 
+             // Getting world from current level.
+             World world = Game.getLevel().getLevelWorld();
+
              if (helpClicked && !wonTheGame && !lostTheGame) {
 
                 // Draw a red rectangle in the middle of the screen
@@ -124,28 +128,28 @@ public class MyUserView extends UserView {
                 g.drawString("Press R to restart the game.", rectX + 20, rectY + 160);
                 g.drawString("New features coming soon!!!", rectX + 20, rectY + 180);
                 g.drawString("Click the help again to exit this", rectX + 20, rectY + 220);
-            }
+             }
 
-            else if (wonTheGame) {
-                timer.stop();
-                // Draw a red rectangle in the middle of the screen
-                g.setColor(Color.GREEN);
-                g.fillRect(rectX, rectY, rectWidth, rectHeight);
+             else if (wonTheGame) {
+                 timer.stop();
+                 // Draw a red rectangle in the middle of the screen
+                 g.setColor(Color.GREEN);
+                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                // Display congratulation screen.
-                g.setFont(STATUS_FONT);
-                g.setColor(Color.BLACK);
-                g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
-                g.drawString("You saved your pal", rectX + 20, rectY + 120);
-                g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
+                 // Display congratulation screen for level 1.
+                 g.setFont(STATUS_FONT);
+                 g.setColor(Color.BLACK);
+                 g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
+                 g.drawString("You saved your pal", rectX + 20, rectY + 120);
+                 g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
 
                  // Display two buttons. Restart or go to next level.
-                 MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART","assets/images/texts/restart.png");
+                 MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
                  Game.getAllButtons().add(restartButton);
 
-                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL","assets/images/texts/goToNextLevel.png");
+                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
                  Game.getAllButtons().add(nextLevelButton);
-            }
+             }
 
             else if (lostTheGame) {
                 // Draw a red rectangle in the middle of the screen
@@ -240,9 +244,5 @@ public class MyUserView extends UserView {
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
-    }
-
-    public void setWorld(GameLevel level) {
-        this.world = level.getLevelWorld();
     }
 }
