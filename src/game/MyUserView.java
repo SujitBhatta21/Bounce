@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 
 public class MyUserView extends UserView {
-    private MyUserView view;
+    private static MyUserView view;
     private Image background;
     private final int width, height;
     private final Timer timer;
@@ -131,38 +131,42 @@ public class MyUserView extends UserView {
              }
 
              else if (wonTheGame) {
-                 timer.stop();
-                 // Draw a red rectangle in the middle of the screen
-                 g.setColor(Color.GREEN);
-                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
+                 if (currentLevel instanceof Level1) {
+                     timer.stop();
+                     // Draw a red rectangle in the middle of the screen
+                     g.setColor(Color.GREEN);
+                     g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                 // Display congratulation screen for level 1.
-                 g.setFont(STATUS_FONT);
-                 g.setColor(Color.BLACK);
-                 g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
-                 g.drawString("You saved your pal", rectX + 20, rectY + 120);
-                 g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
+                     // Display congratulation screen for level 1.
+                     g.setFont(STATUS_FONT);
+                     g.setColor(Color.BLACK);
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
+                     g.drawString("You saved your pal", rectX + 20, rectY + 120);
+                     g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
 
-                 // Display two buttons. Restart or go to next level.
-                 MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
-                 Game.getAllButtons().add(restartButton);
+                     // Display two buttons. Restart or go to next level.
+                     MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
+                     Game.getAllButtons().add(restartButton);
 
-                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
-                 Game.getAllButtons().add(nextLevelButton);
+                     MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                     Game.getAllButtons().add(nextLevelButton);
+                 }
              }
 
             else if (lostTheGame) {
-                // Draw a red rectangle in the middle of the screen
-                g.setColor(Color.RED);
-                g.fillRect(rectX, rectY, rectWidth, rectHeight);
+                if (currentLevel instanceof Level1) {
+                    // Draw a red rectangle in the middle of the screen
+                    g.setColor(Color.RED);
+                    g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                // Display congratulation screen.
-                g.setFont(STATUS_FONT);
-                g.setColor(Color.WHITE);
-                g.drawString("Mehhh", rectX + 20, rectY + 80);
-                g.drawString("Try Again!!!", rectX + 20, rectY + 120);
+                    // Display congratulation screen.
+                    g.setFont(STATUS_FONT);
+                    g.setColor(Color.WHITE);
+                    g.drawString("Mehhh", rectX + 20, rectY + 80);
+                    g.drawString("Try Again!!!", rectX + 20, rectY + 120);
 
-                world.stop();
+                    world.stop();
+                }
             }
         }
     }
@@ -174,6 +178,8 @@ public class MyUserView extends UserView {
 
     @Override
     public void paintComponent(Graphics g) {
+        currentLevel = Game.getLevel();
+
         super.paintComponent(g); // Call the original paintComponent method to do the default painting
 
         if (gameState == "intro") {
@@ -188,19 +194,20 @@ public class MyUserView extends UserView {
             g.drawImage(image, 200, 100,  width / 2, height / 4, this);
         }
         else if (gameState == "play") {
-            Image image = null;
-            try {
-                image = ImageIO.read(new File("assets/images/cage.gif"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (image != null) {
-                // Drawing cage on top of the rockball.
-                g.drawImage(image, 588, 82, 65, 55, this);
+            if (currentLevel instanceof Level1) {
+                Image image = null;
+                try {
+                    image = ImageIO.read(new File("assets/images/cage.gif"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (image != null) {
+                    // Drawing cage on top of the rockball.
+                    g.drawImage(image, 588, 82, 65, 55, this);
+                }
             }
         }
     }
-
 
 
 
@@ -244,5 +251,9 @@ public class MyUserView extends UserView {
 
     public void setGameState(String gameState) {
         this.gameState = gameState;
+    }
+
+    public static MyUserView getView() {
+        return view;
     }
 }

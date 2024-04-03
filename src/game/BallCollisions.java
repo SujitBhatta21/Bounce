@@ -8,6 +8,7 @@ import org.jbox2d.common.Vec2;
 public class BallCollisions implements CollisionListener {
     private World world;
     private MyUserView view;
+    private GameLevel level;
     private Ball ball;
     private Lever lever;
     private List<Collectable> collectables;
@@ -20,14 +21,22 @@ public class BallCollisions implements CollisionListener {
     private Sound levelComplete = new Sound("assets/sounds/bt_Level_Complete.wav");
     private Sound keyCollect = new Sound("assets/sounds/key_collect.wav");
 
-    public BallCollisions(World world, MyUserView view, Ball ball, Lever lever, List<Collectable> collectables, Portal[] portal_pair, StaticBody levelEndFinalTouch) {
-        this.world = world;
-        this.view = view;
-        this.ball = ball;
-        this.lever = lever;
-        this.collectables = collectables;
-        this.portal_pair = portal_pair;
-        this.levelEndFinalTouch = levelEndFinalTouch;
+    public BallCollisions() {
+        this.level = Game.getLevel();
+        this.world = level.getLevelWorld();
+        this.view = MyUserView.getView();
+        this.ball = Game.getLevel().getBall();
+        this.collectables = level.getCollectableList();
+
+        if (level instanceof Level1) {
+            this.lever = Level1.getLever();
+            this.portal_pair = Level1.getPortal();
+            this.levelEndFinalTouch = Level1.getLevelEndFinalTouch();
+        }
+
+        else if (level instanceof Level2) {
+
+        }
     }
 
 
@@ -84,7 +93,7 @@ public class BallCollisions implements CollisionListener {
         else if (e.getOtherBody() instanceof Spike && e.getReportingBody() instanceof Ball)  {
             if (ball.getBallHealth() == 0) {
                 System.out.println("You lost the game...");
-                e.getReportingBody().destroy();
+                // e.getReportingBody().destroy();
 
                 // Displaying you lost text.
                 view.setLostTheGame(true);

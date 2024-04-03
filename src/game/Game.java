@@ -77,15 +77,16 @@ public class Game {
 
 
     // Method to initialize game components
-    public static void initialiseGame(World world, JFrame frame) {
+    public static void initialiseGame(JFrame frame) {
+        // Initialising 1st game level.
+        level = new Level1();
+        view.setCollectableList(level.getCollectableList());
+
+        world = Game.getLevel().getLevelWorld();
 
         // make a view to look into the game world
         view = new MyUserView(world, WIDTH, HEIGHT);
         view.setBounds(0, 0, WIDTH, HEIGHT);
-
-        // Initialising 1st game level.
-        level = new Level1();
-        view.setCollectableList(level.getCollectableList());
 
         // Making a debugging view. Used for debugging.
         new DebugViewer(world, 800, 600);
@@ -106,7 +107,7 @@ public class Game {
         MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
         allButtons.add(helpButton);
 
-        view.addMouseListener(new MouseOnButtonListener(world, view));
+        view.addMouseListener(new MouseOnButtonListener(Game.getLevel().getLevelWorld(), view));
     }
 
 
@@ -135,8 +136,8 @@ public class Game {
         return allButtons;
     }
 
-    public static void resetLevel(World world, JFrame frame) {
-        world.start();
+
+    public static void resetLevel() {
 
         // Clear the current world bodies.
         for (DynamicBody dynamicBody: world.getDynamicBodies()) {
@@ -146,13 +147,26 @@ public class Game {
             staticBody.destroy();
         }
 
-        // Clear the previous frame
-        frame.getContentPane().removeAll();
-        frame.repaint();
+        // Clear existing collectables
+        level.getCollectableList().clear();
 
-        level = new Level1();
-        view.setCollectableList(level.getCollectableList());
+        level.startLevel(frame);
+
+        // clear existing items.
+        allButtons.clear();
+
+        MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
+        allButtons.add(helpButton);
+
+        // Resetting timer and key/coin count to 0.
+        view.setTimeLeft(100);
+        view.getKeys().get(0).setCoin_count(0);
+
+        // Adding mouse listener on current view.
+        view.addMouseListener(new MouseOnButtonListener(Game.getLevel().getLevelWorld(), view));
     }
+
+
 
     public static void updateSound() {
         if (view.getGameState().equals("intro")) {
@@ -190,7 +204,7 @@ public class Game {
             // controller.updateStudent(level.getStudent());
             level.start();
         }
-        else if (level instanceof Level2){
+        else if (level instanceof Level2) {
             System.out.println("Well done! Game complete.");
             // System.exit(0);
         }

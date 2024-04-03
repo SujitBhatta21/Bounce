@@ -10,30 +10,32 @@ import java.util.List;
 public class Level1  extends GameLevel{
     private static MyUserView view;
     private static World world;
-    private static Ball ball;
+    private Ball ball;
     private List<Collectable> collectableList = new ArrayList<Collectable>();
     private final static String platformImagePath = "assets/images/platform1.gif";
     private final String suppportBoxImagePath = "assets/images/physics/fallingBox.png";
+    private static Lever lever;
+    private static Portal[] portal_pair;
+    private static StaticBody levelEndFinalTouch;
 
     public Level1(){
         //base class will create the student, professor
         super();
 
-        this.world = Game.getWorld();
+        world = new World();
         this.view = getView();
-
-        // Setting up walker ball from GameLevel.
-        ball = new Ball(world, 0, 0);
-        ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
-        ball.setBallFriction(10);
     }
 
 
     private void start_level_1(JFrame frame) {
-
-        this.setWorldGameLevel(world);
+        world.start();
 
         System.out.println("level_1 method called");
+
+        // Setting up walker ball for Level1.
+        ball = new Ball(world, 0, 0);
+        ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
+        ball.setBallFriction(10);
 
         // Making the moving spikes
         Spike spike1 = new Spike(world, -12.5f, -7);
@@ -49,7 +51,7 @@ public class Level1  extends GameLevel{
         Portal portal_2 = new Portal(world, -18, 5);
         portal_2.setPosition(new Vec2(portal_2.getXPos(), portal_2.getYPos()));
 
-        Portal[] portal_pair = new Portal[]{portal_1, portal_2};
+        portal_pair = new Portal[]{portal_1, portal_2};
 
         /* Making platform where character can walk in */
         // Left bottom platform
@@ -67,11 +69,14 @@ public class Level1  extends GameLevel{
         rockball.setPosition(new Vec2(11,8.3f));
         rockball.addImage(new BodyImage("assets/images/character/rockball.png", 2));
 
+        // Setting end game final touch as rockball for Level1;
+        levelEndFinalTouch = rockball;
+
         // Cage holding platform.
         drawBoxShape(world, 2, 0.5f, 11, 7.5f, "visible", platformImagePath,2);
 
         // making lever.
-        Lever lever = new Lever(world);
+        lever = new Lever(world);
         lever.setPosition(new Vec2(15f, -9.5f));
 
         /* making a border. */
@@ -88,7 +93,7 @@ public class Level1  extends GameLevel{
         collectableList.add(key3);
 
         /* Initialising CollisionListener with ball */
-        BallCollisions ballCollisions = new BallCollisions(world, view, ball, lever, collectableList, portal_pair, rockball);
+        BallCollisions ballCollisions = new BallCollisions();
         ball.addCollisionListener(ballCollisions);
 
         /* Initialising StepListener */
@@ -100,6 +105,17 @@ public class Level1  extends GameLevel{
         frame.addKeyListener(k);
     }
 
+    public static Lever getLever() {
+        return lever;
+    }
+
+    public static Portal[] getPortal() {
+        return portal_pair;
+    }
+
+    public static StaticBody getLevelEndFinalTouch() {
+        return levelEndFinalTouch;
+    }
 
     @Override
     public List<Collectable> getCollectableList() {
@@ -114,7 +130,6 @@ public class Level1  extends GameLevel{
     @Override
     public void stopLevel() {
         this.world.stop();
-        ball.destroy();
     }
 
     @Override

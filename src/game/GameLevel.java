@@ -10,13 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameLevel extends World {
-    private static Ball ball;
     private static MyUserView view;
     private static World world;
     private JFrame frame;
     private final static Color transparent_colour = new Color(0, 0, 0, 0);
 
-    public GameLevel(){
+    public GameLevel() {
         this.world = Game.getWorld();
         this.view = Game.getView();
     }

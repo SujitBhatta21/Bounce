@@ -48,11 +48,8 @@ public class KeyboardListener implements KeyListener{
             ball.rotate(-0.2f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_R) {
-            Game.resetLevel(world, frame);
-
-            // Resetting timer and key/coin count to 0.
-            view.setTimeLeft(100);
-            view.getKeys().get(0).setCoin_count(0);
+            ball.setBallHealth(ball.getBallMaxHealth());
+            Game.resetLevel();
         }
     }
 
@@ -61,8 +58,6 @@ public class KeyboardListener implements KeyListener{
         if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
             // Stop the ball's movement when left or right key is released
             ball.stopWalking();
-           // ball.setLinearVelocity(new Vec2(0, 0));
         }
-        // You can add more conditions based on your requirements
     }
 }

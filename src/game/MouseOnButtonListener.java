@@ -32,30 +32,26 @@ public class MouseOnButtonListener extends MouseAdapter {
                     view.setHelpClicked(true);
                     // PAUSE the world.
                     world.stop();
-                }
-                else if (button.getKeyCode() == "HELP" && view.getHelpClicked() && view.getWonTheGame() == false) {
+                } else if (button.getKeyCode() == "HELP" && view.getHelpClicked() && view.getWonTheGame() == false) {
                     view.setHelpClicked(false);
                     world.start();
-                }
-                else if (button.getKeyCode() == "PLAY") {
+                } else if (button.getKeyCode() == "PLAY") {
                     view.setGameState("play");
                     Game.getIntroFrame().setVisible(false);
-                    Game.initialiseGame(world, Game.getFrame());
+                    Game.initialiseGame(Game.getFrame());
                     Game.getFrame().setVisible(true);
                     // Update sound after play clicked.
                     Game.updateSound();
-                }
-                else if (button.getKeyCode() == "NEXT LEVEL") {
+                } else if (button.getKeyCode() == "NEXT LEVEL") {
                     Game.goToNextLevel();
-                }
-                else if (button.getKeyCode() == "RESTART") {
+                } else if (button.getKeyCode() == "RESTART") {
                     // Reset the game...
-                    System.exit(0);
+                    Game.resetLevel();
                 }
-
-            } else if (button.getKeyCode().equals("EXIT")) {
+                else if (button.getKeyCode().equals("EXIT")) {
                     // Exiting the program
                     System.exit(0);
+                }
             }
         }
     }
