@@ -16,7 +16,7 @@ public class MouseOnButtonListener extends MouseAdapter {
 
     public MouseOnButtonListener(World world, MyUserView view) {
         this.world = world;
-        this.view = view;
+        this.view = MyUserView.getView();
     }
 
     @Override

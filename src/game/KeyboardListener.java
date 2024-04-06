@@ -15,7 +15,7 @@ public class KeyboardListener implements KeyListener{
     private JFrame frame;
     private MyUserView view;
     private Ball ball;
-    private static float ball_speed = 8;
+    private float ball_speed;
 
     KeyboardListener(Ball ball, World world, JFrame frame, MyUserView view) {
         this.ball = ball;
@@ -30,6 +30,8 @@ public class KeyboardListener implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        ball_speed = Game.getLevel().getBall().getBallSpeed();
+
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             System.out.println("Up Arrow-Key is pressed!");
             ball.jump(ball_speed);
@@ -50,6 +52,16 @@ public class KeyboardListener implements KeyListener{
         else if (e.getKeyCode() == KeyEvent.VK_R) {
             ball.setBallHealth(ball.getBallMaxHealth());
             Game.resetLevel();
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_M) {
+            if (Game.getLevel() instanceof Level1) { // Change to level2 later.
+                System.out.println("Change mode of ball");
+                int temp = ball.getBallMode() + 1;
+                if (temp > 2) {
+                    temp = 1;
+                }
+                ball.setBallMode(temp);
+            }
         }
     }
 

@@ -20,11 +20,6 @@ public class Level2 extends GameLevel {
         System.out.println(world);
         this.view = getView();
 
-        // Setting up Walker ball start position in this level.
-        ball = new Ball(world, 5, 10);
-        // New start coordinates.
-        ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
-        ball.setBallFriction(10);
     }
 
 
@@ -33,7 +28,21 @@ public class Level2 extends GameLevel {
 
         world.start();
 
+        view.setTimeLeft(100);
+
+        // Game.initialiseGame(frame);
+
+        // Setting up Walker ball start position in this level.
+        this.ball = new Ball(world, 5, 10);
+        // New start coordinates.
+        this.ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
+        this.ball.setBallFriction(10);
+
         making_world_border(world);
+
+        // Checks if a key is pressed.
+        KeyboardListener k = new KeyboardListener(ball, world, frame, view);
+        frame.addKeyListener(k);
     }
 
     @Override

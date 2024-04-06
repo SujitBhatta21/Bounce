@@ -3,12 +3,15 @@ package game;
 import city.cs.engine.*;
 import city.cs.engine.Shape;
 import org.jbox2d.common.Vec2;
+import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
 public class MyGameButton {
     private World world;
@@ -16,6 +19,7 @@ public class MyGameButton {
     private float x, y, width, height;
     private Shape buttonShape;
     private StaticBody buttonBody;
+    private Image buttonImage;
     private BodyImage image;
     private String keyCode;
 
@@ -31,10 +35,32 @@ public class MyGameButton {
         buttonBody.setPosition(new Vec2(this.getX(), this.getY()));
         GhostlyFixture myButton = new GhostlyFixture(buttonBody, buttonShape);
 
-        // Load the image
+        // Load the image with both type image and BodyImage.
+        try {
+            this.buttonImage = ImageIO.read(new File(imagePath)); // Load the image here
+            // this.buttonImage.getScaledInstance(width, height, Image.SCALE_SMOOTH); // resizing image to screen size
+        } catch (IOException e) {
+            System.out.println("Error: failed to load the button image.");
+        }
+
         this.image = new BodyImage(imagePath, 3.5f*height);
         buttonBody.addImage(image);
     }
+
+    public void drawOnPaintForeground(Graphics2D g) {
+        // Get the position of the button
+        float scale = 1f;
+        Vec2 position = buttonBody.getPosition();
+
+        // Calculate the screen position
+        int screenX = (int) (position.x * scale);
+        int screenY = (int) (position.y * scale);
+
+        // Draw the image onto the Graphics2D object
+        /* This function is incomplete. */
+        // g.drawImage(this.image, screenX, screenY, null);
+    }
+
 
 
     public StaticBody getButtonBody() {

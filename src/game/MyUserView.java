@@ -67,38 +67,44 @@ public class MyUserView extends UserView {
              }
              g.drawString("Timer:" + this.timeLeft, width - 125, 25);
 
-             int currentBallHealth = Game.getLevel().getBall().getBallHealth();
-             int maxBallHealth = Game.getLevel().getBall().getBallMaxHealth();
+             /*
+             When level change occurs ball changes so, it is null for some time which causes error.
+              */
+             if (Game.getLevel().getBall() != null) {
+                 int currentBallHealth = Game.getLevel().getBall().getBallHealth();
+                 int maxBallHealth = Game.getLevel().getBall().getBallMaxHealth();
 
-             if (currentBallHealth != 0) {
-                 double healthPercentage = (double) currentBallHealth / maxBallHealth;
+                 if (currentBallHealth != 0) {
+                     double healthPercentage = (double) currentBallHealth / maxBallHealth;
 
-                 if (healthPercentage > 0.7) {
-                     g.setColor(Color.GREEN);
-                 } else if (healthPercentage > 0.3) {
-                     g.setColor(Color.ORANGE);
-                 } else {
-                     g.setColor(Color.RED);
+                     if (healthPercentage > 0.7) {
+                         g.setColor(Color.GREEN);
+                     } else if (healthPercentage > 0.3) {
+                         g.setColor(Color.ORANGE);
+                     } else {
+                         g.setColor(Color.RED);
+                     }
+
+                     int healthBarWidth = 150;
+                     int healthBarHeight = 20;
+                     int healthBarX = 10;
+                     int healthBarY = 30;
+
+                     int healthWidth = (int) ((currentBallHealth / (double) maxBallHealth) * healthBarWidth);
+
+                     g.fillRect(healthBarX, healthBarY, healthWidth, healthBarHeight);
+
+                     // Draw border
+                     g.setColor(Color.BLACK);
+                     g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+
+                     // Draw the text Health on top of bar.
+                     g.setColor(Color.BLACK);
+                     g.setFont(helpFont);
+                     g.drawString("Health", 15, 45);
                  }
-
-                 int healthBarWidth = 150;
-                 int healthBarHeight = 20;
-                 int healthBarX = 10;
-                 int healthBarY = 30;
-
-                 int healthWidth = (int) ((currentBallHealth / (double) maxBallHealth) * healthBarWidth);
-
-                 g.fillRect(healthBarX, healthBarY, healthWidth, healthBarHeight);
-
-                 // Draw border
-                 g.setColor(Color.BLACK);
-                 g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-
-                 // Draw the text Health on top of bar.
-                 g.setColor(Color.BLACK);
-                 g.setFont(helpFont);
-                 g.drawString("Health", 15, 45);
              }
+
 
             // Displaying rectangle shape.
              int rectWidth = getWidth() / 2;
@@ -132,7 +138,6 @@ public class MyUserView extends UserView {
 
              else if (wonTheGame) {
                  if (currentLevel instanceof Level1) {
-                     timer.stop();
                      // Draw a red rectangle in the middle of the screen
                      g.setColor(Color.GREEN);
                      g.fillRect(rectX, rectY, rectWidth, rectHeight);
@@ -153,6 +158,7 @@ public class MyUserView extends UserView {
                  }
              }
 
+
             else if (lostTheGame) {
                 if (currentLevel instanceof Level1) {
                     // Draw a red rectangle in the middle of the screen
@@ -168,7 +174,7 @@ public class MyUserView extends UserView {
                     world.stop();
                 }
             }
-        }
+         }
     }
 
     @Override

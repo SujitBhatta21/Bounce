@@ -76,7 +76,7 @@ public class Game {
     }
 
 
-    // Method to initialize game components
+    // Method to initialize game components. For setting up view removing prev. buttons and clearing screen for another screen.
     public static void initialiseGame(JFrame frame) {
         // Initialising 1st game level.
         level = new Level1();
@@ -202,7 +202,7 @@ public class Game {
             System.out.println(view.getWorld());
 
             // controller.updateStudent(level.getStudent());
-            level.start();
+            level.startLevel(frame);
         }
         else if (level instanceof Level2) {
             System.out.println("Well done! Game complete.");
