@@ -63,7 +63,7 @@ public class KeyboardListener implements KeyListener{
                 ball.setBallMode(temp);
             }
         }
-    }
+    } 
 
     @Override
     public void keyReleased(KeyEvent e) {

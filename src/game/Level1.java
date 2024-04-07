@@ -33,25 +33,18 @@ public class Level1  extends GameLevel{
         System.out.println("level_1 method called");
 
         // Setting up walker ball for Level1.
-        ball = new Ball(world, 0, 0);
+        ball = new Ball(world, -18, 0);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
         ball.setBallFriction(10);
 
         // Making the moving spikes
-        Spike spike1 = new Spike(world, -12.5f, -7);
-        spike1.setPosition(new Vec2(spike1.getXPos(), spike1.getYPos()));
+        float x_pos = -15;
+        for (int i = 0; i < 27; i++) {
+            StaticSpike spike1 = new StaticSpike(world, x_pos, -9.5f);
+            spike1.setPosition(new Vec2(spike1.getXPos(), spike1.getYPos()));
+            x_pos = x_pos + 1.2f;
+        }
 
-        Spike spike2 = new Spike(world, -11f, -7);
-        spike2.setPosition(new Vec2(spike2.getXPos(), spike2.getYPos()));
-
-        /* Making portal  */
-        Portal portal_1 = new Portal(world, 15, 0);
-        portal_1.setPosition(new Vec2(portal_1.getXPos(), portal_1.getYPos()));
-
-        Portal portal_2 = new Portal(world, -18, 5);
-        portal_2.setPosition(new Vec2(portal_2.getXPos(), portal_2.getYPos()));
-
-        portal_pair = new Portal[]{portal_1, portal_2};
 
         /* Making platform where character can walk in */
         // Left bottom platform
@@ -63,21 +56,18 @@ public class Level1  extends GameLevel{
         // Middle support platform.
         drawBoxShape(world, 4f, 0.5f, 0, 2, "visible", platformImagePath, 8*0.5f);
 
-        // Drawing rock ball on the platform.
+        // Drawing game exit home...
         Shape rockballShape = new CircleShape(1);
-        StaticBody rockball = new StaticBody(world, rockballShape);
-        rockball.setPosition(new Vec2(11,8.3f));
-        rockball.addImage(new BodyImage("assets/images/character/rockball.png", 2));
+        StaticBody exit_home = new StaticBody(world, rockballShape);
+        exit_home.setPosition(new Vec2(11,8.3f));
+        exit_home.addImage(new BodyImage("assets/images/character/rockball.png", 2));
 
         // Setting end game final touch as rockball for Level1;
-        levelEndFinalTouch = rockball;
+        levelEndFinalTouch = exit_home;
 
-        // Cage holding platform.
-        drawBoxShape(world, 2, 0.5f, 11, 7.5f, "visible", platformImagePath,2);
-
-        // making lever.
-        lever = new Lever(world);
-        lever.setPosition(new Vec2(15f, -9.5f));
+//        // making lever.
+//        lever = new Lever(world);
+//        lever.setPosition(new Vec2(15f, -9.5f));
 
         /* making a border. */
         making_world_border(world);
@@ -95,10 +85,6 @@ public class Level1  extends GameLevel{
         /* Initialising CollisionListener with ball */
         BallCollisions ballCollisions = new BallCollisions();
         ball.addCollisionListener(ballCollisions);
-
-        /* Initialising StepListener */
-        world.addStepListener(new PatrollerController(spike1, -19f, -12.5f));
-        world.addStepListener(new PatrollerController(spike2, -11f, -3f));
 
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball, world, frame, view);
