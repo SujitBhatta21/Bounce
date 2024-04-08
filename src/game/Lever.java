@@ -30,18 +30,26 @@ public class Lever extends StaticBody {
             addImage(lever_off);
         }
         else {
+
             addImage(lever_on);
+            // To make sure only 1 boc falls.
             if (lever_count < 1) {
-                draw_falling_rod(world);
+                // Change the instance later.
+                if (Game.getLevel() instanceof Level2) {
+                    draw_falling_box(world, 7f, 25f);
+                }
+                else if (Game.getLevel() instanceof Level1) {
+                    draw_falling_box(world, 12f, 25f);
+                }
             }
         }
     }
 
 
-    public void draw_falling_rod(World world) {
+    public void draw_falling_box(World world, float x_pos, float y_pos) {
         Shape rodShape = new BoxShape(1.5f, 1.5f);
         DynamicBody rod = new DynamicBody(world, rodShape);
-        rod.setPosition(new Vec2(7f, 25f));
+        rod.setPosition(new Vec2(x_pos, y_pos));
         rod.addImage(new BodyImage("assets/images/physics/fallingBox.png", 2*1.5f));
 
         // Add a collision listener to the rod

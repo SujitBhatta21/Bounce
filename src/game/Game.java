@@ -140,6 +140,7 @@ public class Game {
     public static void resetLevel() {
 
         // Clear the current world bodies.
+        world = Game.getLevel().getLevelWorld();
         for (DynamicBody dynamicBody: world.getDynamicBodies()) {
             dynamicBody.destroy();
         }

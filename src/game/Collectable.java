@@ -3,7 +3,7 @@ package game;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
-public class Collectable extends StaticBody{
+public class Collectable extends StaticBody {
     private float x, y;
     private StaticBody collectableBody;
     private static int coin_count = 0;
@@ -13,12 +13,15 @@ public class Collectable extends StaticBody{
     private static final Shape collectableShape = new BoxShape(1, 0.5f);
 
     Collectable (World world, float x, float y) {
-        super(world, collectableShape);
-        this.setPosition(new Vec2(x, y));
-        GhostlyFixture myCollectable = new GhostlyFixture(this, collectableShape);
+        super(world);
+        this.x = x;
+        this.y = y;
+        this.collectableBody = new StaticBody(world);
+        collectableBody.setPosition(new Vec2(x, y));
+        GhostlyFixture myCollectable = new GhostlyFixture(collectableBody, collectableShape);
 
         // Loading an image in the collectable / key.
-        this.addImage(image);
+        collectableBody.addImage(image);
     }
 
     // setters and getters
