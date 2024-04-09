@@ -29,19 +29,21 @@ public abstract class GameLevel extends World {
         this.world = world;
     };
 
-    public static void drawBoxShape(World world, float halfWidth, float halfHeight, float x, float y, String state, String imagePath,  float imageHeight) {
+    public static StaticBody drawBoxShape(World world, float halfWidth, float halfHeight, float x, float y, String state, String imagePath,  float imageHeight) {
+        StaticBody platform;
         if (state.equals("invisible")) {
             Shape platformShape = new BoxShape(halfWidth, halfHeight);
-            StaticBody platform = new StaticBody(world, platformShape);
+            platform = new StaticBody(world, platformShape);
             platform.setFillColor(transparent_colour);
             platform.setLineColor(transparent_colour);
             platform.setPosition(new Vec2(x, y));
         } else {
             Shape platformShape = new BoxShape(halfWidth, halfHeight);
-            StaticBody platform = new StaticBody(world, platformShape);
+            platform = new StaticBody(world, platformShape);
             platform.setPosition(new Vec2(x, y));
             platform.addImage(new BodyImage(imagePath, imageHeight));
         }
+        return platform;
     }
 
     public static void making_world_border(World world) {
@@ -81,4 +83,10 @@ public abstract class GameLevel extends World {
     public abstract World getLevelWorld() ;
 
     public abstract Ball getBall();
+
+    public abstract Portal[] getPortal();
+
+    public abstract Lever getLever();
+
+    public abstract StaticBody getLevelEndFinalTouch();
 }

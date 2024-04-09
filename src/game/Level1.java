@@ -60,15 +60,15 @@ public class Level1  extends GameLevel{
         frame.addKeyListener(k);
     }
 
-    public static Lever getLever() {
+    public Lever getLever() {
         return lever;
     }
 
-    public static Portal[] getPortal() {
+    public Portal[] getPortal() {
         return portal_pair;
     }
 
-    public static StaticBody getLevelEndFinalTouch() {
+    public StaticBody getLevelEndFinalTouch() {
         return levelEndFinalTouch;
     }
 

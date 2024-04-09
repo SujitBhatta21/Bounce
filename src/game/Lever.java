@@ -36,7 +36,10 @@ public class Lever extends StaticBody {
             if (lever_count < 1) {
                 // Change the instance later.
                 if (Game.getLevel() instanceof Level2) {
-                    draw_falling_box(world, 7f, 25f);
+                    for (StaticBody b: Level2.getBlockageCollection()) {
+                        // Produce some desctuction sound before destroying.
+                        b.destroy();
+                    }
                 }
                 else if (Game.getLevel() instanceof Level1) {
                     draw_falling_box(world, 12f, 25f);

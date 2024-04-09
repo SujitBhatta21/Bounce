@@ -27,18 +27,9 @@ public class BallCollisions implements CollisionListener {
         this.view = MyUserView.getView();
         this.ball = Game.getLevel().getBall();
         this.collectables = level.getCollectableList();
-
-        if (level instanceof Level1) {
-            this.lever = Level1.getLever();
-            this.portal_pair = Level1.getPortal();
-            this.levelEndFinalTouch = Level1.getLevelEndFinalTouch();
-        }
-
-        else if (level instanceof Level2) {
-            // this.lever = Level2.getLever();
-            // this.portal_pair = Level2.getPortal();
-            this.levelEndFinalTouch = Level2.getLevelEndFinalTouch();
-        }
+        this.lever = level.getLever();
+        this.portal_pair = level.getPortal();
+        this.levelEndFinalTouch = level.getLevelEndFinalTouch();
     }
 
 
