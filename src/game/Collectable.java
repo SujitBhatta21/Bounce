@@ -12,16 +12,15 @@ public class Collectable extends StaticBody {
     private BodyImage image = new BodyImage("assets/images/physics/key.gif", 1f);
     private static final Shape collectableShape = new BoxShape(1, 0.5f);
 
-    Collectable (World world, float x, float y) {
-        super(world);
-        this.x = x;
-        this.y = y;
-        this.collectableBody = new StaticBody(world);
-        collectableBody.setPosition(new Vec2(x, y));
-        GhostlyFixture myCollectable = new GhostlyFixture(collectableBody, collectableShape);
+    public Collectable(World world, float x, float y) {
+        super(world, collectableShape);
+        setPosition(new Vec2(x, y));
 
-        // Loading an image in the collectable / key.
-        collectableBody.addImage(image);
+        // Setting level specific max coin count.
+        // this.max_coin_count = Game.getLevel().getCollectableList().size();
+
+        // Load an image for the collectable
+        addImage(new BodyImage("assets/images/physics/key.gif"));
     }
 
     // setters and getters

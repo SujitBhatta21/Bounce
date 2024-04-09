@@ -131,13 +131,13 @@ public class Game {
     }
 
 
-
     public static List<MyGameButton> getAllButtons() {
         return allButtons;
     }
 
 
     public static void resetLevel() {
+        world.stop();
 
         // Clear the current world bodies.
         world = Game.getLevel().getLevelWorld();
@@ -148,13 +148,13 @@ public class Game {
             staticBody.destroy();
         }
 
-        // Clear existing collectables
+        // clear existing buttons and collectables.
+        allButtons.clear();
         level.getCollectableList().clear();
 
         level.startLevel(frame);
 
-        // clear existing items.
-        allButtons.clear();
+        level.getBall().setBallHealth(level.getBall().getBallMaxHealth());
 
         MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
         allButtons.add(helpButton);
@@ -190,25 +190,31 @@ public class Game {
 
 
     public static void goToNextLevel(){
-        if (level instanceof Level1){
-            System.out.println(world);
-            level.stopLevel();
+        // Removing previous level collision listener and buttons.
+        level.getBall().removeAllCollisionListeners();
+        for (MyGameButton button: allButtons) {
+            button.getButtonBody().destroy();
+        }
+        level.stopLevel();
+
+         if (level instanceof Level1){
+            //level now references to the new next level
+            System.out.println("Level2 instantiated");
             level = new Level2();
-            //level now refer to the new level
-
-            // Testing
-            System.out.println(world);
-            view.setWorld(level.getLevelWorld());
-            // Testing
-            System.out.println(view.getWorld());
-
-            // controller.updateStudent(level.getStudent());
-            level.startLevel(frame);
         }
         else if (level instanceof Level2) {
-            System.out.println("Well done! Game complete.");
-            // System.exit(0);
+            System.out.println("Level3 instantiated.");
+            level = new Level3();
         }
+
+
+        // Setting up for new level.
+        view.setWorld(level.getLevelWorld());
+        view.setCollectableList(level.getCollectableList());
+
+        level.startLevel(frame);
+
+        level.getCollectableList().get(0).setCoin_count(0);
     }
 
     public static JFrame getFrame() {

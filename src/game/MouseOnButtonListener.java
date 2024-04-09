@@ -44,6 +44,7 @@ public class MouseOnButtonListener extends MouseAdapter {
                     Game.updateSound();
                 } else if (button.getKeyCode() == "NEXT LEVEL") {
                     Game.goToNextLevel();
+                    view.setWonTheGame(false);
                 } else if (button.getKeyCode() == "RESTART") {
                     // Reset the game...
                     Game.resetLevel();

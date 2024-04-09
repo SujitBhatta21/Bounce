@@ -48,8 +48,7 @@ public class MyUserView extends UserView {
                     lostTheGame = true;
                     Game.updateSound();
                     ((Timer)e.getSource()).stop();
-                } else {
-
+                    Game.getLevel().getLevelWorld().stop();
                 }
             }
         });
@@ -149,7 +148,26 @@ public class MyUserView extends UserView {
                      g.drawString("You saved your pal", rectX + 20, rectY + 120);
                      g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
 
-                     // Display two buttons. Restart or go to next level.
+                     // Display two buttons. Restart or go to next level for any level if won.
+                     MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
+                     Game.getAllButtons().add(restartButton);
+
+                     MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                     Game.getAllButtons().add(nextLevelButton);
+                 }
+                 if (currentLevel instanceof Level2) {
+                     // Draw a red rectangle in the middle of the screen
+                     g.setColor(Color.GREEN);
+                     g.fillRect(rectX, rectY, rectWidth, rectHeight);
+
+                     // Display congratulation screen for level 1.
+                     g.setFont(STATUS_FONT);
+                     g.setColor(Color.BLACK);
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
+                     g.drawString("You can now enter the", rectX + 20, rectY + 120);
+                     g.drawString("DUNGEON", rectX + 20, rectY + 160);
+
+                     // Display two buttons. Restart or go to next level for any level if won.
                      MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
                      Game.getAllButtons().add(restartButton);
 

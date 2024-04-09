@@ -23,7 +23,7 @@ public class BallCollisions implements CollisionListener {
 
     public BallCollisions() {
         this.level = Game.getLevel();
-        this.world = level.getLevelWorld();
+        this.world = Game.getLevel().getLevelWorld();
         this.view = MyUserView.getView();
         this.ball = Game.getLevel().getBall();
         this.collectables = level.getCollectableList();
@@ -35,7 +35,9 @@ public class BallCollisions implements CollisionListener {
         }
 
         else if (level instanceof Level2) {
-
+            // this.lever = Level2.getLever();
+            // this.portal_pair = Level2.getPortal();
+            this.levelEndFinalTouch = Level2.getLevelEndFinalTouch();
         }
     }
 
@@ -49,6 +51,7 @@ public class BallCollisions implements CollisionListener {
             leverSound.play();
             lever.setLeverState("on");
         }
+
         else if (e.getOtherBody() instanceof Collectable && e.getReportingBody() instanceof Ball) {
             System.out.println("Ball collided with coin.");
             for (Collectable collectable: collectables) {
@@ -75,7 +78,14 @@ public class BallCollisions implements CollisionListener {
                 // }
             }
             else if (level instanceof Level2) {
+                // Uncomment below line for actual level2 gameplay.
+                if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
+                    System.out.println("You can enter the dungeon...");
+                    view.setWonTheGame(true);
 
+                    // Update the sound in the game.
+                    Game.updateSound();
+                }
             }
         }
 
@@ -117,8 +127,9 @@ public class BallCollisions implements CollisionListener {
                 ball.setBallHealth(ball.getBallHealth() - 1);
             }
         }
+
         else if (e.getOtherBody() instanceof Spring && e.getReportingBody() instanceof Ball) {
-            ball.applyForce(new Vec2(0, 10000));
+            ball.applyForce(new Vec2(0, 8500));
         }
     }
 }

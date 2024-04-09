@@ -50,7 +50,6 @@ public class KeyboardListener implements KeyListener{
             ball.rotate(-0.2f);
         }
         else if (e.getKeyCode() == KeyEvent.VK_R) {
-            ball.setBallHealth(ball.getBallMaxHealth());
             Game.resetLevel();
         }
         else if (e.getKeyCode() == KeyEvent.VK_M) {
