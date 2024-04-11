@@ -19,7 +19,6 @@ public class Level3  extends GameLevel{
     private static StaticBody levelEndFinalTouch;
 
     public Level3(){
-        //base class will create the student, professor
         super();
 
         world = new MyWorld();
@@ -30,7 +29,7 @@ public class Level3  extends GameLevel{
     private void start_level_3(JFrame frame) {
         world.start();
 
-        System.out.println("level_1 method called");
+        System.out.println("level_3 method called");
 
         making_world_border(world);
 

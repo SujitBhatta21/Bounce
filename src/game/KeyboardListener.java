@@ -53,9 +53,10 @@ public class KeyboardListener implements KeyListener{
             Game.resetLevel();
         }
         else if (e.getKeyCode() == KeyEvent.VK_M) {
-            if (Game.getLevel() instanceof Level1) { // Change to level2 later.
+            if (Game.getLevel() instanceof Level2) { // Change to level2 later.
                 System.out.println("Change mode of ball");
                 int temp = ball.getBallMode() + 1;
+                // This condition makes
                 if (temp > 2) {
                     temp = 1;
                 }

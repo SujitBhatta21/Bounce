@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 
 
 public class MyUserView extends UserView {
+    private MyWorld world;
     private static MyUserView view;
     private Image background;
     private final int width, height;
@@ -28,6 +29,7 @@ public class MyUserView extends UserView {
     public MyUserView(MyWorld world, int width, int height) {
         super(world, width, height);
         this.view = this;
+        this.world = world;
         this.width = width;
         this.height = height;
         try {
@@ -41,6 +43,7 @@ public class MyUserView extends UserView {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MyWorld world = currentLevel.getLevelWorld();
                 if (timeLeft > 0 && !getHelpClicked() && !world.isStopped()) {
                     timeLeft--;
                 } else if (timeLeft <= 0){
@@ -111,9 +114,6 @@ public class MyUserView extends UserView {
              int rectHeight = getHeight() / 2;
              int rectX = (getWidth() - rectWidth) / 2;
              int rectY = (getHeight() - rectHeight) / 2;
-
-             // Getting world from current level.
-             MyWorld world = Game.getLevel().getLevelWorld();
 
              if (helpClicked && !wonTheGame && !lostTheGame) {
 
@@ -243,6 +243,11 @@ public class MyUserView extends UserView {
     }
 
 
+    public void restartTimer() {
+        timeLeft = 100; // reseting the timer
+        timer.start();
+    }
+
 
     // Below are getter and setters for this class.
     public void setTimeLeft(int timeLeft) {
@@ -286,6 +291,9 @@ public class MyUserView extends UserView {
         this.gameState = gameState;
     }
 
+    public void setViewWorld(MyWorld world) {
+        this.world = world;
+    }
     public static MyUserView getView() {
         return view;
     }

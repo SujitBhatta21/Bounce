@@ -214,7 +214,8 @@ public class Game {
         level.startLevel(frame);
 
         // Resetting timer and key/coin count to 0.
-        view.setTimeLeft(100);
+        view.setViewWorld(level.getLevelWorld());
+        view.restartTimer();
         view.getKeys().get(0).setCoin_count(0);
         level.getCollectableList().get(0).setCoin_count(0);
     }

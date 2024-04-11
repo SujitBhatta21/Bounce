@@ -58,23 +58,21 @@ public class BallCollisions implements CollisionListener {
 
         else if (e.getOtherBody() == levelEndFinalTouch && e.getReportingBody() instanceof Ball) {
             // Testing code.
-            if (level instanceof Level1) {
-                // Uncomment below line for actual level1 gameplay.
-                if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
+            // Uncomment below line for actual level1 gameplay.
+            if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
+                view.setWonTheGame(true);
+
+                // Update the sound in the game.
+                Game.updateSound();
+
+                if (level instanceof Level1) {
                     System.out.println("You have fred rock ball. Congratulations!!!");
-                    view.setWonTheGame(true);
-
-                    // Update the sound in the game.
-                    Game.updateSound();
                 }
-            }
-            else if (level instanceof Level2) {
-                if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
+                else if (level instanceof Level2) {
                     System.out.println("You can enter the dungeon...");
-                    view.setWonTheGame(true);
-
-                    // Update the sound in the game.
-                    Game.updateSound();
+                }
+                else if (level instanceof Level3) {
+                    System.out.println("Final Boss Hypnotiser is ready...");
                 }
             }
 
@@ -120,7 +118,7 @@ public class BallCollisions implements CollisionListener {
         }
 
         else if (e.getOtherBody() instanceof Spring && e.getReportingBody() instanceof Ball) {
-            ball.applyForce(new Vec2(0, 8500));
+            ball.applyForce(new Vec2(0, 10000));
         }
     }
 }
