@@ -12,6 +12,7 @@ public class Ball extends Walker {
     private int ballHealth = ballMaxHealth;
     private float ballSpeed;
     private int ballMode = 1;
+    private boolean onMovingPlatform = false;
 
     public Ball(World world, float x_pos, float y_pos) {
         super(world, ballShape);

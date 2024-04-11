@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Level2 extends GameLevel {
     private static MyUserView view;
-    private World world;
+    private MyWorld world;
     private static Ball ball;
     private static Portal[] portal_pair;
     private List<Collectable> collectableList = new ArrayList<Collectable>();
@@ -23,7 +23,7 @@ public class Level2 extends GameLevel {
     public Level2() {
         super();
 
-        world = new World();
+        world = new MyWorld();
         System.out.println(world);
         this.view = getView();
 
@@ -45,7 +45,7 @@ public class Level2 extends GameLevel {
         // Setting up walker ball for Level2.
         ball = new Ball(world, -18, 0);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
-        ball.setBallFriction(10);
+        // ball.setBallFriction(10);
 
         Spring spring1 = new Spring(world, -15, -9.5f);
         spring1.setPosition(new Vec2(spring1.getXPos(), spring1.getYPos()));
@@ -53,7 +53,7 @@ public class Level2 extends GameLevel {
         // Making the moving spikes
         float x_pos = -13;
         for (int i = 0; i < 23; i++) {
-            StaticSpike spike1 = new StaticSpike(world, x_pos, -9.5f);
+            Spike spike1 = new Spike(world, x_pos, -9.5f);
             spike1.setPosition(new Vec2(spike1.getXPos(), spike1.getYPos()));
             x_pos = x_pos + 1.2f;
         }
@@ -127,7 +127,7 @@ public class Level2 extends GameLevel {
 
         /* Initialising StepListener */
         world.addStepListener(new PatrollerController(p1, -12f, -3f));
-        world.addStepListener(new PatrollerController(p2, 3f, 12f));
+        world.addStepListener(new PatrollerController(p2, 0f, 12f));
 
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball, world, frame, view);
@@ -158,7 +158,7 @@ public class Level2 extends GameLevel {
     }
 
     @Override
-    public World getLevelWorld() {
+    public MyWorld getLevelWorld() {
         return world;
     }
 

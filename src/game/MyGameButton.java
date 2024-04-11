@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MyGameButton {
-    private World world;
+    private MyWorld world;
     private String text;
     private float x, y, width, height;
     private Shape buttonShape;
@@ -23,7 +23,7 @@ public class MyGameButton {
     private BodyImage image;
     private String keyCode;
 
-    public MyGameButton(World world, float x, float y, float width, float height, String keyCode, String imagePath) {
+    public MyGameButton(MyWorld world, float x, float y, float width, float height, String keyCode, String imagePath) {
         this.buttonShape = new BoxShape(width, height);
         this.world = world;
         this.x = x;

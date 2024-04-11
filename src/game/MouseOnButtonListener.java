@@ -9,12 +9,12 @@ import java.awt.event.MouseEvent;
 
 
 public class MouseOnButtonListener extends MouseAdapter {
-    private World world;
+    private MyWorld world;
     private MyUserView view;
     private String gameState;
     private Sound buttonClick = new Sound("assets/sounds/button_click.wav");
 
-    public MouseOnButtonListener(World world, MyUserView view) {
+    public MouseOnButtonListener(MyWorld world, MyUserView view) {
         this.world = world;
         this.view = MyUserView.getView();
     }

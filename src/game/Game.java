@@ -22,14 +22,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 public class Game {
-
-    private static World world;
+    private static MyWorld world;
     private static MyUserView view;
     private static GameLevel level;
     private static JFrame frame, introFrame;
     private static Ball ball;  // Making ball a static field.
     private static int WIDTH = 800, HEIGHT = 600;
-
     private final static List<MyGameButton> allButtons = new ArrayList<>();
     private final static Sound bg_intro_sound = new Sound("assets/sounds/bt_bg_MainMenu.wav");
     private final static Sound bg_play_sound = new Sound("assets/sounds/bt_bg_play.wav");
@@ -40,7 +38,7 @@ public class Game {
     /** Initialise a new Game. */
     public Game() {
         // make an empty game world
-        world = new World();
+        world = new MyWorld();
 
         // create a Java window (frame) and add the game view to it
         frame = new JFrame("Bounce Game");
@@ -111,7 +109,7 @@ public class Game {
     }
 
 
-    public static void introScene(World world, JFrame introFrame) {
+    public static void introScene(MyWorld world, JFrame introFrame) {
         // make a view to look into the game world
         view = new MyUserView(world, WIDTH, HEIGHT);
         view.setBounds(0, 0, WIDTH, HEIGHT);
@@ -212,8 +210,12 @@ public class Game {
         view.setWorld(level.getLevelWorld());
         view.setCollectableList(level.getCollectableList());
 
+        // Initialising the new level.
         level.startLevel(frame);
 
+        // Resetting timer and key/coin count to 0.
+        view.setTimeLeft(100);
+        view.getKeys().get(0).setCoin_count(0);
         level.getCollectableList().get(0).setCoin_count(0);
     }
 
@@ -228,7 +230,7 @@ public class Game {
         return view;
     }
 
-    public static World getWorld() {
+    public static MyWorld getWorld() {
         return world;
     }
 

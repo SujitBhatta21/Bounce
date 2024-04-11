@@ -9,7 +9,7 @@ public class Spring extends StaticBody {
 
     private BodyImage image = new BodyImage("assets/images/physics/spring_image.png", 2*height);
 
-    public Spring(World world, float x_pos, float y_pos) {
+    public Spring(MyWorld world, float x_pos, float y_pos) {
         super(world, springShape);
         this.x_pos = x_pos;
         this.y_pos = y_pos;

@@ -12,7 +12,7 @@ public class Collectable extends StaticBody {
     private BodyImage image = new BodyImage("assets/images/physics/key.gif", 1f);
     private static final Shape collectableShape = new BoxShape(1, 0.5f);
 
-    public Collectable(World world, float x, float y) {
+    public Collectable(MyWorld world, float x, float y) {
         super(world, collectableShape);
         setPosition(new Vec2(x, y));
 

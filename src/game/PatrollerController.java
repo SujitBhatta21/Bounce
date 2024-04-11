@@ -5,27 +5,27 @@ import org.jbox2d.common.Vec2;
 
 
 public class PatrollerController implements StepListener {
-    private Walker patroller;
+    private StaticBody patroller;
+    private Vec2 startPosition;
     private float left, right;
-    private float originalY; // stores the original y-coordinate
+    private float delta;
 
-    PatrollerController(Walker patroller, float left, float right) {
+
+    PatrollerController(StaticBody patroller, float left, float right) {
+        this.startPosition = patroller.getPosition();
         this.patroller = patroller;
         this.left = left;
         this.right = right;
-        this.originalY = patroller.getPosition().y; // get the original y-coordinate
+        delta=0.008f;
+        Game.getLevel().getLevelWorld().addStepListener(this);
     }
 
     @Override
     public void preStep(StepEvent stepEvent) {
-        Vec2 pos = patroller.getPosition();
-        if (pos.x <= left) {
-            patroller.startWalking(1);
-        } else if (pos.x >= right) {
-            patroller.startWalking(-1);
+        if (patroller.getPosition().x < left || patroller.getPosition().x > right){
+            delta*=-1;
         }
-        // reset the y-coordinate to its original value. For moving platform especially.
-        patroller.setPosition(new Vec2(pos.x, originalY));
+        patroller.setPosition(new Vec2(patroller.getPosition().x + delta, patroller.getPosition().y));
     }
 
     @Override

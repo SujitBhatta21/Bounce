@@ -6,7 +6,7 @@ import java.util.List;
 import org.jbox2d.common.Vec2;
 
 public class BallCollisions implements CollisionListener {
-    private World world;
+    private MyWorld world;
     private MyUserView view;
     private GameLevel level;
     private Ball ball;
@@ -60,16 +60,15 @@ public class BallCollisions implements CollisionListener {
             // Testing code.
             if (level instanceof Level1) {
                 // Uncomment below line for actual level1 gameplay.
-                // if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
+                if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
                     System.out.println("You have fred rock ball. Congratulations!!!");
                     view.setWonTheGame(true);
 
                     // Update the sound in the game.
                     Game.updateSound();
-                // }
+                }
             }
             else if (level instanceof Level2) {
-                // Uncomment below line for actual level2 gameplay.
                 if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
                     System.out.println("You can enter the dungeon...");
                     view.setWonTheGame(true);
@@ -78,6 +77,8 @@ public class BallCollisions implements CollisionListener {
                     Game.updateSound();
                 }
             }
+
+            this.world.stop();
         }
 
         else if (e.getOtherBody() instanceof Portal && e.getReportingBody() instanceof Ball) {
@@ -98,8 +99,7 @@ public class BallCollisions implements CollisionListener {
             ball.setLastPortal(touchedPortal);
         }
 
-        else if ((e.getOtherBody() instanceof Spike || e.getOtherBody() instanceof StaticSpike)
-                && e.getReportingBody() instanceof Ball)  {
+        else if ((e.getOtherBody() instanceof Spike) && e.getReportingBody() instanceof Ball)  {
             if (ball.getBallHealth() == 0) {
                 System.out.println("You lost the game...");
                 // e.getReportingBody().destroy();

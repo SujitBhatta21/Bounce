@@ -25,13 +25,13 @@ public class MyUserView extends UserView {
     public static final Font helpFont = new Font("Monospaced", Font.PLAIN, 10);
     private boolean helpClicked = false, wonTheGame = false, lostTheGame = false;
 
-    public MyUserView(World world, int width, int height) {
+    public MyUserView(MyWorld world, int width, int height) {
         super(world, width, height);
         this.view = this;
         this.width = width;
         this.height = height;
         try {
-            background = ImageIO.read(new File("assets/images/background/background.jpg")); // replace with your image path
+            background = ImageIO.read(new File("assets/images/background/background.jpg"));
             background = background.getScaledInstance(width, height, Image.SCALE_SMOOTH); // resizing image to screen size
         } catch (IOException e) {
             System.out.println("Error: failed to load the background image.");
@@ -41,7 +41,7 @@ public class MyUserView extends UserView {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (timeLeft > 0 && !getHelpClicked()) {
+                if (timeLeft > 0 && !getHelpClicked() && !world.isStopped()) {
                     timeLeft--;
                 } else if (timeLeft <= 0){
                     // Time's up, set lostTheGame to true
@@ -49,6 +49,7 @@ public class MyUserView extends UserView {
                     Game.updateSound();
                     ((Timer)e.getSource()).stop();
                     Game.getLevel().getLevelWorld().stop();
+                    lostTheGame = false;
                 }
             }
         });
@@ -112,7 +113,7 @@ public class MyUserView extends UserView {
              int rectY = (getHeight() - rectHeight) / 2;
 
              // Getting world from current level.
-             World world = Game.getLevel().getLevelWorld();
+             MyWorld world = Game.getLevel().getLevelWorld();
 
              if (helpClicked && !wonTheGame && !lostTheGame) {
 
@@ -197,6 +198,14 @@ public class MyUserView extends UserView {
 
     @Override
     protected void paintBackground(Graphics2D g) {
+        if (currentLevel instanceof Level3) {
+            try {
+                background = ImageIO.read(new File("assets/images/background/New Project.jpg"));
+                background = background.getScaledInstance(width, height, Image.SCALE_SMOOTH); // resizing image to screen size
+            } catch (IOException e) {
+                System.out.println("Error: failed to load the background image.");
+            }
+        }
         g.drawImage(background, 0, 0, this);
     }
 

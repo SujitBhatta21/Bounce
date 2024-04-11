@@ -11,13 +11,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyboardListener implements KeyListener{
-    private World world;
+    private MyWorld world;
     private JFrame frame;
     private MyUserView view;
     private Ball ball;
     private float ball_speed;
 
-    KeyboardListener(Ball ball, World world, JFrame frame, MyUserView view) {
+    KeyboardListener(Ball ball, MyWorld world, JFrame frame, MyUserView view) {
         this.ball = ball;
         this.world = world;
         this.frame = frame;

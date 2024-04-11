@@ -4,14 +4,14 @@ import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
 public class Lever extends StaticBody {
-    private World world;
+    private MyWorld world;
     private int lever_count = 0;
     private static String leverState = "off";
     private static Shape leverShape = new BoxShape(1, 1);
     private static BodyImage lever_off = new BodyImage("assets/images/physics/lever_off.png", 2);
     private static BodyImage lever_on = new BodyImage("assets/images/physics/lever_on.png", 13);
 
-    Lever(World world) {
+    Lever(MyWorld world) {
         super(world, leverShape);
         this.world = world;
         addImage(lever_off);
@@ -42,7 +42,7 @@ public class Lever extends StaticBody {
                     }
                 }
                 else if (Game.getLevel() instanceof Level1) {
-                    draw_falling_box(world, 12f, 25f);
+                    draw_falling_box(world, 7f, 25f);
                 }
             }
         }

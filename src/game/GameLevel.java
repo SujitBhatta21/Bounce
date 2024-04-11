@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class GameLevel extends World {
     private static MyUserView view;
-    private static World world;
+    private static MyWorld world;
     private JFrame frame;
     private final static Color transparent_colour = new Color(0, 0, 0, 0);
 
@@ -25,7 +25,7 @@ public abstract class GameLevel extends World {
     }
 
 
-    public void setWorldGameLevel(World world) {
+    public void setWorldGameLevel(MyWorld world) {
         this.world = world;
     };
 
@@ -80,7 +80,7 @@ public abstract class GameLevel extends World {
 
     public abstract List<Collectable> getCollectableList();
 
-    public abstract World getLevelWorld() ;
+    public abstract MyWorld getLevelWorld() ;
 
     public abstract Ball getBall();
 
