@@ -22,10 +22,18 @@ public class PatrollerController implements StepListener {
 
     @Override
     public void preStep(StepEvent stepEvent) {
+
         if (patroller.getPosition().x < left || patroller.getPosition().x > right){
+            if (patroller instanceof Mole) {
+                ((Mole) patroller).getMoleImage().flipHorizontal();
+            }
             delta*=-1;
         }
         patroller.setPosition(new Vec2(patroller.getPosition().x + delta, patroller.getPosition().y));
+
+        if (patroller instanceof Mole) {
+            ((Mole) patroller).updateMoleTimer();
+        }
     }
 
     @Override

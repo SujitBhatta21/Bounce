@@ -38,7 +38,7 @@ public class Level2  extends GameLevel{
         making_world_border(world);
 
         // Setting up walker ball for Level2.
-        ball = new Ball(world, 0, 10);
+        ball = new Ball(world, 0, 0);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
         ball.setBallFriction(10);
 

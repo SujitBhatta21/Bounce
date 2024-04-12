@@ -120,5 +120,15 @@ public class BallCollisions implements CollisionListener {
         else if (e.getOtherBody() instanceof Spring && e.getReportingBody() instanceof Ball) {
             ball.applyForce(new Vec2(0, 10000));
         }
+
+        else if (e.getOtherBody() instanceof Mole && e.getReportingBody() instanceof Ball) { // replace Ball with your ball class
+            if (((Mole) e.getOtherBody()).isUnderground()) {
+                // Apply upward force to the ball
+                ball.applyForce(new Vec2(0, 10000));
+            } else {
+                // Kill the mole
+                e.getOtherBody().destroy();
+            }
+        }
     }
 }

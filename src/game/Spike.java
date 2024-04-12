@@ -1,6 +1,7 @@
 package game;
 
 import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 
 
 public class Spike extends StaticBody {
@@ -14,6 +15,7 @@ public class Spike extends StaticBody {
         super(world, ballShape);
         this.x_pos = x_pos;
         this.y_pos = y_pos;
+        setPosition(new Vec2(x_pos, y_pos));
         addImage(image);
     }
 

@@ -3,6 +3,9 @@ package game;
 import city.cs.engine.*;
 
 public class Ball extends Walker {
+    public enum Mode {
+        BOUNCE, ROCKY, VOLLEY
+    }
     private Portal lastPortal;
     private static float radius = 1;
     private static float x_pos, y_pos;
@@ -11,7 +14,7 @@ public class Ball extends Walker {
     private int ballMaxHealth = 5;
     private int ballHealth = ballMaxHealth;
     private float ballSpeed;
-    private int ballMode = 1;
+    private Mode ballMode;
     private boolean onMovingPlatform = false;
 
     public Ball(World world, float x_pos, float y_pos) {
@@ -19,6 +22,7 @@ public class Ball extends Walker {
         this.x_pos = x_pos;
         this.y_pos = y_pos;
         this.ballSpeed = 8;
+        ballMode = Mode.BOUNCE;
         addImage(image);
     }
 
@@ -73,22 +77,22 @@ public class Ball extends Walker {
         this.ballMaxHealth = ballMaxHealth;
     }
 
-    public void setBallMode(int mode) {
+    public void setBallMode(Mode mode) {
         this.ballMode = mode;
         changeBallMode(mode);
     }
 
-    public int getBallMode() {
+    public Mode getBallMode() {
         return ballMode;
     }
 
-    public void changeBallMode(int mode) {
-        if (mode == 1) {
+    public void changeBallMode(Mode mode) {
+        if (mode == Mode.BOUNCE) {
             // Set ball to default values.
             setGravityScale(1.0f); // Normal gravity
             setImage(new BodyImage("assets/images/character/red_ball.png", 2*radius));
             setBall_speed(8);
-        } else if (mode == 2) {
+        } else if (mode == Mode.ROCKY) {
             // Increase the gravity.
             setGravityScale(2.0f); // Heavier gravity
             setImage(new BodyImage("assets/images/character/rockball.png", 2.4f*radius)); // Change the image to rock ball
@@ -97,9 +101,8 @@ public class Ball extends Walker {
         }
     }
 
-
     public boolean canBreakWall() {
-        if (this.ballMode == 2) {
+        if (this.ballMode == Mode.ROCKY) {
             return true;
         } else {
             return false;

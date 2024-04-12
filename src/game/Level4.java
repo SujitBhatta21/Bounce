@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level1  extends GameLevel{
+public class Level4  extends GameLevel{
     private static MyUserView view;
     private static MyWorld world;
     private Ball ball;
@@ -20,7 +20,7 @@ public class Level1  extends GameLevel{
     private static Portal[] portal_pair;
     private static StaticBody levelEndFinalTouch;
 
-    public Level1(){
+    public Level4(){
         //base class will create the student, professor
         super();
 
@@ -29,15 +29,15 @@ public class Level1  extends GameLevel{
     }
 
 
-    private void start_level_1(JFrame frame) {
+    private void start_level_4(JFrame frame) {
         world.start();
 
-        System.out.println("level_1 method called");
+        System.out.println("level_4 method called");
 
         making_world_border(world);
 
         // Setting up walker ball for Level2.
-        ball = new Ball(world, 0, 0);
+        ball = new Ball(world, 0, 10);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
         ball.setBallFriction(10);
 
@@ -83,7 +83,7 @@ public class Level1  extends GameLevel{
 
     @Override
     public void startLevel(JFrame frame) {
-        start_level_1(frame);
+        start_level_4(frame);
     }
 
     @Override

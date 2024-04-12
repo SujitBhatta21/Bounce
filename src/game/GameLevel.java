@@ -48,7 +48,7 @@ public abstract class GameLevel extends World {
 
     public static void making_world_border(World world) {
         // making left border
-        Shape left = new BoxShape(0.5f, 12.5f);
+        Shape left = new BoxShape(0.5f, 15f);
         StaticBody left_border = new StaticBody(world, left);
         left_border.setFillColor(new Color(0, 10,10));
         left_border.setPosition(new Vec2(-20.5f, 0));
@@ -62,16 +62,16 @@ public abstract class GameLevel extends World {
         ground.setPosition(new Vec2(0f, -11f));
 
         // making right border
-        Shape right = new BoxShape(0.5f, 12.5f);
+        Shape right = new BoxShape(0.5f, 15f);
         StaticBody right_border = new StaticBody(world, right);
         right_border.setPosition(new Vec2(20.5f, 0));
 
         // making top border
-        /*
-        Shape top = new BoxShape(WIDTH / 30, 0.5f);
-        StaticBody top_border = new StaticBody(world, top);
-        top_border.setPosition(new Vec2(0 , HEIGHT/37));
-         */
+        if (!(Game.getLevel() instanceof Level1)) {
+            Shape top = new BoxShape(30f, 0.5f);
+            StaticBody top_border = new StaticBody(world, top);
+            top_border.setPosition(new Vec2(0, 15f));
+        }
     }
 
     public abstract void startLevel(JFrame frame);

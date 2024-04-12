@@ -53,15 +53,35 @@ public class KeyboardListener implements KeyListener{
             Game.resetLevel();
         }
         else if (e.getKeyCode() == KeyEvent.VK_M) {
-            if (Game.getLevel() instanceof Level2) { // Change to level2 later.
-                System.out.println("Change mode of ball");
-                int temp = ball.getBallMode() + 1;
-                // This condition makes
-                if (temp > 2) {
-                    temp = 1;
+            Ball.Mode currentMode = ball.getBallMode();
+            Ball.Mode newMode;
+            if (Game.getLevel() instanceof Level2 || Game.getLevel() instanceof Level3) {
+                // For Level2 and Level3, only switch between BOUNCE and ROCKY
+                if (currentMode == Ball.Mode.BOUNCE) {
+                    newMode = Ball.Mode.ROCKY;
                 }
-                ball.setBallMode(temp);
+                else {
+                    newMode = Ball.Mode.BOUNCE;
+                }
+            } else if (Game.getLevel() instanceof Level4) {
+                // For Level4, cycle through all three modes
+                switch (currentMode) {
+                    case BOUNCE:
+                        newMode = Ball.Mode.ROCKY;
+                        break;
+                    case ROCKY:
+                        newMode = Ball.Mode.VOLLEY;
+                        break;
+                    case VOLLEY:
+                    default:
+                        newMode = Ball.Mode.BOUNCE;
+                        break;
+                }
+            } else {
+                // For other levels, keep the mode unchanged
+                newMode = currentMode;
             }
+            ball.setBallMode(newMode);
         }
     }
 
