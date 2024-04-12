@@ -24,7 +24,13 @@ public class MyGameButton {
     private String keyCode;
 
     public MyGameButton(MyWorld world, float x, float y, float width, float height, String keyCode, String imagePath) {
-        this.buttonShape = new BoxShape(width, height);
+        if (keyCode == "RESTART" || keyCode == "NEXT LEVEL") {
+            this.buttonShape = new CircleShape(height);
+            this.image = new BodyImage(imagePath,  2f*height);
+        } else {
+            this.buttonShape = new BoxShape(width, height);
+            this.image = new BodyImage(imagePath, 3.5f*height);
+        }
         this.world = world;
         this.x = x;
         this.y = y;
@@ -35,15 +41,6 @@ public class MyGameButton {
         buttonBody.setPosition(new Vec2(this.getX(), this.getY()));
         GhostlyFixture myButton = new GhostlyFixture(buttonBody, buttonShape);
 
-        // Load the image with both type image and BodyImage.
-        try {
-            this.buttonImage = ImageIO.read(new File(imagePath)); // Load the image here
-            // this.buttonImage.getScaledInstance(width, height, Image.SCALE_SMOOTH); // resizing image to screen size
-        } catch (IOException e) {
-            System.out.println("Error: failed to load the button image.");
-        }
-
-        this.image = new BodyImage(imagePath, 3.5f*height);
         buttonBody.addImage(image);
     }
 

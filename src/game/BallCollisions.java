@@ -130,5 +130,13 @@ public class BallCollisions implements CollisionListener {
                 e.getOtherBody().destroy();
             }
         }
+
+        if (level instanceof Level3) {
+            for (StaticBody s: ((Level3) level).getIceBlockageCollection()) {
+                if (e.getOtherBody() == s && ball.getBallMode() == Ball.Mode.ROCKY) {
+                    s.destroy();
+                }
+            }
+        }
     }
 }

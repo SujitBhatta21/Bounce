@@ -2,6 +2,7 @@ package game;
 
 import city.cs.engine.*;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import java.awt.*;
 import java.io.IOException;
 import java.io.File;
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
 public class MyUserView extends UserView {
     private MyWorld world;
     private static MyUserView view;
-    private Image background;
+    private Image background, snowBackground, scaledSnowImage;
     private final int width, height;
     private final Timer timer;
     private static int timeLeft = 100;
@@ -38,6 +39,18 @@ public class MyUserView extends UserView {
         } catch (IOException e) {
             System.out.println("Error: failed to load the background image.");
         }
+
+        try {
+            snowBackground = ImageIO.read(new File("assets/images/background/snowyBackground.png"));
+            snowBackground = snowBackground.getScaledInstance(width, height, Image.SCALE_SMOOTH); // resizing image to screen size
+        } catch (IOException e) {
+            System.out.println("Error: failed to load the background image.");
+        }
+
+        // Adding snow GIF in background for Level3.
+        ImageIcon snowIcon = new ImageIcon("assets/images/background/snowFalling.gif");
+        Image snowImage = snowIcon.getImage();
+        scaledSnowImage = snowImage.getScaledInstance(width, height - 110, Image.SCALE_DEFAULT);
 
         // Create a Timer that fires an event every second
         timer = new Timer(1000, new ActionListener() {
@@ -109,86 +122,121 @@ public class MyUserView extends UserView {
              }
 
 
-            // Displaying rectangle shape.
+            // Displaying rectangle shape. Value for Y given in each condition.
              int rectWidth = getWidth() / 2;
-             int rectHeight = getHeight() / 2;
+             int rectHeight;
              int rectX = (getWidth() - rectWidth) / 2;
-             int rectY = (getHeight() - rectHeight) / 2;
+             int rectY;
 
              if (helpClicked && !wonTheGame && !lostTheGame) {
+                 rectHeight = getHeight() / 2;
+                 rectY = (getHeight() - rectHeight) / 2;
 
-                // Draw a red rectangle in the middle of the screen
-                g.setColor(Color.YELLOW);
-                g.fillRect(rectX, rectY, rectWidth, rectHeight);
+                 // Draw a red rectangle in the middle of the screen
+                 g.setColor(Color.YELLOW);
+                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                // Display the help text
-                g.setFont(helpFont);
-                g.setColor(Color.BLACK);
-                g.drawString("Help template", rectX + 90, rectY + 20);
-                g.drawString("Your goal in this level is to free ", rectX + 20, rectY + 40);
-                g.drawString("your old trusty friend THE ROCK!!!", rectX + 20, rectY + 60);
-                g.drawString("Collect all keys to open the cage.", rectX + 20, rectY + 80);
+                 // Display the help text
+                 g.setFont(helpFont);
+                 g.setColor(Color.BLACK);
 
-                g.drawString("How to play:", rectX + 20, rectY + 120);
-                g.drawString("Use arrow keys to move BOUNCE / RED", rectX + 20, rectY + 140);
-                g.drawString("Press R to restart the game.", rectX + 20, rectY + 160);
-                g.drawString("New features coming soon!!!", rectX + 20, rectY + 180);
-                g.drawString("Click the help again to exit this", rectX + 20, rectY + 220);
+                 g.drawString("How to play:", rectX + 20, rectY + 120);
+                 g.drawString("Use arrow keys to move BOUNCE / RED", rectX + 20, rectY + 140);
+                 g.drawString("Press M to change ball mode .", rectX + 20, rectY + 160);
+                 g.drawString("New features coming soon!!!", rectX + 20, rectY + 180);
+                 g.drawString("Click the help again to exit this", rectX + 20, rectY + 220);
+
+                if (currentLevel instanceof Level1) {
+                    g.drawString("Help template", rectX + 90, rectY + 20);
+                    g.drawString("Your goal in this level is to free ", rectX + 20, rectY + 40);
+                    g.drawString("your old trusty friend THE ROCKY!!!", rectX + 20, rectY + 60);
+                    g.drawString("Collect all keys to open the cage.", rectX + 20, rectY + 80);
+
+                    g.drawString("How to play:", rectX + 20, rectY + 120);
+                    g.drawString("Use arrow keys to move BOUNCE / RED", rectX + 20, rectY + 140);
+                    g.drawString("Press M to change ball mode .", rectX + 20, rectY + 160);
+                    g.drawString("New features coming soon!!!", rectX + 20, rectY + 180);
+                    g.drawString("Click the help again to exit this", rectX + 20, rectY + 220);
+                }
+                else if (currentLevel instanceof Level2) {
+                    g.drawString("Help template", rectX + 90, rectY + 20);
+                    g.drawString("Free YOURSELF. ", rectX + 20, rectY + 40);
+                    g.drawString("ESCAPE FROM HYPNOTISER", rectX + 20, rectY + 60);
+                    g.drawString("Collect all keys to open the door.", rectX + 20, rectY + 80);
+                }
+                else if (currentLevel instanceof Level3) {
+                    g.drawString("Help template", rectX + 90, rectY + 20);
+                    g.drawString("Save VOLLEY!!!", rectX + 20, rectY + 40);
+                    g.drawString("With Power Of Friendship :)", rectX + 20, rectY + 60);
+                    g.drawString("Collect all keys to open the cage.", rectX + 20, rectY + 80);
+                }
+                else if (currentLevel instanceof Level3) {
+                    g.drawString("Help template", rectX + 90, rectY + 20);
+                    g.drawString("BEAT HYPNOTISER", rectX + 20, rectY + 40);
+                    g.drawString("With Power Of Friendship :)", rectX + 20, rectY + 60);
+                    g.drawString("Stop him from hurting anyone else", rectX + 20, rectY + 80);
+                }
              }
 
              else if (wonTheGame) {
+                 rectHeight = getHeight() / 4;
+                 rectY = (getHeight() - 2*rectHeight) / 2;
+
+                 // Draw a red rectangle in the middle of the screen
+                 g.setColor(Color.GREEN);
+                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
+
+                 // Display congratulation screen for level 1.
+                 g.setFont(STATUS_FONT);
+                 g.setColor(Color.BLACK);
+
+                 // Display two buttons. Restart or go to next level for any level if won.
+                 MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
+                 Game.getAllButtons().add(restartButton);
+
+                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                 Game.getAllButtons().add(nextLevelButton);
+
                  if (currentLevel instanceof Level1) {
-                     // Draw a red rectangle in the middle of the screen
-                     g.setColor(Color.GREEN);
-                     g.fillRect(rectX, rectY, rectWidth, rectHeight);
-
-                     // Display congratulation screen for level 1.
-                     g.setFont(STATUS_FONT);
-                     g.setColor(Color.BLACK);
-                     g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
-                     g.drawString("You saved your pal", rectX + 20, rectY + 120);
-                     g.drawString("ROOCKKKYYY", rectX + 20, rectY + 160);
-
-                     // Display two buttons. Restart or go to next level for any level if won.
-                     MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
-                     Game.getAllButtons().add(restartButton);
-
-                     MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
-                     Game.getAllButtons().add(nextLevelButton);
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
+                     g.drawString("You saved your pal", rectX + 20, rectY + 70);
+                     g.drawString("ROOCKKKYYY", rectX + 20, rectY + 110);
                  }
                  if (currentLevel instanceof Level2) {
-                     // Draw a red rectangle in the middle of the screen
-                     g.setColor(Color.GREEN);
-                     g.fillRect(rectX, rectY, rectWidth, rectHeight);
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
+                     g.drawString("You can now enter the", rectX + 20, rectY + 70);
+                     g.drawString("DUNGEON", rectX + 20, rectY + 110);
+                 }
 
-                     // Display congratulation screen for level 1.
-                     g.setFont(STATUS_FONT);
-                     g.setColor(Color.BLACK);
-                     g.drawString("Congratulations!!!", rectX + 20, rectY + 80);
-                     g.drawString("You can now enter the", rectX + 20, rectY + 120);
-                     g.drawString("DUNGEON", rectX + 20, rectY + 160);
-
-                     // Display two buttons. Restart or go to next level for any level if won.
-                     MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 1f, "RESTART", "assets/images/texts/restart.png");
-                     Game.getAllButtons().add(restartButton);
-
-                     MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 1f, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
-                     Game.getAllButtons().add(nextLevelButton);
+                 if (currentLevel instanceof Level3) {
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
+                     g.drawString("Now save your pal", rectX + 20, rectY + 70);
+                     g.drawString("VOLLEY", rectX + 20, rectY + 110);
                  }
              }
 
 
             else if (lostTheGame) {
+                rectHeight = getHeight() / 4;
+                rectY = (getHeight() - 2*rectHeight) / 2;
+
+                // Display two buttons. Restart or go to next level for any level if won.
+                MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
+                Game.getAllButtons().add(restartButton);
+
+                MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                Game.getAllButtons().add(nextLevelButton);
+
                 if (currentLevel instanceof Level1) {
                     // Draw a red rectangle in the middle of the screen
                     g.setColor(Color.RED);
                     g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                    // Display congratulation screen.
+                    // Display losing screen.
                     g.setFont(STATUS_FONT);
                     g.setColor(Color.WHITE);
-                    g.drawString("Mehhh", rectX + 20, rectY + 80);
-                    g.drawString("Try Again!!!", rectX + 20, rectY + 120);
+                    g.drawString("Mehhh", rectX + 20, rectY + 30);
+                    g.drawString("Try Again!!!", rectX + 20, rectY + 70);
 
                     world.stop();
                 }
@@ -199,14 +247,12 @@ public class MyUserView extends UserView {
     @Override
     protected void paintBackground(Graphics2D g) {
         if (currentLevel instanceof Level3) {
-            try {
-                background = ImageIO.read(new File("assets/images/background/New Project.jpg"));
-                background = background.getScaledInstance(width, height, Image.SCALE_SMOOTH); // resizing image to screen size
-            } catch (IOException e) {
-                System.out.println("Error: failed to load the background image.");
-            }
+            g.drawImage(snowBackground, 0, 0, this);
+            g.drawImage(scaledSnowImage, 0, 0, this);
         }
-        g.drawImage(background, 0, 0, this);
+        else {
+            g.drawImage(background, 0, 0, this);
+        }
     }
 
     @Override

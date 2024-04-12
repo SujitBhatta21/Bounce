@@ -154,15 +154,13 @@ public class Game {
 
         level.getBall().setBallHealth(level.getBall().getBallMaxHealth());
 
-        MyGameButton helpButton = new MyGameButton(world, 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
+        MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
         allButtons.add(helpButton);
 
         // Resetting timer and key/coin count to 0.
         view.setTimeLeft(100);
         view.getKeys().get(0).setCoin_count(0);
-
-        // Adding mouse listener on current view.
-        view.addMouseListener(new MouseOnButtonListener(Game.getLevel().getLevelWorld(), view));
+        view.setWonTheGame(false);
     }
 
 
@@ -218,6 +216,10 @@ public class Game {
         view.restartTimer();
         view.getKeys().get(0).setCoin_count(0);
         level.getCollectableList().get(0).setCoin_count(0);
+
+        // Making help button for next level.
+        MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
+        allButtons.add(helpButton);
     }
 
     public static JFrame getFrame() {

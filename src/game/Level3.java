@@ -17,6 +17,7 @@ public class Level3  extends GameLevel{
     private static Lever lever;
     private static Portal[] portal_pair;
     private static StaticBody levelEndFinalTouch;
+    private static ArrayList<StaticBody> iceBlockageCollection = new ArrayList<>();
 
     public Level3(){
         super();
@@ -57,8 +58,10 @@ public class Level3  extends GameLevel{
             drawBoxShape(world, 1f, 1f, x, y, "visible", "assets/images/physics/fallingBox.png",2*1f);
             y += 2;
         }
+        // Making ice boxes...
         for (int i = 0; i < 3; i++) {
-            drawBoxShape(world, 1f, 1f, x, y, "visible", "assets/images/physics/IceBox.png",2*1f);
+            StaticBody b = drawBoxShape(world, 1f, 1f, x, y, "visible", "assets/images/physics/IceBox.png",2*1f);
+            iceBlockageCollection.add(b);
             y += 2;
         }
 
@@ -79,6 +82,10 @@ public class Level3  extends GameLevel{
         frame.addKeyListener(k);
     }
 
+    public ArrayList<StaticBody> getIceBlockageCollection() {
+        return iceBlockageCollection;
+    }
+
     public Lever getLever() {
         return lever;
     }
@@ -87,6 +94,7 @@ public class Level3  extends GameLevel{
         return portal_pair;
     }
 
+    @Override
     public StaticBody getLevelEndFinalTouch() {
         return levelEndFinalTouch;
     }
