@@ -167,10 +167,10 @@ public class MyUserView extends UserView {
                 else if (currentLevel instanceof Level3) {
                     g.drawString("Help template", rectX + 90, rectY + 20);
                     g.drawString("Save VOLLEY!!!", rectX + 20, rectY + 40);
-                    g.drawString("With Power Of Friendship :)", rectX + 20, rectY + 60);
+                    g.drawString("ROCKY can break ICE :)", rectX + 20, rectY + 60);
                     g.drawString("Collect all keys to open the cage.", rectX + 20, rectY + 80);
                 }
-                else if (currentLevel instanceof Level3) {
+                else if (currentLevel instanceof Level4) {
                     g.drawString("Help template", rectX + 90, rectY + 20);
                     g.drawString("BEAT HYPNOTISER", rectX + 20, rectY + 40);
                     g.drawString("With Power Of Friendship :)", rectX + 20, rectY + 60);
@@ -202,16 +202,15 @@ public class MyUserView extends UserView {
                      g.drawString("You saved your pal", rectX + 20, rectY + 70);
                      g.drawString("ROOCKKKYYY", rectX + 20, rectY + 110);
                  }
-                 if (currentLevel instanceof Level2) {
-                     g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
-                     g.drawString("You can now enter the", rectX + 20, rectY + 70);
-                     g.drawString("DUNGEON", rectX + 20, rectY + 110);
-                 }
-
-                 if (currentLevel instanceof Level3) {
+                 else if (currentLevel instanceof Level2) {
                      g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
                      g.drawString("Now save your pal", rectX + 20, rectY + 70);
                      g.drawString("VOLLEY", rectX + 20, rectY + 110);
+                 }
+                 else if (currentLevel instanceof Level3) {
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
+                     g.drawString("Beat Hypnotiser", rectX + 20, rectY + 70);
+                     g.drawString("Save Everyone", rectX + 20, rectY + 110);
                  }
              }
 
@@ -273,16 +272,23 @@ public class MyUserView extends UserView {
             g.drawImage(image, 200, 100,  width / 2, height / 4, this);
         }
         else if (gameState == "play") {
+            Image image = null;
+            try {
+                image = ImageIO.read(new File("assets/images/cage.gif"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (currentLevel instanceof Level1) {
-                Image image = null;
-                try {
-                    image = ImageIO.read(new File("assets/images/cage.gif"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 if (image != null) {
                     // Drawing cage on top of the rockball.
                     g.drawImage(image, 588, 82, 65, 55, this);
+                }
+            }
+
+            else if (currentLevel instanceof Level3) {
+                if (image != null) {
+                    // Drawing cage on top of the rockball.
+                    g.drawImage(image, 733, 440, 65, 55, this);
                 }
             }
         }

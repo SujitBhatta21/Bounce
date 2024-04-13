@@ -12,7 +12,7 @@ public class Level3  extends GameLevel{
     private static MyWorld world;
     private Ball ball;
     private List<Collectable> collectableList = new ArrayList<Collectable>();
-    private final static String platformImagePath = "assets/images/platform1.gif";
+    private final static String platformImagePath = "assets/images/platform/platform1.gif";
     private final String suppportBoxImagePath = "assets/images/physics/fallingBox.png";
     private static Lever lever;
     private static Portal[] portal_pair;
@@ -38,7 +38,7 @@ public class Level3  extends GameLevel{
         making_world_border(world);
 
         // Setting up walker ball for Level2.
-        ball = new Ball(world, -18f, 0);
+        ball = new Ball(world, 5f, -9.5f);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
         ball.setBallFriction(10);
 
@@ -65,17 +65,30 @@ public class Level3  extends GameLevel{
             y += 2;
         }
 
-        Collectable key2 = new Collectable(world, 5, -7);
+        FallingPlatform fallingPlatform1 = new FallingPlatform(world, 4, -10+5);
+        FallingPlatform fallingPlatform2 = new FallingPlatform(world, -5, -7+5);
+        FallingPlatform fallingPlatform3 = new FallingPlatform(world, -15, -4+5);
+
+        Spring spring1 = new Spring(world, 13f, -9.5f);
+        spring1.setPosition(new Vec2(spring1.getXPos(), spring1.getYPos()));
+
+        Collectable key1 = new Collectable(world, 10, 10);
+        collectableList.add(key1);
+
+        Collectable key2 = new Collectable(world, -15, 10);
         collectableList.add(key2);
 
-        Mole mole = new Mole(world, 0, -9.5f);
+        // Setting max coin count in this level.
+        key1.setMax_coin_count(3);
+
+        Mole mole = new Mole(world, -15f, -9.5f);
 
         /* Initialising CollisionListener with ball */
         BallCollisions ballCollisions = new BallCollisions();
         ball.addCollisionListener(ballCollisions);
 
         /* Initialising StepListener to mole */
-        world.addStepListener(new PatrollerController(mole, -3f, 3f));
+        world.addStepListener(new PatrollerController(mole, -18f, -3f));
 
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball, world, frame, view);

@@ -118,7 +118,12 @@ public class BallCollisions implements CollisionListener {
         }
 
         else if (e.getOtherBody() instanceof Spring && e.getReportingBody() instanceof Ball) {
-            ball.applyForce(new Vec2(0, 10000));
+            if (level instanceof Level3) {
+                ball.applyForce(new Vec2(0, 11000));
+            }
+            else {
+                ball.applyForce(new Vec2(0, 10000));
+            }
         }
 
         else if (e.getOtherBody() instanceof Mole && e.getReportingBody() instanceof Ball) { // replace Ball with your ball class
@@ -128,14 +133,25 @@ public class BallCollisions implements CollisionListener {
             } else {
                 // Kill the mole
                 e.getOtherBody().destroy();
+                // Create a new key on top coordinate of the mole.
+                Vec2 pos = e.getOtherBody().getPosition();
+                Collectable key3 = new Collectable(world, pos.x, pos.y);
+                level.getCollectableList().add(key3);
             }
         }
+
+
 
         if (level instanceof Level3) {
             for (StaticBody s: ((Level3) level).getIceBlockageCollection()) {
                 if (e.getOtherBody() == s && ball.getBallMode() == Ball.Mode.ROCKY) {
                     s.destroy();
                 }
+            }
+
+            if (e.getOtherBody() instanceof FallingPlatform && e.getReportingBody() instanceof Ball) {
+                System.out.println("Ball collided with FallingPlatform.");
+                ((FallingPlatform) e.getOtherBody()).ballTouched();
             }
         }
     }

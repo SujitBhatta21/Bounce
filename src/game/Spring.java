@@ -6,7 +6,6 @@ public class Spring extends StaticBody {
     private static float width = 0.60f ,height = 1.2f;
     private static float x_pos, y_pos;
     private static final Shape springShape = new BoxShape(width, height);
-
     private BodyImage image = new BodyImage("assets/images/physics/spring_image.png", 2*height);
 
     public Spring(MyWorld world, float x_pos, float y_pos) {

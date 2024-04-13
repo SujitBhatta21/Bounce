@@ -20,7 +20,7 @@ public class Mole extends StaticBody {
         this.x_pos = x_pos;
         this.y_pos = y_pos;
         this.undergroundYPos = y_pos - 0.5f; // Set the underground y-position
-        setPosition(new Vec2(x_pos, y_pos));
+        setPosition(new Vec2(getXPos(), getYPos()));
         moleImage = new AttachedImage(this, image, 1.0f, 0.0f, new Vec2(0, 0));
         moleCloudImage = new AttachedImage(this, cloudImage, 1.0f, 0.0f, new Vec2(0, 100));
         moleCloudImage.setScale(1.2f);
