@@ -19,7 +19,7 @@ public class MyUserView extends UserView {
     private Image background, snowBackground, scaledSnowImage;
     private final int width, height;
     private final Timer timer;
-    private static int timeLeft = 100;
+    private static int timeLeft = 10;
     private static String gameState = "intro";
     private static List<Collectable> keys;
     private GameLevel currentLevel;
@@ -60,15 +60,18 @@ public class MyUserView extends UserView {
                 if (timeLeft > 0 && !getHelpClicked() && !world.isStopped()) {
                     timeLeft--;
                 } else if (timeLeft <= 0){
-                    // Time's up, set lostTheGame to true
-                    lostTheGame = true;
-                    Game.updateSound();
+                    // Time's up
+                    if (!lostTheGame) {
+                        // If the game was not already lost, play the sound and set lostTheGame to true
+                        lostTheGame = true;
+                        Game.updateSound();
+                    }
                     ((Timer)e.getSource()).stop();
                     Game.getLevel().getLevelWorld().stop();
-                    lostTheGame = false;
                 }
             }
         });
+
     }
 
     @Override
@@ -191,10 +194,10 @@ public class MyUserView extends UserView {
                  g.setColor(Color.BLACK);
 
                  // Display two buttons. Restart or go to next level for any level if won.
-                 MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
+                 MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
                  Game.getAllButtons().add(restartButton);
 
-                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                 MyGameButton nextLevelButton = new MyGameButton(world, 8, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
                  Game.getAllButtons().add(nextLevelButton);
 
                  if (currentLevel instanceof Level1) {
@@ -208,6 +211,11 @@ public class MyUserView extends UserView {
                      g.drawString("VOLLEY", rectX + 20, rectY + 110);
                  }
                  else if (currentLevel instanceof Level3) {
+                     // Setting falling platform to vertical to avoid interference with buttons.
+                     for (FallingPlatform platform : Level3.getFallingPlatforms()) {
+                         platform.setVertical();
+                     }
+
                      g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
                      g.drawString("Beat Hypnotiser", rectX + 20, rectY + 70);
                      g.drawString("Save Everyone", rectX + 20, rectY + 110);
@@ -226,19 +234,35 @@ public class MyUserView extends UserView {
                 MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
                 Game.getAllButtons().add(nextLevelButton);
 
+                 // Draw a red rectangle in the middle of the screen
+                 g.setColor(Color.RED);
+                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
+
+                 // Display losing screen.
+                 g.setFont(STATUS_FONT);
+                 g.setColor(Color.WHITE);
+
                 if (currentLevel instanceof Level1) {
-                    // Draw a red rectangle in the middle of the screen
-                    g.setColor(Color.RED);
-                    g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                    // Display losing screen.
-                    g.setFont(STATUS_FONT);
-                    g.setColor(Color.WHITE);
-                    g.drawString("Mehhh", rectX + 20, rectY + 30);
+                    g.drawString("You Lost Level1", rectX + 20, rectY + 30);
                     g.drawString("Try Again!!!", rectX + 20, rectY + 70);
+                } else if (currentLevel instanceof Level2) {
+                    g.drawString("You Lost Level2", rectX + 20, rectY + 30);
+                    g.drawString("Try Again!!!", rectX + 20, rectY + 70);
+                } else if (currentLevel instanceof Level3) {
+                    // Setting falling platform to vertical to avoid interference with buttons.
+                    for (FallingPlatform platform : Level3.getFallingPlatforms()) {
+                        platform.setVertical();
+                    }
 
-                    world.stop();
+                    g.drawString("You Lost Level3", rectX + 20, rectY + 30);
+                    g.drawString("Try Again!!!", rectX + 20, rectY + 70);
+                } else {
+                    g.drawString("You Lost Level4", rectX + 20, rectY + 30);
+                    g.drawString("Try Again!!!", rectX + 20, rectY + 70);
                 }
+
+                 world.stop();
             }
          }
     }

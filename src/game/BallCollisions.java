@@ -75,6 +75,14 @@ public class BallCollisions implements CollisionListener {
                     System.out.println("Final Boss Hypnotiser is ready...");
                 }
             }
+            else {
+                view.setLostTheGame(true);
+
+                // Update the sound in the game.
+                Game.updateSound();
+
+                System.out.println("You did not collect all collectable.");
+            }
 
             this.world.stop();
         }
@@ -118,12 +126,7 @@ public class BallCollisions implements CollisionListener {
         }
 
         else if (e.getOtherBody() instanceof Spring && e.getReportingBody() instanceof Ball) {
-            if (level instanceof Level3) {
-                ball.applyForce(new Vec2(0, 11000));
-            }
-            else {
-                ball.applyForce(new Vec2(0, 10000));
-            }
+            ball.applyForce(new Vec2(0, 12000));
         }
 
         else if (e.getOtherBody() instanceof Mole && e.getReportingBody() instanceof Ball) { // replace Ball with your ball class

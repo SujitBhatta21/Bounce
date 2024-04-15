@@ -12,10 +12,9 @@ public class Level3  extends GameLevel{
     private static MyWorld world;
     private Ball ball;
     private List<Collectable> collectableList = new ArrayList<Collectable>();
-    private final static String platformImagePath = "assets/images/platform/platform1.gif";
-    private final String suppportBoxImagePath = "assets/images/physics/fallingBox.png";
-    private static Lever lever;
-    private static Portal[] portal_pair;
+    private static ArrayList<FallingPlatform> fallingPlatforms = new ArrayList<>();
+    private Lever lever;
+    private Portal[] portal_pair;
     private static StaticBody levelEndFinalTouch;
     private static ArrayList<StaticBody> iceBlockageCollection = new ArrayList<>();
 
@@ -48,7 +47,7 @@ public class Level3  extends GameLevel{
         volley.setPosition(new Vec2(18.5f,-9.5f));
         volley.addImage(new BodyImage("assets/images/character/beach_ball.png", 6));
 
-        // Setting end game final touch as rockball for Level1;
+        // Setting end game final touch as rock ball for Level1;
         levelEndFinalTouch = volley;
 
         // Making box tower near volley.
@@ -66,8 +65,13 @@ public class Level3  extends GameLevel{
         }
 
         FallingPlatform fallingPlatform1 = new FallingPlatform(world, 4, -10+5);
+        fallingPlatforms.add(fallingPlatform1);
+
         FallingPlatform fallingPlatform2 = new FallingPlatform(world, -5, -7+5);
+        fallingPlatforms.add(fallingPlatform2);
+
         FallingPlatform fallingPlatform3 = new FallingPlatform(world, -15, -4+5);
+        fallingPlatforms.add(fallingPlatform3);
 
         Spring spring1 = new Spring(world, 13f, -9.5f);
         spring1.setPosition(new Vec2(spring1.getXPos(), spring1.getYPos()));
@@ -97,6 +101,10 @@ public class Level3  extends GameLevel{
 
     public ArrayList<StaticBody> getIceBlockageCollection() {
         return iceBlockageCollection;
+    }
+
+    public static ArrayList<FallingPlatform> getFallingPlatforms() {
+        return fallingPlatforms;
     }
 
     public Lever getLever() {

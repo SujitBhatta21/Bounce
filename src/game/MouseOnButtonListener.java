@@ -6,6 +6,7 @@ import org.jbox2d.common.Vec2;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 
 public class MouseOnButtonListener extends MouseAdapter {
@@ -22,7 +23,8 @@ public class MouseOnButtonListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         Vec2 p = view.viewToWorld(e.getPoint());
-        for (MyGameButton button: Game.getAllButtons()) {
+        ArrayList<MyGameButton> buttonsCopy = new ArrayList<>(Game.getAllButtons());
+        for (MyGameButton button: buttonsCopy) {
             if (button.getButtonBody().contains(p)) {
                 // Play button clicked sound.
                 buttonClick.play();

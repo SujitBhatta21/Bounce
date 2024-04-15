@@ -70,4 +70,10 @@ public class FallingPlatform extends StaticBody {
     public static float getYPos() {
         return y_pos;
     }
+
+    public void setVertical() {
+        // Convert 90 degrees to radians setting the falling platform to vertical.
+        float angleInRadians = (float) Math.toRadians(90);
+        this.setAngle(angleInRadians);
+    }
 }

@@ -1,5 +1,3 @@
-// Demo code.
-
 package game;
 
 import city.cs.engine.*;

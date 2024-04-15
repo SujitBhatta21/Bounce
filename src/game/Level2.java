@@ -1,76 +1,139 @@
-// Demo code.
-
 package game;
 
-        import city.cs.engine.*;
-        import org.jbox2d.common.Vec2;
+import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 
-        import javax.swing.*;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Stack;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Level2  extends GameLevel{
+public class Level2 extends GameLevel {
     private static MyUserView view;
-    private static MyWorld world;
-    private Ball ball;
-    private List<Collectable> collectableList = new ArrayList<Collectable>();
-    private final static String platformImagePath = "assets/images/platform1.gif";
-    private final String suppportBoxImagePath = "assets/images/physics/fallingBox.png";
-    private static Lever lever;
+    private final MyWorld world;
+    private static Ball ball;
     private static Portal[] portal_pair;
+    private final ArrayList<Collectable> collectableList = new ArrayList<>();
     private static StaticBody levelEndFinalTouch;
+    private final static String platformImagePath = "assets/images/platform/platform1.gif";
+    private static final List<StaticBody> blockageCollection = new ArrayList<>();
+    private Lever lever;
 
-    public Level2(){
-        //base class will create the student, professor
+    public Level2() {
         super();
 
         world = new MyWorld();
+        System.out.println(world);
         this.view = getView();
+
     }
 
 
-    private void start_level_1(JFrame frame) {
+    private void start_level_2(JFrame frame) {
+        System.out.println("Level 2 is initialised...");
+
+        // Making a debugging view. Used for debugging.
+        new DebugViewer(world, 800, 600);
+
         world.start();
 
-        System.out.println("level_1 method called");
+        view.setTimeLeft(100);
 
         making_world_border(world);
 
         // Setting up walker ball for Level2.
-        ball = new Ball(world, 0, 0);
+        ball = new Ball(world, -18, 0);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));
-        ball.setBallFriction(10);
+        // ball.setBallFriction(10);
 
-        // Drawing game exit home...
-        Shape rockballShape = new BoxShape(0.60f, 1.2f);
-        StaticBody exit_home = new StaticBody(world, rockballShape);
-        exit_home.setPosition(new Vec2(0,-9.5f));
-        exit_home.addImage(new BodyImage("assets/images/dungeonDoor.png", 2.5f));
+        Spring spring1 = new Spring(world, -15, -9.5f);
+        spring1.setPosition(new Vec2(spring1.getXPos(), spring1.getYPos()));
 
-        // Setting end game final touch as rockball for Level1;
+        // Making the moving spikes
+        float x_pos = -13;
+        for (int i = 0; i < 23; i++) {
+            Spike spike1 = new Spike(world, x_pos, -9.5f);
+            spike1.setPosition(new Vec2(spike1.getXPos(), spike1.getYPos()));
+            x_pos = x_pos + 1.2f;
+        }
+
+        /* Making platform where character can walk in */
+        // 1st bounce touch platform.
+        MovingPlatform p1 = new MovingPlatform(world, -12, 0f);
+        MovingPlatform p2 = new MovingPlatform(world, 0, 6f);
+
+        // Drawing exit home.
+        StaticBody exit_home = drawBoxShape(world, 0.60f, 1.2f, 17.5f, -9.5f, "visible", "assets/images/dungeonDoor.png",2.5f);
+
+        // Setting end game final touch as exit home for Level2;
         levelEndFinalTouch = exit_home;
 
-        Collectable key2 = new Collectable(world, 0, -7);
+        /* Making portal  */
+        Portal portal_1 = new Portal(world, 5, -7);
+        portal_1.setPosition(new Vec2(portal_1.getXPos(), portal_1.getYPos()));
+
+        Portal portal_2 = new Portal(world, 15, 10);
+        portal_2.setPosition(new Vec2(portal_2.getXPos(), portal_2.getYPos()));
+
+        portal_pair = new Portal[]{portal_1, portal_2};
+
+        // Making blockage on top of exit home.
+        float x = 15.5f;
+        float y = -10f;
+        for (int i = 0; i < 5; i++) {
+            StaticBody b = drawBoxShape(world, 0.5f, 0.5f, x, y, "visible", "assets/images/physics/fallingBox.png",2*0.5f);
+            blockageCollection.add(b);
+            y += 1;
+        }
+        x = x + 1;
+        y = y - 1;
+        for (int i = 0; i < 4; i++) {
+            StaticBody b = drawBoxShape(world, 0.5f, 0.5f, x, y, "visible", "assets/images/physics/fallingBox.png",2*0.5f);
+            blockageCollection.add(b);
+            x += 1;
+        }
+        y = y - 1;
+        x = x - 1;
+        for (int i = 0; i < 4; i++) {
+            StaticBody b = drawBoxShape(world, 0.5f, 0.5f, x, y, "visible", "assets/images/physics/fallingBox.png",2*0.5f);
+            blockageCollection.add(b);
+            y -= 1;
+        }
+
+        // making lever.
+        lever = new Lever(world);
+        lever.setPosition(new Vec2(-10f, 8.5f));
+
+        // Lever holding platform.
+        drawBoxShape(world, 2, 0.5f, -10, 7.5f, "visible", platformImagePath,2);
+
+        /* making a border. */
+        making_world_border(world);
+
+        /* Making keys that appears in the game */
+        Collectable key1 = new Collectable(world, -15, 6);  // Max coin 4 for level 1.
+        collectableList.add(key1);
+
+        Collectable key2 = new Collectable(world, 4, -1);
         collectableList.add(key2);
 
-        key2.setMax_coin_count(collectableList.size());
+        Collectable key3 = new Collectable(world, -3, 10);
+        collectableList.add(key3);
 
         /* Initialising CollisionListener with ball */
         BallCollisions ballCollisions = new BallCollisions();
         ball.addCollisionListener(ballCollisions);
+
+        /* Initialising StepListener */
+        world.addStepListener(new PatrollerController(p1, -12f, -3f));
+        world.addStepListener(new PatrollerController(p2, 0f, 12f));
 
         // Checks if a key is pressed.
         KeyboardListener k = new KeyboardListener(ball, world, frame, view);
         frame.addKeyListener(k);
     }
 
-    public Lever getLever() {
-        return lever;
-    }
-
-    public Portal[] getPortal() {
-        return portal_pair;
+    public static List<StaticBody> getBlockageCollection() {
+        return blockageCollection;
     }
 
     public StaticBody getLevelEndFinalTouch() {
@@ -78,18 +141,18 @@ public class Level2  extends GameLevel{
     }
 
     @Override
-    public List<Collectable> getCollectableList() {
-        return collectableList;
-    }
-
-    @Override
     public void startLevel(JFrame frame) {
-        start_level_1(frame);
+        start_level_2(frame);
     }
 
     @Override
     public void stopLevel() {
-        this.world.stop();
+
+    }
+
+    @Override
+    public List<Collectable> getCollectableList() {
+        return collectableList;
     }
 
     @Override
@@ -102,9 +165,12 @@ public class Level2  extends GameLevel{
         return ball;
     }
 
-    public static ArrayList<StaticBody> getBlockageCollection() {
-        return new ArrayList<>();
+    public Lever getLever() {
+        return lever;
+    }
+
+    public Portal[] getPortal() {
+        return portal_pair;
     }
 }
-
 

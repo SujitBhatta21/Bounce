@@ -7,7 +7,7 @@ public class Mole extends StaticBody {
     private static float width = 0.75f, height = 1f;
     private float x_pos, y_pos;
     private static float undergroundYPos; // New variable for underground y-position
-    private static boolean isUnderground = false;
+    private boolean isUnderground = false;
     private long lastSwitchTime = System.currentTimeMillis();
     private static final Shape moleShape = new BoxShape(width, height);
     private BodyImage image = new BodyImage("assets/images/enemy/mole_image.png", 2*height);
@@ -52,7 +52,7 @@ public class Mole extends StaticBody {
         return y_pos;
     }
 
-    public static boolean isUnderground() {
+    public boolean isUnderground() {
         return isUnderground;
     }
 

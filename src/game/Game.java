@@ -91,7 +91,7 @@ public class Game {
 
         frame.add(view);  // Add the view to the frame.
         //optional: draw a 1-metre grid over the view
-        view.setGridResolution(1);
+        //view.setGridResolution(1);
 
         for (MyGameButton button: allButtons) {
             button.getButtonBody().destroy();
@@ -161,6 +161,9 @@ public class Game {
         view.setTimeLeft(100);
         view.getKeys().get(0).setCoin_count(0);
         view.setWonTheGame(false);
+        view.setLostTheGame(false);
+
+        updateSound();
     }
 
 
@@ -207,6 +210,8 @@ public class Game {
         // Setting up for new level.
         view.setWorld(level.getLevelWorld());
         view.setCollectableList(level.getCollectableList());
+        view.setWonTheGame(false);
+        view.setLostTheGame(false);
 
         // Initialising the new level.
         level.startLevel(frame);
@@ -220,6 +225,8 @@ public class Game {
         // Making help button for next level.
         MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
         allButtons.add(helpButton);
+
+        updateSound();
     }
 
     public static JFrame getFrame() {
