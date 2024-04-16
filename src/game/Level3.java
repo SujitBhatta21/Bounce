@@ -45,7 +45,7 @@ public class Level3  extends GameLevel{
         Shape rockballShape = new CircleShape(1);
         StaticBody volley = new StaticBody(world, rockballShape);
         volley.setPosition(new Vec2(18.5f,-9.5f));
-        volley.addImage(new BodyImage("assets/images/character/beach_ball.png", 6));
+        volley.addImage(new BodyImage("assets/images/character/beach_ball.png", 2));
 
         // Setting end game final touch as rock ball for Level1;
         levelEndFinalTouch = volley;

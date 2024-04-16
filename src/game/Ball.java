@@ -94,10 +94,16 @@ public class Ball extends Walker {
             setBall_speed(8);
         } else if (mode == Mode.ROCKY) {
             // Increase the gravity.
-            setGravityScale(2.0f); // Heavier gravity
+            setGravityScale(1.5f); // Heavier gravity
             setImage(new BodyImage("assets/images/character/rockball.png", 2.4f*radius)); // Change the image to rock ball
             // Less jump.
-            setBall_speed(4);
+            setBall_speed(5);
+        } else if (mode == Mode.VOLLEY) {
+            // Decrease the gravity.
+            setGravityScale(0.5f); // Lighter gravity
+            setImage(new BodyImage("assets/images/character/beach_ball.png", 2f*radius)); // Change the image to rock ball
+            // More jump.
+            setBall_speed(9.5f);
         }
     }
 

@@ -37,6 +37,10 @@ public abstract class GameLevel extends World {
             platform.setFillColor(transparent_colour);
             platform.setLineColor(transparent_colour);
             platform.setPosition(new Vec2(x, y));
+        } else if (state.equals("no image")) {
+            Shape platformShape = new BoxShape(halfWidth, halfHeight);
+            platform = new StaticBody(world, platformShape);
+            platform.setPosition(new Vec2(x, y));
         } else {
             Shape platformShape = new BoxShape(halfWidth, halfHeight);
             platform = new StaticBody(world, platformShape);

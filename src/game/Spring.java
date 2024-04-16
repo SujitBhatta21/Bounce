@@ -1,6 +1,7 @@
 package game;
 
 import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 
 public class Spring extends StaticBody {
     private static float width = 0.60f ,height = 1.2f;
@@ -12,6 +13,7 @@ public class Spring extends StaticBody {
         super(world, springShape);
         this.x_pos = x_pos;
         this.y_pos = y_pos;
+        setPosition(new Vec2(x_pos, y_pos));
         addImage(image);
     }
 

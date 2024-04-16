@@ -17,7 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 /**
- * Your main game entry point
+ * My main game entry point
  */
 
 
@@ -31,6 +31,7 @@ public class Game {
     private final static List<MyGameButton> allButtons = new ArrayList<>();
     private final static Sound bg_intro_sound = new Sound("assets/sounds/bt_bg_MainMenu.wav");
     private final static Sound bg_play_sound = new Sound("assets/sounds/bt_bg_play.wav");
+    private final static Sound bg_play_final_sound = new Sound("assets/sounds/BossLevel.wav");
     private final static Sound losingSound = new Sound("assets/sounds/bt_death.wav");
     private final static Sound winningSound = new Sound("assets/sounds/bt_Level_Complete.wav");
 
@@ -48,7 +49,7 @@ public class Game {
         introFrame.setSize(WIDTH, HEIGHT);
 
         // Making a debugging view. Used for debugging.
-        new DebugViewer(world, 800, 600);
+        // new DebugViewer(world, 800, 600);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
@@ -87,7 +88,7 @@ public class Game {
         view.setBounds(0, 0, WIDTH, HEIGHT);
 
         // Making a debugging view. Used for debugging.
-        new DebugViewer(world, 800, 600);
+        //new DebugViewer(world, 800, 600);
 
         frame.add(view);  // Add the view to the frame.
         //optional: draw a 1-metre grid over the view
@@ -154,11 +155,18 @@ public class Game {
 
         level.getBall().setBallHealth(level.getBall().getBallMaxHealth());
 
-        MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
-        allButtons.add(helpButton);
+        if (!(level instanceof Level4)) {
+            MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP", "assets/images/texts/HelpButton.png");
+            allButtons.add(helpButton);
+            view.setTimeLeft(100);
+        }
+        else {
+            // Removing timer aspect from this level.
+            view.setTimeLeft(100000);
+        }
 
         // Resetting timer and key/coin count to 0.
-        view.setTimeLeft(100);
+
         view.getKeys().get(0).setCoin_count(0);
         view.setWonTheGame(false);
         view.setLostTheGame(false);
@@ -178,11 +186,19 @@ public class Game {
 
             if (view.getWonTheGame()) {
                 winningSound.play();
+                bg_play_sound.stop();
+                bg_play_final_sound.stop();
             } else if (view.isLostTheGame()) {
                 losingSound.play();
+                bg_play_sound.stop();
+                bg_play_final_sound.stop();
             }
             else{
-                bg_play_sound.loopForever();
+                if (!(level instanceof Level4)) {
+                    bg_play_sound.loopForever();
+                } else {
+                    bg_play_final_sound.loopForever();
+                }
             }
         }
     }
@@ -205,6 +221,10 @@ public class Game {
             System.out.println("Level3 instantiated.");
             level = new Level3();
         }
+        else if (level instanceof Level3) {
+             System.out.println("Level4 instantiated.");
+             level = new Level4();
+         }
 
 
         // Setting up for new level.
@@ -223,8 +243,13 @@ public class Game {
         level.getCollectableList().get(0).setCoin_count(0);
 
         // Making help button for next level.
-        MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP","assets/images/texts/HelpButton.png");
-        allButtons.add(helpButton);
+        if (!(level instanceof Level4)) {
+            MyGameButton helpButton = new MyGameButton(level.getLevelWorld(), 0, 13f, 2, 1f, "HELP", "assets/images/texts/HelpButton.png");
+            allButtons.add(helpButton);
+        }
+        else {
+            view.setTimeLeft(100000);
+        }
 
         updateSound();
     }

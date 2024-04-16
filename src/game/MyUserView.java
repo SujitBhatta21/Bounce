@@ -19,7 +19,7 @@ public class MyUserView extends UserView {
     private Image background, snowBackground, scaledSnowImage;
     private final int width, height;
     private final Timer timer;
-    private static int timeLeft = 10;
+    private static int timeLeft = 100;
     private static String gameState = "intro";
     private static List<Collectable> keys;
     private GameLevel currentLevel;
@@ -81,10 +81,16 @@ public class MyUserView extends UserView {
 
              g.setColor(Color.RED);
              g.setFont(STATUS_FONT);
-             if (!keys.isEmpty()) {
-                 g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
+
+             if (!(currentLevel instanceof Level4)) {
+                 if (!keys.isEmpty()) {
+                     g.drawString("Coin count: " + keys.get(0).getCoin_count() + "/" + keys.get(0).getMax_coin_count(), 10, 25); // Max coin different on different levels. Consider that.
+                 }
+                 g.drawString("Timer:" + this.timeLeft, width - 125, 25);
              }
-             g.drawString("Timer:" + this.timeLeft, width - 125, 25);
+             else {
+                 g.drawString("BOSS LEVEL: Beat Hypnotiser", 10, 25);
+             }
 
              /*
              When level change occurs ball changes so, it is null for some time which causes error.
@@ -135,19 +141,21 @@ public class MyUserView extends UserView {
                  rectHeight = getHeight() / 2;
                  rectY = (getHeight() - rectHeight) / 2;
 
-                 // Draw a red rectangle in the middle of the screen
-                 g.setColor(Color.YELLOW);
-                 g.fillRect(rectX, rectY, rectWidth, rectHeight);
+                 if (!(currentLevel instanceof Level4)) {
+                     // Draw a red rectangle in the middle of the screen
+                     g.setColor(Color.YELLOW);
+                     g.fillRect(rectX, rectY, rectWidth, rectHeight);
 
-                 // Display the help text
-                 g.setFont(helpFont);
-                 g.setColor(Color.BLACK);
+                     // Display the help text
+                     g.setFont(helpFont);
+                     g.setColor(Color.BLACK);
 
-                 g.drawString("How to play:", rectX + 20, rectY + 120);
-                 g.drawString("Use arrow keys to move BOUNCE / RED", rectX + 20, rectY + 140);
-                 g.drawString("Press M to change ball mode .", rectX + 20, rectY + 160);
-                 g.drawString("New features coming soon!!!", rectX + 20, rectY + 180);
-                 g.drawString("Click the help again to exit this", rectX + 20, rectY + 220);
+                     g.drawString("How to play:", rectX + 20, rectY + 120);
+                     g.drawString("Use arrow keys to move BOUNCE / RED", rectX + 20, rectY + 140);
+                     g.drawString("Press M to change ball mode .", rectX + 20, rectY + 160);
+                     g.drawString("New features coming soon!!!", rectX + 20, rectY + 180);
+                     g.drawString("Click the help again to exit this", rectX + 20, rectY + 220);
+                 }
 
                 if (currentLevel instanceof Level1) {
                     g.drawString("Help template", rectX + 90, rectY + 20);
@@ -173,17 +181,20 @@ public class MyUserView extends UserView {
                     g.drawString("ROCKY can break ICE :)", rectX + 20, rectY + 60);
                     g.drawString("Collect all keys to open the cage.", rectX + 20, rectY + 80);
                 }
+                /*
+                // Level 4 gives no help...
                 else if (currentLevel instanceof Level4) {
                     g.drawString("Help template", rectX + 90, rectY + 20);
                     g.drawString("BEAT HYPNOTISER", rectX + 20, rectY + 40);
                     g.drawString("With Power Of Friendship :)", rectX + 20, rectY + 60);
                     g.drawString("Stop him from hurting anyone else", rectX + 20, rectY + 80);
                 }
+                 */
              }
 
              else if (wonTheGame) {
                  rectHeight = getHeight() / 4;
-                 rectY = (getHeight() - 2*rectHeight) / 2;
+                 rectY = (getHeight() - 2 * rectHeight) / 2;
 
                  // Draw a red rectangle in the middle of the screen
                  g.setColor(Color.GREEN);
@@ -193,24 +204,24 @@ public class MyUserView extends UserView {
                  g.setFont(STATUS_FONT);
                  g.setColor(Color.BLACK);
 
-                 // Display two buttons. Restart or go to next level for any level if won.
-                 MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
-                 Game.getAllButtons().add(restartButton);
+                 //if (!(currentLevel instanceof Level4)) {
+                     // Display two buttons. Restart or go to next level for any level if won.
+                     MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
+                     Game.getAllButtons().add(restartButton);
 
-                 MyGameButton nextLevelButton = new MyGameButton(world, 8, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
-                 Game.getAllButtons().add(nextLevelButton);
+                     MyGameButton nextLevelButton = new MyGameButton(world, 8, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                     Game.getAllButtons().add(nextLevelButton);
+                 //}
 
                  if (currentLevel instanceof Level1) {
                      g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
                      g.drawString("You saved your pal", rectX + 20, rectY + 70);
                      g.drawString("ROOCKKKYYY", rectX + 20, rectY + 110);
-                 }
-                 else if (currentLevel instanceof Level2) {
+                 } else if (currentLevel instanceof Level2) {
                      g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
                      g.drawString("Now save your pal", rectX + 20, rectY + 70);
                      g.drawString("VOLLEY", rectX + 20, rectY + 110);
-                 }
-                 else if (currentLevel instanceof Level3) {
+                 } else if (currentLevel instanceof Level3) {
                      // Setting falling platform to vertical to avoid interference with buttons.
                      for (FallingPlatform platform : Level3.getFallingPlatforms()) {
                          platform.setVertical();
@@ -219,19 +230,22 @@ public class MyUserView extends UserView {
                      g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
                      g.drawString("Beat Hypnotiser", rectX + 20, rectY + 70);
                      g.drawString("Save Everyone", rectX + 20, rectY + 110);
+                 } else if (currentLevel instanceof Level4) {
+                     g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
+                     g.drawString("YOU COMPLETED THE GAME", rectX + 20, rectY + 70);
+                     g.drawString("NOW, TOUCH SOME GRASS!!!", rectX + 20, rectY + 110);
                  }
              }
-
 
             else if (lostTheGame) {
                 rectHeight = getHeight() / 4;
                 rectY = (getHeight() - 2*rectHeight) / 2;
 
                 // Display two buttons. Restart or go to next level for any level if won.
-                MyGameButton restartButton = new MyGameButton(world, -10, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
+                MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
                 Game.getAllButtons().add(restartButton);
 
-                MyGameButton nextLevelButton = new MyGameButton(world, 10, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
+                MyGameButton nextLevelButton = new MyGameButton(world, 8, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
                 Game.getAllButtons().add(nextLevelButton);
 
                  // Draw a red rectangle in the middle of the screen
@@ -273,7 +287,9 @@ public class MyUserView extends UserView {
             g.drawImage(snowBackground, 0, 0, this);
             g.drawImage(scaledSnowImage, 0, 0, this);
         }
-        else {
+        else if (currentLevel instanceof Level4) {
+            g.drawImage(background, 0, 0, this);
+        } else {
             g.drawImage(background, 0, 0, this);
         }
     }

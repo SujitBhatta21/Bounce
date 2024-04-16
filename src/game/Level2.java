@@ -48,7 +48,7 @@ public class Level2 extends GameLevel {
         Spring spring1 = new Spring(world, -15, -9.5f);
         spring1.setPosition(new Vec2(spring1.getXPos(), spring1.getYPos()));
 
-        // Making the moving spikes
+        // Making the linear spikes.
         float x_pos = -13;
         for (int i = 0; i < 23; i++) {
             Spike spike1 = new Spike(world, x_pos, -9.5f);
@@ -173,4 +173,5 @@ public class Level2 extends GameLevel {
         return portal_pair;
     }
 }
+
 

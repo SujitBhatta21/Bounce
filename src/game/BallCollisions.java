@@ -59,32 +59,51 @@ public class BallCollisions implements CollisionListener {
         else if (e.getOtherBody() == levelEndFinalTouch && e.getReportingBody() instanceof Ball) {
             // Testing code.
             // Uncomment below line for actual level1 gameplay.
-            if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
-                view.setWonTheGame(true);
+            if (!(level instanceof Level4)) {
+                if (collectables.get(0).getCoin_count() == collectables.get(0).getMax_coin_count()) {
+                    if (level instanceof Level1) {
+                        view.setWonTheGame(true);
+                        // Update the sound in the game.
+                        Game.updateSound();
+                        System.out.println("You have fred rock ball. Congratulations!!!");
+                    } else if (level instanceof Level2) {
+                        view.setWonTheGame(true);
+                        // Update the sound in the game.
+                        Game.updateSound();
+                        System.out.println("You can enter the dungeon...");
+                    } else if (level instanceof Level3) {
+                        view.setWonTheGame(true);
+                        // Update the sound in the game.
+                        Game.updateSound();
+                        System.out.println("Final Boss Hypnotiser is ready...");
+                    }
+                }
+                else {
+                    view.setLostTheGame(true);
 
-                // Update the sound in the game.
-                Game.updateSound();
+                    // Update the sound in the game.
+                    Game.updateSound();
 
-                if (level instanceof Level1) {
-                    System.out.println("You have fred rock ball. Congratulations!!!");
+                    System.out.println("You did not collect all collectable.");
                 }
-                else if (level instanceof Level2) {
-                    System.out.println("You can enter the dungeon...");
-                }
-                else if (level instanceof Level3) {
-                    System.out.println("Final Boss Hypnotiser is ready...");
-                }
+
+                this.world.stop();
             }
             else {
-                view.setLostTheGame(true);
-
-                // Update the sound in the game.
-                Game.updateSound();
-
-                System.out.println("You did not collect all collectable.");
+                if (e.getOtherBody() instanceof Hypnotiser) {
+                    Hypnotiser lastboss = ((Hypnotiser) e.getOtherBody());
+                    if (lastboss.getBallHits() == 2 * 3) {
+                        System.out.println("Congratulations you beat hypnotiser.");
+                        view.setWonTheGame(true);
+                        Game.updateSound();
+                        level.getLevelWorld().stop();
+                    } else {
+                        lastboss.setBallHits(Hypnotiser.getBallHits() + 1);
+                        System.out.println("Hypnotiser hits: " + lastboss.getBallHits());
+                        lastboss.updateImage();
+                    }
+                }
             }
-
-            this.world.stop();
         }
 
         else if (e.getOtherBody() instanceof Portal && e.getReportingBody() instanceof Ball) {
