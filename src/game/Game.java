@@ -127,13 +127,11 @@ public class Game {
 
         introFrame.add(view);  // Add the view to the frame.
         // optional: draw a 1-metre grid over the view
-        view.setGridResolution(1);
+        //view.setGridResolution(1);
 
-        MyGameButton playButton = new MyGameButton(world, 0, 0, 3, 2f, "PLAY", "assets/images/texts/PlayButton.png");
-        MyGameButton optionButton = new MyGameButton(world, 0, -4, 3, 2f, "OPTION", "assets/images/texts/HelpButton.png");
-        MyGameButton exitButton = new MyGameButton(world, 0, -8, 3, 2f, "EXIT", "assets/images/texts/QuitButton.png");
+        MyGameButton playButton = new MyGameButton(world, 0, -2, 3, 2f, "PLAY", "assets/images/texts/PlayButton.png");
+        MyGameButton exitButton = new MyGameButton(world, 0, -6, 3, 2f, "EXIT", "assets/images/texts/QuitButton.png");
         allButtons.add(playButton);
-        allButtons.add(optionButton);
         allButtons.add(exitButton);
 
         view.addMouseListener(new MouseOnButtonListener(world, view));

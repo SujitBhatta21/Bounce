@@ -270,14 +270,14 @@ public class MyUserView extends UserView {
                  g.setFont(STATUS_FONT);
                  g.setColor(Color.BLACK);
 
-                 //if (!(currentLevel instanceof Level4)) {
+                 if (!(currentLevel instanceof Level4)) {
                      // Display two buttons. Restart or go to next level for any level if won.
                      MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
                      Game.getAllButtons().add(restartButton);
 
                      MyGameButton nextLevelButton = new MyGameButton(world, 8, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
                      Game.getAllButtons().add(nextLevelButton);
-                 //}
+                 }
 
                  if (currentLevel instanceof Level1) {
                      g.drawString("Congratulations!!!", rectX + 20, rectY + 30);
@@ -308,11 +308,10 @@ public class MyUserView extends UserView {
                 rectY = (getHeight() - 2*rectHeight) / 2;
 
                 // Display two buttons. Restart or go to next level for any level if won.
-                MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
-                Game.getAllButtons().add(restartButton);
-
-                MyGameButton nextLevelButton = new MyGameButton(world, 8, -4f, 2, 2, "NEXT LEVEL", "assets/images/texts/goToNextLevel.png");
-                Game.getAllButtons().add(nextLevelButton);
+                 if (!(currentLevel instanceof Level4)) {
+                     MyGameButton restartButton = new MyGameButton(world, -8, -4f, 2, 2, "RESTART", "assets/images/texts/restart.png");
+                     Game.getAllButtons().add(restartButton);
+                 }
 
                  // Draw a red rectangle in the middle of the screen
                  g.setColor(Color.RED);

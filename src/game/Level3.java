@@ -128,7 +128,7 @@ public class Level3  extends GameLevel{
         Collectable key1 = new Collectable(world, 10, 10);
         collectableList.add(key1);
 
-        Collectable key2 = new Collectable(world, -15, 10);
+        Collectable key2 = new Collectable(world, -10, 5);
         collectableList.add(key2);
 
         // Setting max coin count in this level.

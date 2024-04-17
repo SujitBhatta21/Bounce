@@ -82,6 +82,9 @@ public class Level1  extends GameLevel{
 
         System.out.println("level_1 method called");
 
+        // Making a debugging view. Used for debugging.
+        new DebugViewer(world, 800, 600);
+
         // Setting up walker ball for Level1.
         ball = new Ball(world, 0, 0);
         ball.setPosition(new Vec2(ball.getXPos(), ball.getYPos()));

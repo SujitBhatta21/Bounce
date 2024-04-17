@@ -96,7 +96,7 @@ public class Level4 extends GameLevel {
         //view.setGridResolution(1);
 
         // Making a debugging view. Used for debugging.
-        //new DebugViewer(world, 800, 600);
+        new DebugViewer(world, 800, 600);
 
         making_L4_world(world);
 
@@ -184,7 +184,7 @@ public class Level4 extends GameLevel {
         ground.setPosition(new Vec2(0f, -11f));
 
         // making right border
-        drawBoxShape(world, 20f, 15f, 2*36.5f, 0, "no image", "assets/images/physics/fallingBox.png", 2*1f);
+        drawBoxShape(world, 20f, 15f, 2*37.5f, 0, "no image", "assets/images/physics/fallingBox.png", 2*1f);
 
         // making top border
         Shape top = new BoxShape(100f, 0.5f);
