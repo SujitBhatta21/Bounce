@@ -12,21 +12,81 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * This class represents a UserView in the game. Things that user sees in the screen.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class MyUserView extends UserView {
+    /**
+     * The world of the game.
+     */
     private MyWorld world;
+
+    /**
+     * The view of the user.
+     */
     private static MyUserView view;
+
+    /**
+     * The background image.
+     */
     private Image background, snowBackground, scaledSnowImage;
+
+    /**
+     * The width and height of the view.
+     */
     private final int width, height;
+
+    /**
+     * The timer for the game.
+     */
     private final Timer timer;
+
+    /**
+     * The time left in the game.
+     */
     private static int timeLeft = 100;
+
+    /**
+     * The state of the game.
+     */
     private static String gameState = "intro";
+
+    /**
+     * The keys in the game.
+     */
     private static List<Collectable> keys;
+
+    /**
+     * The current level of the game.
+     */
     private GameLevel currentLevel;
+
+    /**
+     * The font for the status.
+     */
     public static final Font STATUS_FONT = new Font("Monospaced", Font.PLAIN, 20);
+
+    /**
+     * The font for the help.
+     */
     public static final Font helpFont = new Font("Monospaced", Font.PLAIN, 10);
+
+    /**
+     * The state of the help click, isWonTheGame and isLostTheGame.
+     */
     private boolean helpClicked = false, wonTheGame = false, lostTheGame = false;
 
+    /**
+     * Constructor for the MyUserView class.
+     *
+     * @param  world The world of the game.
+     * @param  width The width of the view.
+     * @param  height The height of the view.
+     */
     public MyUserView(MyWorld world, int width, int height) {
         super(world, width, height);
         this.view = this;
@@ -75,6 +135,12 @@ public class MyUserView extends UserView {
     }
 
     @Override
+    /**
+     * Method to paint the foreground.
+     *
+     * @param  g The graphics object.
+     */
+
     protected void paintForeground(Graphics2D g) {
          if (gameState.equals("play")) {
              timer.start();
@@ -282,6 +348,11 @@ public class MyUserView extends UserView {
     }
 
     @Override
+    /**
+     * Method to paint the background.
+     *
+     * @param  g The graphics object.
+     */
     protected void paintBackground(Graphics2D g) {
         if (currentLevel instanceof Level3) {
             g.drawImage(snowBackground, 0, 0, this);
@@ -295,6 +366,11 @@ public class MyUserView extends UserView {
     }
 
     @Override
+    /**
+     * Method to paint the component in the current view.
+     *
+     * @param  g The graphics object.
+     */
     public void paintComponent(Graphics g) {
         currentLevel = Game.getLevel();
 
@@ -334,58 +410,127 @@ public class MyUserView extends UserView {
         }
     }
 
-
+    /**
+     * Method to restart the timer.
+     */
     public void restartTimer() {
         timeLeft = 100; // reseting the timer
         timer.start();
     }
 
-
-    // Below are getter and setters for this class.
+    /**
+     * Setter for the time left.
+     *
+     * @param  timeLeft The time left.
+     */
     public void setTimeLeft(int timeLeft) {
         this.timeLeft = timeLeft;
     }
 
+    /**
+     * Getter for the keys.
+     *
+     * @return The keys.
+     */
     public static List<Collectable> getKeys() {
         return keys;
     }
 
+    /**
+     * Getter for the help clicked.
+     *
+     * @return The state of the help click.
+     */
     public boolean getHelpClicked() {
         return helpClicked;
     }
+
+    /**
+     * Setter for the help clicked.
+     *
+     * @param  helpClicked The state of the help click.
+     */
     public void setHelpClicked(boolean helpClicked) {
         this.helpClicked = helpClicked;
     }
+
+    /**
+     * Getter for the game won state.
+     *
+     * @return The state of the game won.
+     */
     public boolean getWonTheGame() {
         return wonTheGame;
     }
+
+    /**
+     * Setter for the game won state.
+     *
+     * @param  wonTheGame The state of the game won.
+     */
     public void setWonTheGame(boolean wonTheGame) {
         this.wonTheGame = wonTheGame;
     }
 
+    /**
+     * Getter for the game lost state.
+     *
+     * @return The state of the game lost.
+     */
     public boolean isLostTheGame() {
         return lostTheGame;
     }
 
+    /**
+     * Setter for the game lost state.
+     *
+     * @param  lostTheGame The state of the game lost.
+     */
     public void setLostTheGame(boolean lostTheGame) {
         this.lostTheGame = lostTheGame;
     }
 
+    /**
+     * Getter for the game state.
+     *
+     * @return The game state.
+     */
     public static String getGameState() {
         return gameState;
     }
 
+    /**
+     * Setter for the collectable list.
+     *
+     * @param  keys The collectable list.
+     */
     public void setCollectableList(List<Collectable> keys) {
         this.keys = keys;
     }
 
+    /**
+     * Setter for the game state.
+     *
+     * @param  gameState The game state.
+     */
     public void setGameState(String gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * Setter for the view world.
+     *
+     * @param  world The view world.
+     */
     public void setViewWorld(MyWorld world) {
         this.world = world;
     }
+
+    /**
+     * Getter for the view.
+     *
+     * @return The view.
+     */
     public static MyUserView getView() {
         return view;
     }

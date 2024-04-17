@@ -3,15 +3,42 @@ package game;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
-
+/**
+ * This class implements StepListener to allow a StaticBody to patrol between two coordinates.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class PatrollerController implements StepListener {
+    /**
+     * The patroller object.
+     */
     private StaticBody patroller;
+    /**
+     * The start position of the patroller.
+     */
     private Vec2 startPosition;
+    /**
+     * The left and right bounds for the patroller's movement.
+     */
     private float left, right;
+    /**
+     * The upper and lower bounds for the patroller's vertical movement.
+     */
     private float upper, lower;
+    /**
+     * The delta value for the patroller's movement.
+     */
     private float delta;
 
-
+    /**
+     * Constructor for PatrollerController.
+     *
+     * @param  patroller The patroller object.
+     * @param  left The left bound for the patroller's movement.
+     * @param  right The right bound for the patroller's movement.
+     */
     PatrollerController(StaticBody patroller, float left, float right) {
         this.startPosition = patroller.getPosition();
         this.patroller = patroller;
@@ -22,6 +49,11 @@ public class PatrollerController implements StepListener {
     }
 
     @Override
+    /**
+     * Pre-step event for the patroller.
+     *
+     * @param  stepEvent The step event.
+     */
     public void preStep(StepEvent stepEvent) {
         if (Game.getLevel() instanceof Level4 && patroller instanceof MovingPlatform) {
             // Define the upper and lower bounds for vertical movement
@@ -53,6 +85,11 @@ public class PatrollerController implements StepListener {
     }
 
     @Override
+    /**
+     * Post-step event for the patroller.
+     *
+     * @param  stepEvent The step event.
+     */
     public void postStep(StepEvent stepEvent) {
     }
 }

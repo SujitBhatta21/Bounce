@@ -7,17 +7,62 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents Level3 in the game.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class Level3  extends GameLevel{
+    /**
+     * The view of the user.
+     */
     private static MyUserView view;
+
+    /**
+     * The world in which the game is taking place.
+     */
     private static MyWorld world;
+
+    /**
+     * The ball that the user controls.
+     */
     private Ball ball;
+
+    /**
+     * The list of collectable items in the level.
+     */
     private List<Collectable> collectableList = new ArrayList<Collectable>();
+
+    /**
+     * The list of falling platforms in the level.
+     */
     private static ArrayList<FallingPlatform> fallingPlatforms = new ArrayList<>();
+
+    /**
+     * The lever in the level.
+     */
     private Lever lever;
+
+    /**
+     * The pair of portals in the level.
+     */
     private Portal[] portal_pair;
+
+    /**
+     * The final touch of the level end.
+     */
     private static StaticBody levelEndFinalTouch;
+
+    /**
+     * The collection of ice blockages in the level.
+     */
     private static ArrayList<StaticBody> iceBlockageCollection = new ArrayList<>();
 
+    /**
+     * Constructs a Level3.
+     */
     public Level3(){
         super();
 
@@ -25,7 +70,11 @@ public class Level3  extends GameLevel{
         this.view = getView();
     }
 
-
+    /**
+     * Starts level 3.
+     *
+     * @param  frame The frame in which the game is displayed.
+     */
     private void start_level_3(JFrame frame) {
         world.start();
 
@@ -99,48 +148,96 @@ public class Level3  extends GameLevel{
         frame.addKeyListener(k);
     }
 
+    /**
+     * Returns the collection of ice blockages in the level.
+     *
+     * @return The collection of ice blockages in the level.
+     */
     public ArrayList<StaticBody> getIceBlockageCollection() {
         return iceBlockageCollection;
     }
 
+    /**
+     * Returns the list of falling platforms in the level.
+     *
+     * @return The list of falling platforms in the level.
+     */
     public static ArrayList<FallingPlatform> getFallingPlatforms() {
         return fallingPlatforms;
     }
 
+    /**
+     * Returns the lever in the level.
+     *
+     * @return The lever in the level.
+     */
     public Lever getLever() {
         return lever;
     }
 
+    /**
+     * Returns the pair of portals in the level.
+     *
+     * @return The pair of portals in the level.
+     */
     public Portal[] getPortal() {
         return portal_pair;
     }
 
     @Override
+    /**
+     * Returns the final touch of the level end.
+     *
+     * @return The final touch of the level end.
+     */
     public StaticBody getLevelEndFinalTouch() {
         return levelEndFinalTouch;
     }
 
     @Override
+    /**
+     * Returns the list of collectable items in the level.
+     *
+     * @return The list of collectable items in the level.
+     */
     public List<Collectable> getCollectableList() {
         return collectableList;
     }
 
     @Override
+    /**
+     * Starts the level.
+     *
+     * @param  frame The frame in which the game is displayed.
+     */
     public void startLevel(JFrame frame) {
         start_level_3(frame);
     }
 
     @Override
+    /**
+     * Stops the level.
+     */
     public void stopLevel() {
         this.world.stop();
     }
 
     @Override
+    /**
+     * Returns the world of the level.
+     *
+     * @return The world of the level.
+     */
     public MyWorld getLevelWorld() {
         return world;
     }
 
     @Override
+    /**
+     * Returns the ball that the user controls.
+     *
+     * @return The ball that the user controls.
+     */
     public Ball getBall() {
         return ball;
     }

@@ -9,20 +9,73 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level4  extends GameLevel{
+/**
+ * Level4 is a class that extends GameLevel and represents the fourth level of the game.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
+public class Level4 extends GameLevel {
+    /**
+     * The view of the user.
+     */
     private static MyUserView view;
+
+    /**
+     * The world in which the game takes place.
+     */
     private static MyWorld world;
+
+    /**
+     * The ball used in the game.
+     */
     private Ball ball;
+
+    /**
+     * The list of collectable items in the game.
+     */
     private List<Collectable> collectableList = new ArrayList<Collectable>();
+
+    /**
+     * The list of moving spikes in the game.
+     */
     private List<Spike> movingSpikes = new ArrayList<>();
+
+    /**
+     * The transparent color used in the game.
+     */
     private static final Color transparent_colour = new Color(0, 0, 0, 0);
+
+    /**
+     * The path to the image of the platform.
+     */
     private final static String platformImagePath = "assets/images/platform1.gif";
+
+    /**
+     * The path to the image of the support box.
+     */
     private final String suppportBoxImagePath = "assets/images/physics/fallingBox.png";
+
+    /**
+     * The lever used in the game.
+     */
     private static Lever lever;
+
+    /**
+     * The pair of portals used in the game.
+     */
     private static Portal[] portal_pair;
+
+    /**
+     * The final touch of the level end.
+     */
     private static StaticBody levelEndFinalTouch;
 
-    public Level4(){
+    /**
+     * The constructor for the Level4 class.
+     */
+    public Level4() {
         //base class will create the student, professor
         super();
 
@@ -30,7 +83,10 @@ public class Level4  extends GameLevel{
         this.view = getView();
     }
 
-
+    /**
+     * Starts the fourth level of the game.
+     * @param frame The JFrame in which the game is displayed.
+     */
     private void start_level_4(JFrame frame) {
         world.start();
 
@@ -70,6 +126,10 @@ public class Level4  extends GameLevel{
         frame.addKeyListener(k);
     }
 
+    /**
+     * Makes the world for the fourth level of the game.
+     * @param world The world in which the game takes place.
+     */
     private void making_L4_world(World world) {
         // Making the moving spikes right
         float y_pos = -20;
@@ -162,42 +222,71 @@ public class Level4  extends GameLevel{
         Spring spring = new Spring(this.world, 48,-9.5f);
     }
 
+    /**
+     * Gets the lever used in the game.
+     * @return The lever used in the game.
+     */
     public Lever getLever() {
         return lever;
     }
 
+    /**
+     * Gets the pair of portals used in the game.
+     * @return The pair of portals used in the game.
+     */
     public Portal[] getPortal() {
         return portal_pair;
     }
 
+    /**
+     * Gets the final touch of the level end.
+     * @return The final touch of the level end.
+     */
     public StaticBody getLevelEndFinalTouch() {
         return levelEndFinalTouch;
     }
 
+    /**
+     * Gets the list of collectable items in the game.
+     * @return The list of collectable items in the game.
+     */
     @Override
     public List<Collectable> getCollectableList() {
         return collectableList;
     }
 
+    /**
+     * Starts the level.
+     * @param frame The JFrame in which the game is displayed.
+     */
     @Override
     public void startLevel(JFrame frame) {
         start_level_4(frame);
     }
 
+    /**
+     * Stops the level.
+     */
     @Override
     public void stopLevel() {
         this.world.stop();
     }
 
+    /**
+     * Gets the world in which the game takes place.
+     * @return The world in which the game takes place.
+     */
     @Override
     public MyWorld getLevelWorld() {
         return world;
     }
 
+    /**
+     * Gets the ball used in the game.
+     * @return The ball used in the game.
+     */
     @Override
     public Ball getBall() {
         return ball;
     }
 }
-
-

@@ -3,28 +3,75 @@ package game;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
+/**
+ * Lever is a class that extends StaticBody and represents a lever in the game.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class Lever extends StaticBody {
+    /**
+     * The world in which the game takes place.
+     */
     private MyWorld world;
+
+    /**
+     * The count of the lever.
+     */
     private int lever_count = 0;
+
+    /**
+     * The state of the lever.
+     */
     private static String leverState = "off";
+
+    /**
+     * The shape of the lever.
+     */
     private static Shape leverShape = new BoxShape(1, 1);
+
+    /**
+     * The image of the lever when it's off.
+     */
     private static BodyImage lever_off = new BodyImage("assets/images/physics/lever_off.png", 2);
+
+    /**
+     * The image of the lever when it's on.
+     */
     private static BodyImage lever_on = new BodyImage("assets/images/physics/lever_on.png", 13);
 
+    /**
+     * The constructor for the Lever class.
+     * @param world The world in which the game takes place.
+     */
     Lever(MyWorld world) {
         super(world, leverShape);
         this.world = world;
         addImage(lever_off);
     }
 
+    /**
+     * Gets the state of the lever.
+     * @return The state of the lever.
+     */
     public String getLeverState() {
         return leverState;
     }
+
+    /**
+     * Sets the state of the lever.
+     * @param leverState The new state of the lever.
+     */
     public void setLeverState(String leverState) {
         this.leverState = leverState;
         removeAllImages();    // Removes previous lever image.
         changeImage();        // Sets new image based on lever state.
     }
+
+    /**
+     * Changes the image of the lever based on its state.
+     */
     public void changeImage() {
         if (leverState == "off") {
             addImage(lever_off);
@@ -48,7 +95,12 @@ public class Lever extends StaticBody {
         }
     }
 
-
+    /**
+     * Draws a falling box in the world at the specified position.
+     * @param world The world in which the game takes place.
+     * @param x_pos The x position of the box.
+     * @param y_pos The y position of the box.
+     */
     public void draw_falling_box(World world, float x_pos, float y_pos) {
         Shape rodShape = new BoxShape(1.5f, 1.5f);
         DynamicBody rod = new DynamicBody(world, rodShape);

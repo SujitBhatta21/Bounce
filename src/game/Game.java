@@ -1,38 +1,44 @@
 package game;
 
 import city.cs.engine.*;
-import city.cs.engine.Shape;
-import org.jbox2d.common.Vec2;
-
 import javax.swing.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 /**
- * My main game entry point
+ * Main class representing the game.
+ *
+ * @author      Sujit Bhatta
+ * @version     1.0
+ * @since       1.0
  */
-
-
 public class Game {
+    /** The game world. */
     private static MyWorld world;
+    /** The view of the game. */
     private static MyUserView view;
+    /** The current game level. */
     private static GameLevel level;
+    /** The main JFrame for the game. */
     private static JFrame frame, introFrame;
+    /** The game's ball. */
     private static Ball ball;  // Making ball a static field.
+    /** The width of the game window. */
     private static int WIDTH = 800, HEIGHT = 600;
+    /** List of all buttons in the current frame/level. */
     private final static List<MyGameButton> allButtons = new ArrayList<>();
+    /** Sound played during the intro scene. */
     private final static Sound bg_intro_sound = new Sound("assets/sounds/bt_bg_MainMenu.wav");
+    /** Sound played during normal gameplay. */
     private final static Sound bg_play_sound = new Sound("assets/sounds/bt_bg_play.wav");
+    /** Sound played during final gameplay. */
     private final static Sound bg_play_final_sound = new Sound("assets/sounds/BossLevel.wav");
+    /** Sound played when losing the game. */
     private final static Sound losingSound = new Sound("assets/sounds/bt_death.wav");
+    /** Sound played when winning the game. */
     private final static Sound winningSound = new Sound("assets/sounds/bt_Level_Complete.wav");
 
 
@@ -47,9 +53,6 @@ public class Game {
 
         introFrame = new JFrame("Intro Game");
         introFrame.setSize(WIDTH, HEIGHT);
-
-        // Making a debugging view. Used for debugging.
-        // new DebugViewer(world, 800, 600);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
@@ -75,7 +78,11 @@ public class Game {
     }
 
 
-    // Method to initialize game components. For setting up view removing prev. buttons and clearing screen for another screen.
+    /**
+     * Method to initialize game components. For setting up view removing prev. buttons and clearing screen for another screen.
+     *
+     * @param frame The main JFrame of the game.
+     */
     public static void initialiseGame(JFrame frame) {
         // Initialising 1st game level.
         level = new Level1();
@@ -86,9 +93,6 @@ public class Game {
         // make a view to look into the game world
         view = new MyUserView(world, WIDTH, HEIGHT);
         view.setBounds(0, 0, WIDTH, HEIGHT);
-
-        // Making a debugging view. Used for debugging.
-        //new DebugViewer(world, 800, 600);
 
         frame.add(view);  // Add the view to the frame.
         //optional: draw a 1-metre grid over the view
@@ -110,6 +114,12 @@ public class Game {
     }
 
 
+    /**
+     * Method for setting up the intro scene.
+     *
+     * @param world The game world.
+     * @param introFrame The intro JFrame.
+     */
     public static void introScene(MyWorld world, JFrame introFrame) {
         // make a view to look into the game world
         view = new MyUserView(world, WIDTH, HEIGHT);
@@ -130,11 +140,20 @@ public class Game {
     }
 
 
+    /**
+     * Returns a list of all buttons in the game.
+     * <p> Used for storing and updating buttons in each level <p/>
+     * @return A list of MyGameButton objects.
+     */
     public static List<MyGameButton> getAllButtons() {
         return allButtons;
     }
 
 
+    /**
+     * Resets the current level.
+     * This method is called only when restart button is clicked.
+     */
     public static void resetLevel() {
         world.stop();
 
@@ -175,7 +194,9 @@ public class Game {
     }
 
 
-
+    /**
+     * Updates the game sound based on the current game state/level.
+     */
     public static void updateSound() {
         if (view.getGameState().equals("intro")) {
             bg_intro_sound.loopForever();
@@ -204,6 +225,10 @@ public class Game {
     }
 
 
+    /**
+     * Moves the game to the next level.
+     * This method is only called when next level button is clicked.
+     */
     public static void goToNextLevel(){
         // Removing previous level collision listener and buttons.
         level.getBall().removeAllCollisionListeners();
@@ -212,7 +237,7 @@ public class Game {
         }
         level.stopLevel();
 
-         if (level instanceof Level1){
+        if (level instanceof Level1){
             //level now references to the new next level
             System.out.println("Level2 instantiated");
             level = new Level2();
@@ -222,9 +247,9 @@ public class Game {
             level = new Level3();
         }
         else if (level instanceof Level3) {
-             System.out.println("Level4 instantiated.");
-             level = new Level4();
-         }
+            System.out.println("Level4 instantiated.");
+            level = new Level4();
+        }
 
 
         // Setting up for new level.
@@ -254,28 +279,33 @@ public class Game {
         updateSound();
     }
 
+    /** Returns the main JFrame of the game. */
     public static JFrame getFrame() {
         return frame;
     }
+
+    /** Returns the intro JFrame of the game. */
     public static JFrame getIntroFrame() {
         return introFrame;
     }
 
+    /** Returns the view of the game. */
     public static MyUserView getView() {
         return view;
     }
 
+    /** Returns the game world. */
     public static MyWorld getWorld() {
         return world;
     }
 
+    /** Returns the current game level. */
     public static GameLevel getLevel() {
         return level;
     }
 
     /** Run the game. */
     public static void main(String[] args) {
-
         new Game();
     }
 }

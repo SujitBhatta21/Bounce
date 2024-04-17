@@ -3,18 +3,80 @@ package game;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
+/**
+ * Mole is a class that extends StaticBody and represents a mole in the game.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class Mole extends StaticBody {
-    private static float width = 0.75f, height = 1f;
-    private float x_pos, y_pos;
-    private static float undergroundYPos; // New variable for underground y-position
+    /**
+     * The width of the mole.
+     */
+    private static float width = 0.75f;
+
+    /**
+     * The height of the mole.
+     */
+    private static float height = 1f;
+
+    /**
+     * The x position of the mole.
+     */
+    private float x_pos;
+
+    /**
+     * The y position of the mole.
+     */
+    private float y_pos;
+
+    /**
+     * The y position of the mole when it's underground.
+     */
+    private static float undergroundYPos;
+
+    /**
+     * The state of the mole, whether it's underground or not.
+     */
     private boolean isUnderground = false;
+
+    /**
+     * The last time the mole switched its state.
+     */
     private long lastSwitchTime = System.currentTimeMillis();
+
+    /**
+     * The shape of the mole.
+     */
     private static final Shape moleShape = new BoxShape(width, height);
+
+    /**
+     * The image of the mole.
+     */
     private BodyImage image = new BodyImage("assets/images/enemy/mole_image.png", 2*height);
+
+    /**
+     * The image of the cloud.
+     */
     private BodyImage cloudImage = new BodyImage("assets/images/enemy/shield.png", 2*height);
+
+    /**
+     * The attached image of the mole.
+     */
     private AttachedImage moleImage;
+
+    /**
+     * The attached image of the mole's cloud.
+     */
     private AttachedImage moleCloudImage;
 
+    /**
+     * The constructor for the Mole class.
+     * @param world The world in which the game takes place.
+     * @param x_pos The x position of the mole.
+     * @param y_pos The y position of the mole.
+     */
     public Mole(MyWorld world, float x_pos, float y_pos) {
         super(world, moleShape);
         this.x_pos = x_pos;
@@ -26,6 +88,9 @@ public class Mole extends StaticBody {
         moleCloudImage.setScale(1.2f);
     }
 
+    /**
+     * Updates the timer of the mole.
+     */
     public void updateMoleTimer() {
         long currentTime = System.currentTimeMillis();
         if (isUnderground && currentTime - lastSwitchTime >= 10000) {
@@ -44,18 +109,35 @@ public class Mole extends StaticBody {
         System.out.println("Is UNDERGROUND? : " + isUnderground());
     }
 
+
+    /**
+     * Gets the x position of the mole.
+     * @return The x position of the mole.
+     */
     public float getXPos() {
         return x_pos;
     }
 
+    /**
+     * Gets the y position of the mole.
+     * @return The y position of the mole.
+     */
     public float getYPos() {
         return y_pos;
     }
 
+    /**
+     * Checks if the mole is underground.
+     * @return True if the mole is underground, false otherwise.
+     */
     public boolean isUnderground() {
         return isUnderground;
     }
 
+    /**
+     * Gets the attached image of the mole.
+     * @return The attached image of the mole.
+     */
     public AttachedImage getMoleImage() {
         return moleImage;
     }

@@ -7,26 +7,76 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents Level1 in the game.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class Level1  extends GameLevel{
+    /**
+     * The view of the user.
+     */
     private static MyUserView view;
+
+    /**
+     * The world in which the game is taking place.
+     */
     private static MyWorld world;
+
+    /**
+     * The ball that the user controls.
+     */
     private Ball ball;
+
+    /**
+     * The list of collectable items in the level.
+     */
     private final List<Collectable> collectableList = new ArrayList<>();
+
+    /**
+     * The path to the image of the platform.
+     */
     private final static String platformImagePath = "assets/images/platform/platform1.gif";
+
+    /**
+     * The path to the image of the support box.
+     */
     private final String supportBoxImagePath = "assets/images/physics/fallingBox.png";
+
+    /**
+     * The lever in the level.
+     */
     private static Lever lever;
+
+    /**
+     * The pair of portals in the level.
+     */
     private static Portal[] portal_pair;
+
+    /**
+     * The final touch of the level end.
+     */
     private static StaticBody levelEndFinalTouch;
 
+    /**
+     * Constructs a Level1.
+     *
+     */
     public Level1(){
-        //base class will create the student, professor
         super();
 
+        // Creating new world for each level1.
         world = new MyWorld();
         this.view = getView();
     }
 
-
+    /**
+     * Starts level 1.
+     *
+     * @param  frame The frame in which the game is displayed.
+     */
     private void start_level_1(JFrame frame) {
         world.start();
 
@@ -105,43 +155,78 @@ public class Level1  extends GameLevel{
         frame.addKeyListener(k);
     }
 
+    /**
+     * Returns the lever in the level.
+     *
+     * @return The lever in the level.
+     */
     public Lever getLever() {
         return lever;
     }
 
+    /**
+     * Returns the pair of portals in the level.
+     *
+     * @return The pair of portals in the level.
+     */
     public Portal[] getPortal() {
         return portal_pair;
     }
 
+    /**
+     * Returns the final touch of the level end.
+     *
+     * @return The final touch of the level end.
+     */
     public StaticBody getLevelEndFinalTouch() {
         return levelEndFinalTouch;
     }
 
     @Override
+    /**
+     * Returns the list of collectable items in the level.
+     *
+     * @return The list of collectable items in the level.
+     */
     public List<Collectable> getCollectableList() {
         return collectableList;
     }
 
     @Override
+    /**
+     * Starts the level.
+     *
+     * @param  frame The frame in which the game is displayed.
+     */
     public void startLevel(JFrame frame) {
         start_level_1(frame);
     }
 
     @Override
+    /**
+     * Stops the level.
+     */
     public void stopLevel() {
         this.world.stop();
     }
 
     @Override
+    /**
+     * Returns the world of the level.
+     *
+     * @return The world of the level.
+     */
     public MyWorld getLevelWorld() {
         return world;
     }
 
     @Override
+    /**
+     * Returns the ball that the user controls.
+     *
+     * @return The ball that the user controls.
+     */
     public Ball getBall() {
         return ball;
     }
 }
-
-
-

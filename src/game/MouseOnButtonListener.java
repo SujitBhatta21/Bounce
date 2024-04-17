@@ -8,18 +8,47 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-
+/**
+ * MouseOnButtonListener is a class that extends MouseAdapter and represents a mouse listener for buttons in the game.
+ * @author Your Name
+ * @version 1.0
+ * @since 1.0
+ */
 public class MouseOnButtonListener extends MouseAdapter {
+    /**
+     * The world in which the game takes place.
+     */
     private MyWorld world;
+
+    /**
+     * The view of the user.
+     */
     private MyUserView view;
+
+    /**
+     * The state of the game.
+     */
     private String gameState;
+
+    /**
+     * The sound played when a button is clicked.
+     */
     private Sound buttonClick = new Sound("assets/sounds/button_click.wav");
 
+    /**
+     * The constructor for the MouseOnButtonListener class.
+     * @param world The world in which the game takes place.
+     * @param view The view of the user.
+     */
     public MouseOnButtonListener(MyWorld world, MyUserView view) {
         this.world = world;
         this.view = MyUserView.getView();
     }
 
+    /**
+     * Handles the mousePressed event.
+     * @param e The MouseEvent object.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         Vec2 p = view.viewToWorld(e.getPoint());

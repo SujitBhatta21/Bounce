@@ -5,22 +5,74 @@ import city.cs.engine.*;
 import java.util.List;
 import org.jbox2d.common.Vec2;
 
+/**
+ * This class handles the collisions in the game.
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class BallCollisions implements CollisionListener {
+    /**
+     * The world in which the game is played.
+     */
     private MyWorld world;
+
+    /**
+     * The view of the user.
+     */
     private MyUserView view;
+
+    /**
+     * The current level of the game.
+     */
     private GameLevel level;
+
+    /**
+     * The ball in the game.
+     */
     private Ball ball;
+
+    /**
+     * The lever in the game.
+     */
     private Lever lever;
+
+    /**
+     * The list of collectables in the game.
+     */
     private List<Collectable> collectables;
+
+    /**
+     * The pair of portals in the game.
+     */
     private Portal[] portal_pair;
+
+    /**
+     * The final touch of the level end.
+     */
     private StaticBody levelEndFinalTouch;
+
     // private List<Spikes> spike;   // This will store array of body as per the requirements.
 
     // Sound clips for the game.
+    /**
+     * The sound of the lever.
+     */
     private Sound leverSound = new Sound("assets/sounds/lever_on.wav");
+
+    /**
+     * The sound when the level is completed.
+     */
     private Sound levelComplete = new Sound("assets/sounds/bt_Level_Complete.wav");
+
+    /**
+     * The sound when a key is collected.
+     */
     private Sound keyCollect = new Sound("assets/sounds/key_collect.wav");
 
+    /**
+     * Constructor for the BallCollisions class.
+     */
     public BallCollisions() {
         this.level = Game.getLevel();
         this.world = Game.getLevel().getLevelWorld();
@@ -32,7 +84,10 @@ public class BallCollisions implements CollisionListener {
         this.levelEndFinalTouch = level.getLevelEndFinalTouch();
     }
 
-
+    /**
+     * This method is called when a collision occurs.
+     * @param  e The collision event.
+     */
     @Override
     public void collide(CollisionEvent e) {
         if (e.getOtherBody() instanceof Lever && e.getReportingBody() instanceof Ball) {

@@ -10,25 +10,65 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Represents a KeyboardListener in the game.
+ *
+ * @author      Sujit Bhatta, sujit.bhatta@city.ac.uk
+ * @version     1.0
+ * @since       1.0
+ */
 public class KeyboardListener implements KeyListener{
+    /**
+     * The world in which the game is taking place.
+     */
     private MyWorld world;
+
+    /**
+     * The frame in which the game is displayed.
+     */
     private JFrame frame;
+
+    /**
+     * The view of the user.
+     */
     private MyUserView view;
+
+    /**
+     * The ball that the user controls.
+     */
     private Ball ball;
+
+    /**
+     * The speed of the ball.
+     */
     private float ball_speed;
 
+    /**
+     * Constructs a KeyboardListener with the specified parameters.
+     *
+     * @param  ball The ball that the user controls.
+     * @param  world The world in which the game is taking place.
+     * @param  frame The frame in which the game is displayed.
+     * @param  view The view of the user.
+     */
     KeyboardListener(Ball ball, MyWorld world, JFrame frame, MyUserView view) {
         this.ball = ball;
         this.world = world;
         this.frame = frame;
         this.view = view;
     }
+
     @Override
     public void keyTyped(KeyEvent e){
 
     }
 
     @Override
+    /**
+     * Handles the event when a key is pressed.
+     *
+     * @param  e The KeyEvent.
+     */
     public void keyPressed(KeyEvent e) {
         ball_speed = Game.getLevel().getBall().getBallSpeed();
 
@@ -86,6 +126,11 @@ public class KeyboardListener implements KeyListener{
     }
 
     @Override
+    /**
+     * Handles the event when a key is released.
+     *
+     * @param  e The KeyEvent.
+     */
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
             // Stop the ball's movement when left or right key is released
